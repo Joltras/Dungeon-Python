@@ -1,6 +1,6 @@
 import pygame
 import Globals
-from Pygame.Snake.Enums import Color
+from Globals import Color
 from Room import Room
 import numpy as np
 
@@ -12,17 +12,16 @@ class Floor:
         self.__width = width
         self.__rooms: list = []
         self.__floor = np.zeros((height, width))
-        self.__rect = pygame.Rect(0, 0, width * Globals.width, height * Globals.height)
+        self.__rect = pygame.Rect(Globals.floor_plan_coordinates[1], Globals.floor_plan_coordinates[0], width * Globals.room_width, height * Globals.room_height)
 
     def draw(self, screen):
         for room in self.__rooms:
             room.draw(screen)
         pygame.draw.rect(screen, Color.DARK_GRAY.value, self.__rect, 2)
 
-    def add_room(self, x, y):
+    def add_room(self, x, y, color: Color = Color.VIOLET):
         self.__floor[y][x] = 1
-        print(self.__floor)
-        self.__rooms.append(Room(x, y))
+        self.__rooms.append(Room(x, y, color))
 
     def get_rooms(self):
         return self.__rooms
