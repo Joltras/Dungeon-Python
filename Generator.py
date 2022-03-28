@@ -29,58 +29,58 @@ def generate():
     floor = Floor(Globals.height, Globals.width)
     start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
     floor.add_room(start_room[0], start_room[1], Color.ORANGE)
+    floor.add_to_floor_grid(start_room[0], start_room[1])
     number_of_current_rooms = 1
     room_queue: deque = deque([])
     room_queue.append(start_room)
 
     while number_of_current_rooms < number_of_rooms:
 
-        while len(room_queue) > 0 and number_of_current_rooms < number_of_rooms:
+        while number_of_current_rooms < number_of_rooms:
             room = room_queue.pop()
+            room_queue.appendleft(room)
             if room[1] - 1 > 0:
                 if not floor.contains_room(room[0], room[1] - 1) and (
                         floor.count_neighbours(room[0], room[1] - 1) <= 1):
                     if random.randint(1, 2) == 2:
-                        floor.add_room(room[0], room[1] - 1)
                         room_queue.append((room[0], room[1] - 1))
+                        floor.add_to_floor_grid(room[0], room[1] - 1)
                         number_of_current_rooms += 1
                         if number_of_rooms == number_of_current_rooms:
                             break
-                    else:
-                        room_queue.appendleft(room)
 
             if room[1] + 1 < Globals.height:
                 if not floor.contains_room(room[0], room[1] + 1) and floor.count_neighbours(room[0], room[1] + 1) <= 1:
                     if random.randint(1, 2) == 2:
-                        floor.add_room(room[0], room[1] + 1)
                         room_queue.append((room[0], room[1] + 1))
+                        floor.add_to_floor_grid(room[0], room[1] + 1)
                         number_of_current_rooms += 1
                         if number_of_rooms == number_of_current_rooms:
                             break
-                    else:
-                        room_queue.appendleft(room)
 
             if room[0] + 1 < Globals.width:
-                if not floor.contains_room(room[0] + 1, room[1]) and floor.count_neighbours(room[0] + 1,  room[1]) <= 1:
+                if not floor.contains_room(room[0] + 1, room[1]) and floor.count_neighbours(room[0] + 1, room[1]) <= 1:
                     if random.randint(1, 2) == 2:
-                        floor.add_room(room[0] + 1, room[1])
                         room_queue.append((room[0] + 1, room[1]))
+                        floor.add_to_floor_grid(room[0] + 1, room[1])
                         number_of_current_rooms += 1
                         if number_of_rooms == number_of_current_rooms:
                             break
-                    else:
-                        room_queue.appendleft(room)
 
             if room[0] - 1 > 0:
                 if not floor.contains_room(room[0] - 1, room[1]) and floor.count_neighbours(room[0] - 1, room[1]) <= 1:
                     if random.randint(1, 2) == 2:
-                        floor.add_room(room[0] - 1, room[1])
                         room_queue.append((room[0] - 1, room[1]))
+                        floor.add_to_floor_grid(room[0] - 1, room[1])
                         number_of_current_rooms += 1
                         if number_of_rooms == number_of_current_rooms:
                             break
-                    else:
-                        room_queue.appendleft(room)
+    print(len(room_queue))
+    room_queue.remove(start_room)
+    while len(room_queue) > 0:
+        room = room_queue.pop()
+        floor.add_room(room[0], room[1])
+    print(floor.get_floor())
 
 
 def run():
