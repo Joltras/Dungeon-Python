@@ -21,7 +21,7 @@ class DoorFace(Enum):
     LEFT = 3
 
 
-class RoomTypes(Enum):
+class RoomType(Enum):
     NORMAL_ROOM = 0,
     DEAD_END = 1,
     BOSS_ROOM = 2,
