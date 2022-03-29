@@ -23,8 +23,8 @@ class Floor:
     def add_to_floor_grid(self, x, y):
         self.__floor_grid[y][x] = 1
 
-    def add_room(self, x, y, color: Color = Color.VIOLET):
-        self.__rooms.append(Room(x, y, color))
+    def add_room(self, x, y, color: Color = Color.VIOLET, room_type=0):
+        self.__rooms.append(Room(x, y, color, room_type))
 
     def get_rooms(self):
         return self.__rooms
@@ -46,3 +46,6 @@ class Floor:
         if x - 1 > 0:
             neighbours += self.__floor_grid[y][x - 1]
         return neighbours
+
+    def is_dead_end(self, x: int, y: int) -> bool:
+        return self.count_neighbours(x, y) == 1
