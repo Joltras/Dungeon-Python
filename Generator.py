@@ -1,5 +1,6 @@
 import math
 import random
+import sys
 from enum import Enum
 
 import numpy as np
@@ -85,5 +86,10 @@ def run():
         pygame.display.flip()
         clock.tick(5)
 
-
-run()
+if __name__ == "__main__":
+    if(len(sys.argv[1:]) < 1):
+        seed = None
+    else:
+        seed = sys.argv[1]
+    random.seed(seed)
+    run()
