@@ -15,13 +15,15 @@ SPECIAL_ROOMS = (RoomType.BOSS_ROOM, RoomType.ITEM_ROOM)
 
 
 class Generator:
-    def __init__(self):
+    def __init__(self, seed):
         self.__clock = pygame.display.set_mode((Globals.window_width, Globals.window_height))
         self.__floor: Floor = None
         self.__screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
         self.__clock = pygame.time.Clock()
         self.__stage_id = 2
         self.__number_of_rooms: int
+        self.__seed = seed
+        random.seed(seed)
 
     def get_room_amount(self) -> int:
         if self.__stage_id == -1:
