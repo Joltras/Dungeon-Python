@@ -20,6 +20,7 @@ class Room:
         self.rect = pygame.Rect(self.__x * Globals.room_width + Globals.floor_plan_coordinates[1],
                                 self.__y * Globals.room_height + Globals.floor_plan_coordinates[0],
                                 width, height)
+        self.__id = y * Globals.width + x
 
     def __getstate__(self):
         state = dict(self.__dict__)
