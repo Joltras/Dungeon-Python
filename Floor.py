@@ -1,3 +1,5 @@
+import json
+
 import pygame
 import Globals
 from Globals import Color, RoomType, DoorFace
