@@ -12,7 +12,9 @@ NORMAL_ROOM_COLOR = Color.VIOLET
 START_ROOM_COLOR = Color.ORANGE
 BOSS_ROOM_COLOR = Color.RED
 ITEM_ROOM_COLOR = Color.GREEN
-SPECIAL_ROOMS = (RoomType.BOSS_ROOM, RoomType.ITEM_ROOM)
+SHOP_ROOM_COLOR = Color.YELLOW
+SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM, RoomType.BOSS_ROOM)
+MIN_DISTANCE = 4
 
 
 class Generator:
@@ -26,7 +28,8 @@ class Generator:
         random.seed(seed)
 
     def toJSON(self):
-        j = "{\n" + '"seed": "' + self.__seed + '",\n' + '"floor": ' + self.floor.toJSON() + "\n}"
+        j = "{\n" + '"seed": "' + self.__seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
+            str(Globals.height) + ',\n"floor": ' + self.floor.toJSON() + "\n}"
         return j
 
     def get_room_amount(self) -> int:
@@ -98,32 +101,50 @@ class Generator:
             self.floor.add_room(room[0], room[1], NORMAL_ROOM_COLOR)
 
         dead_ends = self.mark_dead_ends()
+        self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
         self.floor.add_doors_to_rooms()
 
         print(self.floor.get_floor())
 
     def mark_dead_ends(self):
-        dead_end_index = ()
+        dead_end_index = []
         i = 0
         while i < len(self.floor.get_rooms()):
             room = self.floor.get_rooms()[i]
             if self.floor.is_dead_end(room.get_x(), room.get_y()):
-                if not room.get_type() == RoomType.START_ROOM:
+                if not (room.get_type() == RoomType.START_ROOM):
                     room.set_type(RoomType.DEAD_END)
                     dead_end_index += (i,)
             i += 1
         return dead_end_index
 
+    def add_boss_room(self, dead_ends, start_room):
+        boss_room = None
+        boss_room_index = None
+        for index in dead_ends:
+            dead_end = self.floor.get_rooms()[index]
+            if (abs(start_room[0] - dead_end.get_x()) >= MIN_DISTANCE) and (abs(start_room[1] - dead_end.get_y()) >= MIN_DISTANCE):
+                boss_room = dead_end
+                boss_room_index = index
+        if boss_room is None:
+            boss_room = self.floor.get_rooms()[dead_ends[0]]
+            boss_room_index = dead_ends[0]
+        boss_room.set_type(RoomType.BOSS_ROOM)
+        boss_room.set_color(BOSS_ROOM_COLOR)
+        dead_ends.remove(boss_room_index)
+
     def add_special_rooms(self, dead_ends):
         i = 0
         while i < len(SPECIAL_ROOMS) and i < len(dead_ends):
             self.floor.get_rooms()[dead_ends[i]].set_type(SPECIAL_ROOMS[i])
-            if SPECIAL_ROOMS[i] == RoomType.BOSS_ROOM:
-                self.floor.get_rooms()[dead_ends[i]].set_color(BOSS_ROOM_COLOR)
+            if SPECIAL_ROOMS[i] == RoomType.SHOP_ROOM:
+                self.floor.get_rooms()[dead_ends[i]].set_color(SHOP_ROOM_COLOR)
             elif SPECIAL_ROOMS[i] == RoomType.ITEM_ROOM:
                 self.floor.get_rooms()[dead_ends[i]].set_color(ITEM_ROOM_COLOR)
             i += 1
+
+
 
     def run(self):
         active: bool = True
