@@ -16,11 +16,13 @@ class Floor:
         self.floor_grid = np.zeros((height, width))
         self.rect = pygame.Rect(Globals.floor_plan_coordinates[1], Globals.floor_plan_coordinates[0],
                                 width * Globals.room_width, height * Globals.room_height)
+        self.room_id = 0
 
     def __getstate__(self):
         state = dict(self.__dict__)
         del state['rect']
         del state['floor_grid']
+        del state['room_id']
         return state
 
     def toJSON(self):
@@ -47,7 +49,8 @@ class Floor:
         self.floor_grid[y][x] = 1
 
     def add_room(self, x, y, color: Color = Color.VIOLET, room_type=RoomType.NORMAL_ROOM):
-        self.__rooms.append(Room(x, y, color, room_type))
+        self.__rooms.append(Room(x=x, y=y, color=color, room_type=room_type, room_id=self.room_id))
+        self.room_id += 1
 
     def get_rooms(self):
         return self.__rooms
