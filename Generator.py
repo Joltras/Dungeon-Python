@@ -13,7 +13,7 @@ START_ROOM_COLOR = Color.ORANGE
 BOSS_ROOM_COLOR = Color.RED
 ITEM_ROOM_COLOR = Color.GREEN
 SHOP_ROOM_COLOR = Color.YELLOW
-SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM, RoomType.BOSS_ROOM)
+SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 MIN_DISTANCE = 4
 
 
@@ -124,7 +124,8 @@ class Generator:
         boss_room_index = None
         for index in dead_ends:
             dead_end = self.floor.get_rooms()[index]
-            if (abs(start_room[0] - dead_end.get_x()) >= MIN_DISTANCE) and (abs(start_room[1] - dead_end.get_y()) >= MIN_DISTANCE):
+            if (abs(start_room[0] - dead_end.get_x()) >= MIN_DISTANCE) and (
+                    abs(start_room[1] - dead_end.get_y()) >= MIN_DISTANCE):
                 boss_room = dead_end
                 boss_room_index = index
         if boss_room is None:
@@ -143,8 +144,6 @@ class Generator:
             elif SPECIAL_ROOMS[i] == RoomType.ITEM_ROOM:
                 self.floor.get_rooms()[dead_ends[i]].set_color(ITEM_ROOM_COLOR)
             i += 1
-
-
 
     def run(self):
         active: bool = True
