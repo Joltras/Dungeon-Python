@@ -11,7 +11,7 @@ DOOR_COLOR = Color.BLACK.value
 
 
 class Room:
-    def __init__(self, x: int, y: int, color: Color, room_type: RoomType, width=Globals.room_width, height=Globals.room_height):
+    def __init__(self, x: int, y: int, color: Color, room_id: int, room_type: RoomType, width=Globals.room_width, height=Globals.room_height):
         self.__x: int = x
         self.__y: int = y
         self.room_type = room_type
@@ -20,7 +20,7 @@ class Room:
         self.rect = pygame.Rect(self.__x * Globals.room_width + Globals.floor_plan_coordinates[1],
                                 self.__y * Globals.room_height + Globals.floor_plan_coordinates[0],
                                 width, height)
-        self.__id = y * Globals.width + x
+        self.__id = room_id
 
     def __getstate__(self):
         state = dict(self.__dict__)
@@ -28,14 +28,7 @@ class Room:
         del state["rect"]
         doors = []
         for door in self.doors:
-            if door == DoorFace.UP:
-                doors.append('Up')
-            elif door == DoorFace.RIGHT:
-                doors.append('Right')
-            elif door == DoorFace.DOWN:
-                doors.append('Down')
-            elif door == DoorFace.LEFT:
-                doors.append('Left')
+            doors.append(door.value)
         state["doors"] = doors
         state["room_type"] = self.room_type.value
         print(state)
