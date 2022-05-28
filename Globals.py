@@ -14,20 +14,32 @@ window_width = width * room_width * window_multiplier
 floor_plan_coordinates = ((height * room_height) / 2, (width * room_width) / 2)
 
 
+class Directions(Enum):
+    UP = (0, -1)
+    RIGHT = (1, 0)
+    DOWN = (0, 1)
+    LEFT = (-1, 0)
+    UP_RIGHT = (1, -1)
+    UP_LEFT = (-1, -1)
+    DOWN_RIGHT = (1, 1)
+    DOWN_LEFT = (-1, 1)
+
+
 class DoorFace(Enum):
-    UP = 0
-    RIGHT = 1
-    DOWN = 2
-    LEFT = 3
+    TOP = 0
+    EAST = 1
+    BOTTOM = 2
+    WEST = 3
 
 
 class RoomType(Enum):
     NORMAL_ROOM = 0
     DEAD_END = 1
-    BOSS_ROOM = 2
-    ITEM_ROOM = 3
-    SHOP_ROOM = 4
-    START_ROOM = 5
+    ITEM_ROOM = 2
+    SHOP_ROOM = 3
+    START_ROOM = 4
+    BOSS_TELEPORT_ROOM = 5
+    BOSS_ROOM = 6
 
 
 class Color(Enum):
