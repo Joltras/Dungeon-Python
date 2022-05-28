@@ -2,8 +2,8 @@ import json
 
 import pygame
 import Globals
-from Globals import Color, RoomType, DoorFace
-from Room import Room
+from Globals import Color, RoomType, DoorFace, Directions
+from Room import Room, TeleportRoom
 import numpy as np
 
 
@@ -48,8 +48,32 @@ class Floor:
     def add_to_floor_grid(self, x, y):
         self.floor_grid[y][x] = 1
 
-    def add_room(self, x, y, color: Color = Color.VIOLET, room_type=RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, color: Color = Color.VIOLET, room_type=RoomType.NORMAL_ROOM):
         self.__rooms.append(Room(x=x, y=y, color=color, room_type=room_type, room_id=self.room_id))
+        self.room_id += 1
+
+    def add_room_next_to(self, room: Room, direction: Directions, color: Color, room_type: RoomType):
+        if direction == Directions.UP:
+            self.add_room(room.get_x(), room.get_y() - 1, color, room_type)
+        elif direction == Directions.DOWN:
+            self.add_room(room.get_x(), room.get_y() + 1, color, room_type)
+        elif direction == Directions.LEFT:
+            self.add_room(room.get_x() - 1, room.get_y(), color, room_type)
+        elif direction == Directions.RIGHT:
+            self.add_room(room.get_x() + 1, room.get_y(), color, room_type)
+        elif direction == Directions.UP_RIGHT:
+            self.add_room(room.get_x() + 1, room.get_y() - 1, color, room_type)
+        elif direction == Directions.UP_LEFT:
+            self.add_room(room.get_x() - 1, room.get_y() - 1, color, room_type)
+        elif direction == Directions.DOWN_RIGHT:
+            self.add_room(room.get_x() + 1, room.get_y() + 1, color, room_type)
+        elif direction == Directions.DOWN_LEFT:
+            self.add_room(room.get_x() - 1, room.get_y() + 1, color, room_type)
+
+    def add_teleport_room(self, room: Room, color=Color.DARK_GRAY):
+        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), color=color, room_id=self.room_id,
+                              room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
+        self.__rooms.append(t_room)
         self.room_id += 1
 
     def get_rooms(self):
@@ -66,13 +90,13 @@ class Floor:
             x = room.get_x()
             y = room.get_y()
             if x + 1 < len(self.floor_grid[y]) and self.floor_grid[y][x + 1] == 1:
-                room.add_door(DoorFace.RIGHT)
+                room.add_door(DoorFace.EAST)
             if x - 1 >= 0 and self.floor_grid[y][x - 1] == 1:
-                room.add_door(DoorFace.LEFT)
+                room.add_door(DoorFace.WEST)
             if y - 1 >= 0 and self.floor_grid[y - 1][x] == 1:
-                room.add_door(DoorFace.UP)
+                room.add_door(DoorFace.TOP)
             if y + 1 < len(self.floor_grid) and self.floor_grid[y + 1][x] == 1:
-                room.add_door(DoorFace.DOWN)
+                room.add_door(DoorFace.BOTTOM)
 
     def count_neighbours(self, x, y):
         neighbours = 0
