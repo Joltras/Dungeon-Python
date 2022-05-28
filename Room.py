@@ -11,7 +11,9 @@ DOOR_COLOR = Color.BLACK.value
 
 
 class Room:
-    def __init__(self, x: int, y: int, color: Color, room_id: int, room_type: RoomType, width=Globals.room_width, height=Globals.room_height):
+
+    def __init__(self, x: int, y: int, color: Color, room_id: int, room_type: RoomType, width=Globals.room_width,
+                 height=Globals.room_height):
         self.__x: int = x
         self.__y: int = y
         self.room_type = room_type
@@ -52,34 +54,56 @@ class Room:
 
     def draw_doors(self, screen):
         for door in self.doors:
-            if door == DoorFace.LEFT:
+            if door == DoorFace.WEST:
                 pygame.draw.line(screen, DOOR_COLOR,
                                  (self.rect.left, self.rect.top + Globals.room_height / 4),
                                  (self.rect.left, self.rect.top + Globals.room_height / 4 * 3), LINE_THICKNESS)
-            elif door == DoorFace.RIGHT:
+            elif door == DoorFace.EAST:
                 pygame.draw.line(screen, DOOR_COLOR,
                                  (self.rect.left + Globals.room_width, self.rect.top + Globals.room_height / 4),
-                                 (self.rect.left + Globals.room_width, self.rect.top + Globals.room_height / 4 * 3), LINE_THICKNESS)
-            elif door == DoorFace.UP:
+                                 (self.rect.left + Globals.room_width, self.rect.top + Globals.room_height / 4 * 3),
+                                 LINE_THICKNESS)
+            elif door == DoorFace.TOP:
                 pygame.draw.line(screen, DOOR_COLOR,
                                  (self.rect.left + Globals.room_width / 4, self.rect.top),
                                  (self.rect.left + Globals.room_width / 4 * 3, self.rect.top), LINE_THICKNESS)
-            elif door == DoorFace.DOWN:
+            elif door == DoorFace.BOTTOM:
                 pygame.draw.line(screen, DOOR_COLOR,
                                  (self.rect.left + Globals.room_width / 4, self.rect.top + Globals.room_height),
-                                 (self.rect.left + Globals.room_width / 4 * 3, self.rect.top + Globals.room_height), LINE_THICKNESS)
+                                 (self.rect.left + Globals.room_width / 4 * 3, self.rect.top + Globals.room_height),
+                                 LINE_THICKNESS)
 
-    def get_x(self):
+    def get_x(self) -> int:
         return self.__x
 
-    def get_y(self):
+    def get_y(self) -> int:
         return self.__y
 
     def get_color(self):
         return self.color
 
-    def set_color(self, color: Color):
+    def set_color(self, color: Color) -> None:
         self.color = color
 
     def get_rect(self):
         return self.rect
+
+    def get_id(self) -> int:
+        return self.__id
+
+    def set_cord(self, x: int, y: int) -> None:
+        self.__x = x
+        self.__y = y
+        self.rect = pygame.Rect(self.__x * Globals.room_width + Globals.floor_plan_coordinates[1],
+                                self.__y * Globals.room_height + Globals.floor_plan_coordinates[0],
+                                Globals.room_width, Globals.room_height)
+
+
+class TeleportRoom(Room):
+
+    def __init__(self, x: int, y: int, room_id: int, teleport_room_id:int,  color: Color = Color.GRAY,
+                 room_type: RoomType = RoomType.BOSS_TELEPORT_ROOM,
+                 width=Globals.room_width,
+                 height=Globals.room_height):
+        super().__init__(x, y, color, room_id, room_type, width, height)
+        self.t_id = teleport_room_id
