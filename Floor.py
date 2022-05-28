@@ -1,5 +1,3 @@
-import json
-
 import pygame
 import Globals
 from Globals import Color, RoomType, DoorFace, Directions
@@ -10,6 +8,11 @@ import numpy as np
 class Floor:
 
     def __init__(self, height: int, width: int):
+        """
+        Creates a new floor width the given width and height.
+        :param height: height of the floor
+        :param width: width of the floor
+        """
         self.__height = height
         self.__width = width
         self.__rooms: list = []
@@ -26,33 +29,61 @@ class Floor:
         return state
 
     def toJSON(self):
-        currentIndex: int = 0
-        maxIndex: int = len(self.__rooms)
+        """
+        Creates a json string for the current room object.
+        :return: json string
+        """
+        current_index: int = 0
+        max_index: int = len(self.__rooms)
         j = "["
         for room in self.__rooms:
-            if currentIndex < maxIndex - 1:
+            if current_index < max_index - 1:
                 j += room.toJSON() + ","
             else:
                 j += room.toJSON()
 
-            currentIndex += 1
+            current_index += 1
         return j + "]"
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.Surface) -> None:
+        """
+        Draws the floor with all the rooms on the screen.
+        :param screen: screen to draw on
+        """
         for room in self.__rooms:
             room.draw(screen)
         for room in self.__rooms:
             room.draw_doors(screen)
         pygame.draw.rect(screen, Color.DARK_GRAY.value, self.rect, 2)
 
-    def add_to_floor_grid(self, x, y):
+    def add_to_floor_grid(self, x: int, y: int) -> None:
+        """
+        Adds a room to the floor grid at the given location.
+        :param x: x coordinate of the room
+        :param y: y coordinate of the room
+        :return:
+        """
         self.floor_grid[y][x] = 1
 
     def add_room(self, x: int, y: int, color: Color = Color.VIOLET, room_type=RoomType.NORMAL_ROOM):
+        """
+        Creates and adds a room to the floor.
+        :param x: x coordinate of the room
+        :param y: y coordinate of the room
+        :param color: color of the room (default = violet)
+        :param room_type: type of the room (default = normal room)
+        """
         self.__rooms.append(Room(x=x, y=y, color=color, room_type=room_type, room_id=self.room_id))
         self.room_id += 1
 
-    def add_room_next_to(self, room: Room, direction: Directions, color: Color, room_type: RoomType):
+    def add_room_next_to(self, room: Room, direction: Directions, color: Color, room_type: RoomType) -> None:
+        """
+        Creates and adds a room next to a given room.
+        :param room: room where the new room is placed next to
+        :param direction: direction in which the new room is placed
+        :param color: color for the room
+        :param room_type: type for the room
+        """
         if direction == Directions.UP:
             self.add_room(room.get_x(), room.get_y() - 1, color, room_type)
         elif direction == Directions.DOWN:
@@ -70,22 +101,44 @@ class Floor:
         elif direction == Directions.DOWN_LEFT:
             self.add_room(room.get_x() - 1, room.get_y() + 1, color, room_type)
 
-    def add_teleport_room(self, room: Room, color=Color.DARK_GRAY):
+    def add_teleport_room(self, room: Room, color=Color.DARK_GRAY) -> None:
+        """
+        Creates and adds a new Teleport room to the floor.
+        :param room: Room which is connected to the teleport room.
+        :param color: color for the room (default = gray)
+        """
         t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), color=color, room_id=self.room_id,
                               room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
         self.__rooms.append(t_room)
         self.room_id += 1
 
-    def get_rooms(self):
+    def get_rooms(self) -> list:
+        """
+        Returns a list containing all the rooms of the floor.
+        :return: rooms
+        """
         return self.__rooms
 
-    def get_floor(self):
+    def get_floor_grid(self) -> np.ndarray:
+        """
+        Returns the floor grid of the floor.
+        :return: floor grid
+        """
         return self.floor_grid
 
-    def contains_room(self, x, y):
+    def contains_room(self, x: int, y: int) -> bool:
+        """
+        Checks if there is a room at the given coordinates.
+        :param x: x coordinate
+        :param y: y coordinate
+        :return: true if a there is a room otherwise false
+        """
         return self.floor_grid[y][x] == 1
 
-    def add_doors_to_rooms(self):
+    def add_doors_to_rooms(self) -> None:
+        """
+        Adds doors to all rooms on the floor.
+        """
         for room in self.__rooms:
             x = room.get_x()
             y = room.get_y()
@@ -98,7 +151,13 @@ class Floor:
             if y + 1 < len(self.floor_grid) and self.floor_grid[y + 1][x] == 1:
                 room.add_door(DoorFace.BOTTOM)
 
-    def count_neighbours(self, x, y):
+    def count_neighbours(self, x: int, y: int) -> int:
+        """
+        Counts how many rooms are next to the room.
+        :param x: x coordinate  of the room
+        :param y: y coordinate of the room
+        :return: number of neighbour rooms
+        """
         neighbours = 0
         if y + 1 < len(self.floor_grid):
             neighbours += self.floor_grid[y + 1][x]
@@ -111,4 +170,10 @@ class Floor:
         return neighbours
 
     def is_dead_end(self, x: int, y: int) -> bool:
+        """
+        Returns if the room at the given coordinates is a dead end.
+        :param x: x coordinate
+        :param y: y coordinate
+        :return: true if the room is a dead end otherwise false
+        """
         return self.count_neighbours(x, y) == 1
