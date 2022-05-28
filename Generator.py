@@ -1,10 +1,10 @@
-import json
 import math
 import random
 import Globals
-from Globals import Color, RoomType
+from Globals import Color, RoomType, Directions
 from Floor import Floor
 import pygame
+from Room import Room
 from collections import deque
 
 MAX_ROOMS: int = 15
@@ -13,6 +13,7 @@ START_ROOM_COLOR = Color.ORANGE
 BOSS_ROOM_COLOR = Color.RED
 ITEM_ROOM_COLOR = Color.GREEN
 SHOP_ROOM_COLOR = Color.YELLOW
+TELEPORT_ROOM_COLOR = Color.GRAY
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 MIN_DISTANCE = 4
 
@@ -33,6 +34,10 @@ class Generator:
         return j
 
     def get_room_amount(self) -> int:
+        """
+        Calculates the room amount.
+        :return: room amount
+        """
         if self.__stage_id == -1:
             self.__stage_id = 1
         return min(MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(self.__stage_id * 10) / 3.0))
@@ -107,33 +112,108 @@ class Generator:
 
         print(self.floor.get_floor())
 
-    def mark_dead_ends(self):
-        dead_end_index = []
+    def mark_dead_ends(self) -> list:
+        """
+        Searches for dead ends in the floor and marks them ands returns their indices in a list.
+        :return: indices of all dead ends
+        """
+        dead_end_indices = []
         i = 0
         while i < len(self.floor.get_rooms()):
             room = self.floor.get_rooms()[i]
             if self.floor.is_dead_end(room.get_x(), room.get_y()):
                 if not (room.get_type() == RoomType.START_ROOM):
                     room.set_type(RoomType.DEAD_END)
-                    dead_end_index += (i,)
+                    dead_end_indices += (i,)
             i += 1
-        return dead_end_index
+        return dead_end_indices
 
-    def add_boss_room(self, dead_ends, start_room):
-        boss_room = None
-        boss_room_index = None
-        for index in dead_ends:
+    def add_boss_room(self, dead_end_indices: list, start_room: tuple) -> None:
+        """
+        Marks a room as the boss room depending on the location of the start room.
+        :param dead_end_indices: indices for all dead ends
+        :param start_room: coordinates of the start room in a tuple
+        """
+        boss_room: Room = None
+        boss_room_index: int = None
+        boss_room_x: int
+        boss_room_y: int
+        possible_locations: list = []
+
+        for index in dead_end_indices:
             dead_end = self.floor.get_rooms()[index]
             if (abs(start_room[0] - dead_end.get_x()) >= MIN_DISTANCE) and (
                     abs(start_room[1] - dead_end.get_y()) >= MIN_DISTANCE):
                 boss_room = dead_end
                 boss_room_index = index
         if boss_room is None:
-            boss_room = self.floor.get_rooms()[dead_ends[0]]
-            boss_room_index = dead_ends[0]
+            boss_room = self.floor.get_rooms()[dead_end_indices[0]]
+            boss_room_index = dead_end_indices[0]
+
+        boss_room_x = boss_room.get_x()
+        boss_room_y = boss_room.get_y()
+        if (boss_room_x + 1 < Globals.width) and (
+                self.floor.count_neighbours(boss_room_x + 1, boss_room_y) == 1) and not (
+                self.floor.contains_room(boss_room_x + 1, boss_room_y)):
+            possible_locations.append(Directions.RIGHT)
+
+        if (boss_room_x - 1 >= 0) and (self.floor.count_neighbours(boss_room_x - 1, boss_room_y) == 1) and \
+                not (self.floor.contains_room(boss_room_x - 1, boss_room_y)):
+            possible_locations.append(Directions.LEFT)
+
+        if (boss_room_y + 1 < Globals.height) and (self.floor.count_neighbours(boss_room_x, boss_room_y + 1) == 1) and \
+                not (self.floor.contains_room(boss_room_x, boss_room_y + 1)):
+            possible_locations.append(Directions.DOWN)
+
+        if (boss_room_y - 1 >= 0) and (self.floor.count_neighbours(boss_room_x, boss_room_y - 1) == 1) and \
+                not (self.floor.contains_room(boss_room_x, boss_room_y - 1)):
+            possible_locations.append(Directions.UP)
+
+        if len(possible_locations) == 0:
+            self.floor.add_teleport_room(boss_room)
+            if not (self.floor.contains_room(0, 0)):
+                boss_room.set_cord(0, 0)
+            elif not (self.floor.contains_room(0, Globals.height - 1)):
+                boss_room.set_cord(0, Globals.height - 1)
+            elif not (self.floor.contains_room(Globals.width - 1, Globals.height - 1)):
+                boss_room.set_cord(Globals.width - 1, Globals.height - 1)
+            elif not (self.floor.contains_room(Globals.width - 1, 0)):
+                boss_room.set_cord(Globals.width - 1, 0)
+
+        elif len(possible_locations) >= 2:
+            if possible_locations.__contains__(Directions.UP) and \
+                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(Directions.RIGHT)):
+                self.floor.add_room_next_to(boss_room, Directions.UP, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+
+                if possible_locations.__contains__(Directions.LEFT):
+                    self.floor.add_room_next_to(boss_room, Directions.LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+                    self.floor.add_room_next_to(boss_room, Directions.UP_LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+                elif possible_locations.__contains__(Directions.RIGHT):
+                    self.floor.add_room_next_to(boss_room, Directions.RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+                    self.floor.add_room_next_to(boss_room, Directions.UP_RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+            elif possible_locations.__contains__(Directions.DOWN) and \
+                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(Directions.RIGHT)):
+                self.floor.add_room_next_to(boss_room, Directions.DOWN, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+                if possible_locations.__contains__(Directions.LEFT):
+                    self.floor.add_room_next_to(boss_room, Directions.LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+                    self.floor.add_room_next_to(boss_room, Directions.DOWN_LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+                elif possible_locations.__contains__(Directions.RIGHT):
+                    self.floor.add_room_next_to(boss_room, Directions.RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+                    self.floor.add_room_next_to(boss_room, Directions.DOWN_RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+        else:
+            self.floor.add_room_next_to(boss_room, possible_locations[0], BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+
+
+
+
         boss_room.set_type(RoomType.BOSS_ROOM)
         boss_room.set_color(BOSS_ROOM_COLOR)
-        dead_ends.remove(boss_room_index)
+        dead_end_indices.remove(boss_room_index)
 
     def add_special_rooms(self, dead_ends):
         i = 0
