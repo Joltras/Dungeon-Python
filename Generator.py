@@ -19,13 +19,22 @@ MIN_DISTANCE = 4
 
 
 class Generator:
-    def __init__(self, seed):
+    def __init__(self, seed: str, output_file: str, ui: bool):
+        """
+        Creates a new generator.
+        :param seed: seed for the random generator
+        :param output_file: file to save the floor to
+        :param ui: whether to show the floor or not
+        """
+        if ui:
+            self.screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
+            self.clock = pygame.time.Clock()
         self.floor: Floor = None
-        self.screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
-        self.clock = pygame.time.Clock()
         self.__stage_id = 2
         self.__number_of_rooms: int
         self.__seed = seed
+        self.__output_file = output_file
+        self.__ui = ui
         random.seed(seed)
 
     def toJSON(self):
@@ -42,9 +51,11 @@ class Generator:
             self.__stage_id = 1
         return min(MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(self.__stage_id * 10) / 3.0))
 
-    def generate(self):
+    def generate(self) -> None:
+        """
+        Generates the rooms for the floor.
+        """
         number_of_rooms = self.get_room_amount()
-        print(number_of_rooms)
         self.floor = Floor(Globals.height, Globals.width)
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
         self.floor.add_room(start_room[0], start_room[1], START_ROOM_COLOR, RoomType.START_ROOM)
@@ -109,8 +120,6 @@ class Generator:
         self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
         self.floor.add_doors_to_rooms()
-
-        print(self.floor.get_floor())
 
     def mark_dead_ends(self) -> list:
         """
@@ -182,9 +191,9 @@ class Generator:
 
         elif len(possible_locations) >= 2:
             if possible_locations.__contains__(Directions.UP) and \
-                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(Directions.RIGHT)):
+                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(
+                        Directions.RIGHT)):
                 self.floor.add_room_next_to(boss_room, Directions.UP, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-
 
                 if possible_locations.__contains__(Directions.LEFT):
                     self.floor.add_room_next_to(boss_room, Directions.LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
@@ -195,7 +204,8 @@ class Generator:
                     self.floor.add_room_next_to(boss_room, Directions.UP_RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
 
             elif possible_locations.__contains__(Directions.DOWN) and \
-                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(Directions.RIGHT)):
+                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(
+                        Directions.RIGHT)):
                 self.floor.add_room_next_to(boss_room, Directions.DOWN, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
 
                 if possible_locations.__contains__(Directions.LEFT):
@@ -208,14 +218,15 @@ class Generator:
         else:
             self.floor.add_room_next_to(boss_room, possible_locations[0], BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
 
-
-
-
         boss_room.set_type(RoomType.BOSS_ROOM)
         boss_room.set_color(BOSS_ROOM_COLOR)
         dead_end_indices.remove(boss_room_index)
 
-    def add_special_rooms(self, dead_ends):
+    def add_special_rooms(self, dead_ends: list) -> None:
+        """
+        Places the special rooms on the floor
+        :param dead_ends: indices of all dead ends
+        """
         i = 0
         while i < len(SPECIAL_ROOMS) and i < len(dead_ends):
             self.floor.get_rooms()[dead_ends[i]].set_type(SPECIAL_ROOMS[i])
@@ -234,9 +245,7 @@ class Generator:
                     active = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:
-                        f = open("generator.json", "w")
-                        f.write(self.toJSON())
-                        f.close()
+                        self.save()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.generate()
@@ -244,3 +253,8 @@ class Generator:
             self.floor.draw(self.screen)
             pygame.display.flip()
             self.clock.tick(5)
+
+    def save(self):
+        f = open(self.__output_file, "w")
+        f.write(self.toJSON())
+        f.close()
