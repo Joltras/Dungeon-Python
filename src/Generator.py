@@ -29,12 +29,11 @@ class Generator:
         if ui:
             self.screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
             self.clock = pygame.time.Clock()
-        self.floor: Floor = None
+        self.floor: Floor = Floor(Globals.height, Globals.width)
         self.__stage_id = 2
         self.__number_of_rooms: int
         self.__seed = seed
         self.__output_file = output_file
-        self.__ui = ui
         random.seed(seed)
 
     def toJSON(self):
@@ -56,7 +55,6 @@ class Generator:
         Generates the rooms for the floor.
         """
         number_of_rooms = self.get_room_amount()
-        self.floor = Floor(Globals.height, Globals.width)
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
         self.floor.add_room(start_room[0], start_room[1], START_ROOM_COLOR, RoomType.START_ROOM)
         self.floor.add_to_floor_grid(start_room[0], start_room[1])
