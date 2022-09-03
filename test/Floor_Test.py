@@ -9,8 +9,8 @@ class MyTestCase(unittest.TestCase):
         self._floor = Floor(20, 30)
 
     def test_to_json(self):
-        ecpected = "{\n\"rooms\": []\n}"
-        self.assertEqual(ecpected, self._floor.toJSON())
+        expected = "{\n\"rooms\": []\n}"
+        self.assertEqual(expected, self._floor.toJSON())
 
 
 if __name__ == '__main__':
