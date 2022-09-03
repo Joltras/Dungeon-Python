@@ -12,6 +12,8 @@ window_height = height * room_height * window_multiplier
 window_width = width * room_width * window_multiplier
 
 floor_plan_coordinates = ((height * room_height) / 2, (width * room_width) / 2)
+x_offset = (width * room_width) / 2
+y_offset = (height * room_height) / 2
 
 
 class Directions(Enum):
