@@ -61,7 +61,8 @@ class Generator:
         self.floor.add_room(start_room[0], start_room[1], START_ROOM_COLOR, RoomType.START_ROOM)
         self.floor.add_to_floor_grid(start_room[0], start_room[1])
         number_of_current_rooms = 1
-        room_queue: deque = deque([])
+
+        room_queue: deque = deque([])  # Room coordinates
         room_queue.append(start_room)
 
         while number_of_current_rooms < number_of_rooms:
@@ -69,48 +70,45 @@ class Generator:
             while number_of_current_rooms < number_of_rooms:
                 room = room_queue.pop()
                 room_queue.appendleft(room)
-                if room[1] - 1 >= 0:
-                    if not self.floor.contains_room(room[0], room[1] - 1) and (
-                            self.floor.count_neighbours(room[0], room[1] - 1) <= 1):
-                        if random.randint(1, 2) == 2:
-                            room_queue.append((room[0], room[1] - 1))
-                            self.floor.add_to_floor_grid(room[0], room[1] - 1)
-                            number_of_current_rooms += 1
-                            if number_of_rooms == number_of_current_rooms:
-                                break
 
-                if room[1] + 1 < Globals.height:
-                    if not self.floor.contains_room(room[0], room[1] + 1) and self.floor.count_neighbours(room[0],
-                                                                                                          room[
-                                                                                                              1] + 1) <= 1:
-                        if random.randint(1, 2) == 2:
-                            room_queue.append((room[0], room[1] + 1))
-                            self.floor.add_to_floor_grid(room[0], room[1] + 1)
-                            number_of_current_rooms += 1
-                            if number_of_rooms == number_of_current_rooms:
-                                break
+                # Up
+                if room[1] - 1 >= 0 and \
+                        not self.floor.contains_room(room[0], room[1] - 1) and (
+                        self.floor.count_neighbours(room[0], room[1] - 1) <= 1) and \
+                        random.randint(1, 2) == 2:
+                    self._append_and_add_to_floor_grid(room_queue, room, Directions.UP)
+                    number_of_current_rooms += 1
+                    if number_of_rooms == number_of_current_rooms:
+                        break
 
-                if room[0] + 1 < Globals.width:
-                    if not self.floor.contains_room(room[0] + 1, room[1]) and self.floor.count_neighbours(
-                            room[0] + 1,
-                            room[1]) <= 1:
-                        if random.randint(1, 2) == 2:
-                            room_queue.append((room[0] + 1, room[1]))
-                            self.floor.add_to_floor_grid(room[0] + 1, room[1])
-                            number_of_current_rooms += 1
-                            if number_of_rooms == number_of_current_rooms:
-                                break
+                # Down
+                if room[1] + 1 < Globals.height and \
+                        not self.floor.contains_room(room[0], room[1] + 1) and self.floor.count_neighbours(
+                    room[0], room[1] + 1) <= 1 and \
+                        random.randint(1, 2) == 2:
+                    self._append_and_add_to_floor_grid(room_queue, room, Directions.DOWN)
+                    number_of_current_rooms += 1
+                    if number_of_rooms == number_of_current_rooms:
+                        break
 
-                if room[0] - 1 >= 0:
-                    if not self.floor.contains_room(room[0] - 1, room[1]) and self.floor.count_neighbours(
-                            room[0] - 1,
-                            room[1]) <= 1:
-                        if random.randint(1, 2) == 2:
-                            room_queue.append((room[0] - 1, room[1]))
-                            self.floor.add_to_floor_grid(room[0] - 1, room[1])
-                            number_of_current_rooms += 1
-                            if number_of_rooms == number_of_current_rooms:
-                                break
+                # Right
+                if room[0] + 1 < Globals.width and \
+                        not self.floor.contains_room(room[0] + 1, room[1]) and self.floor.count_neighbours(
+                    room[0] + 1, room[1]) <= 1 and random.randint(1, 2) == 2:
+                    self._append_and_add_to_floor_grid(room_queue, room, Directions.RIGHT)
+                    number_of_current_rooms += 1
+                    if number_of_rooms == number_of_current_rooms:
+                        break
+
+                # Left
+                if room[0] - 1 >= 0 and \
+                        not self.floor.contains_room(room[0] - 1, room[1]) and self.floor.count_neighbours(
+                    room[0] - 1, room[1]) <= 1 and \
+                        random.randint(1, 2) == 2:
+                    self._append_and_add_to_floor_grid(room_queue, room, Directions.LEFT)
+                    number_of_current_rooms += 1
+                    if number_of_rooms == number_of_current_rooms:
+                        break
         room_queue.remove(start_room)
         while len(room_queue) > 0:
             room = room_queue.pop()
@@ -120,6 +118,21 @@ class Generator:
         self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
         self.floor.add_doors_to_rooms()
+
+    def _append_and_add_to_floor_grid(self, room_queue, room, direction):
+        room_to_add: tuple
+        if direction == Directions.UP:
+            room_to_add = (room[0], room[1] - 1)
+        elif direction == Directions.DOWN:
+            room_to_add = (room[0], room[1] + 1)
+        elif direction == Directions.LEFT:
+            room_to_add = (room[0] - 1, room[1])
+        elif direction == Directions.RIGHT:
+            room_to_add = (room[0] + 1, room[1])
+        else:
+            raise ValueError(direction + "is not a valid direction!")
+        room_queue.append(room_to_add)
+        self.floor.add_to_floor_grid(room_to_add[0], room_to_add[1])
 
     def mark_dead_ends(self) -> list:
         """
@@ -131,7 +144,7 @@ class Generator:
         while i < len(self.floor.get_rooms()):
             room = self.floor.get_rooms()[i]
             if self.floor.is_dead_end(room.get_x(), room.get_y()):
-                if not (room.get_type() == RoomType.START_ROOM):
+                if room.get_type() != RoomType.START_ROOM:
                     room.set_type(RoomType.DEAD_END)
                     dead_end_indices += (i,)
             i += 1
@@ -243,9 +256,9 @@ class Generator:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     active = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
-                        self.save()
+                if event.type == pygame.KEYDOWN and \
+                        event.key == pygame.K_s:
+                    self.save()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.generate()
