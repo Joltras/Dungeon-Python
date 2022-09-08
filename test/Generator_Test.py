@@ -11,5 +11,6 @@ class MyTestCase(unittest.TestCase):
         expected = ""
         self.assertEqual(expected, self._generator.toJSON())
 
+
 if __name__ == '__main__':
     unittest.main()
