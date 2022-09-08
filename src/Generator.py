@@ -4,7 +4,7 @@ import Globals
 from Globals import Color, RoomType, Directions
 from Floor import Floor
 import pygame
-from Room import Room
+from rooms.PygameNormalRoom import PygameNormalRoom
 from collections import deque
 
 MAX_ROOMS: int = 15
@@ -79,7 +79,7 @@ class Generator:
                 if room[1] - 1 >= 0 and \
                         not floor.contains_room(room[0], room[1] - 1) and (
                         floor.count_neighbours(room[0], room[1] - 1) <= 1) and \
-                        random.randint(1, 2) == 2:
+                        self._place_room():
                     self._append_and_add_to_floor_grid(room_queue, room, Directions.UP)
                     number_of_current_rooms += 1
                     if number_of_rooms == number_of_current_rooms:
@@ -89,7 +89,7 @@ class Generator:
                 if room[1] + 1 < Globals.height and \
                         not floor.contains_room(room[0], room[1] + 1) and floor.count_neighbours(
                     room[0], room[1] + 1) <= 1 and \
-                        random.randint(1, 2) == 2:
+                        self._place_room():
                     self._append_and_add_to_floor_grid(room_queue, room, Directions.DOWN)
                     number_of_current_rooms += 1
                     if number_of_rooms == number_of_current_rooms:
@@ -98,7 +98,7 @@ class Generator:
                 # Right
                 if room[0] + 1 < Globals.width and \
                         not floor.contains_room(room[0] + 1, room[1]) and floor.count_neighbours(
-                    room[0] + 1, room[1]) <= 1 and random.randint(1, 2) == 2:
+                    room[0] + 1, room[1]) <= 1 and self._place_room():
                     self._append_and_add_to_floor_grid(room_queue, room, Directions.RIGHT)
                     number_of_current_rooms += 1
                     if number_of_rooms == number_of_current_rooms:
@@ -108,7 +108,7 @@ class Generator:
                 if room[0] - 1 >= 0 and \
                         not floor.contains_room(room[0] - 1, room[1]) and floor.count_neighbours(
                     room[0] - 1, room[1]) <= 1 and \
-                        random.randint(1, 2) == 2:
+                        self._place_room():
                     self._append_and_add_to_floor_grid(room_queue, room, Directions.LEFT)
                     number_of_current_rooms += 1
                     if number_of_rooms == number_of_current_rooms:
@@ -122,6 +122,9 @@ class Generator:
         self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
         floor.add_doors_to_rooms()
+
+    def _place_room(self) -> bool:
+        return random.randint(1, 2) == 2
 
     def _append_and_add_to_floor_grid(self, room_queue, room, direction):
         floor = self._floors[self._current_floor]
@@ -163,7 +166,7 @@ class Generator:
         :param start_room: coordinates of the start room in a tuple
         """
         floor = self._floors[self._current_floor]
-        boss_room: Room = None
+        boss_room: PygameNormalRoom = None
         boss_room_index: int = None
         boss_room_x: int
         boss_room_y: int

@@ -16,6 +16,12 @@ x_offset = (width * room_width) / 2
 y_offset = (height * room_height) / 2
 
 
+MAX_DOOR_AMOUNT: int = 4
+LINE_THICKNESS = 5
+
+
+
+
 class Directions(Enum):
     UP = (0, -1)
     RIGHT = (1, 0)
@@ -56,3 +62,5 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
+
+DOOR_COLOR = Color.BLACK

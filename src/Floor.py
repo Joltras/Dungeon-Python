@@ -1,8 +1,9 @@
 import pygame
 import Globals
 from Globals import Color, RoomType, DoorFace, Directions
-from Room import Room, TeleportRoom
+from rooms.PygameNormalRoom import PygameNormalRoom
 import numpy as np
+from rooms.PygameTeleportRoom import PygameTeleportRoom
 
 
 class Floor:
@@ -71,10 +72,10 @@ class Floor:
         :param color: color of the room (default = violet)
         :param room_type: type of the room (default = normal room)
         """
-        self._rooms.append(Room(x=x, y=y, color=color, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(PygameNormalRoom(x=x, y=y, color=color, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: Room, direction: Directions, color: Color, room_type: RoomType) -> None:
+    def add_room_next_to(self, room: PygameNormalRoom, direction: Directions, color: Color, room_type: RoomType) -> None:
         """
         Creates and adds a room next to a given room.
         :param room: room where the new room is placed next to
@@ -99,14 +100,14 @@ class Floor:
         elif direction == Directions.DOWN_LEFT:
             self.add_room(room.get_x() - 1, room.get_y() + 1, color, room_type)
 
-    def add_teleport_room(self, room: Room, color=Color.DARK_GRAY) -> None:
+    def add_teleport_room(self, room: PygameNormalRoom, color=Color.DARK_GRAY) -> None:
         """
         Creates and adds a new Teleport room to the floor.
         :param room: Room which is connected to the teleport room.
         :param color: color for the room (default = gray)
         """
-        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), color=color, room_id=self._room_id,
-                              room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
+        t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), color=color, room_id=self._room_id,
+                                  room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 
