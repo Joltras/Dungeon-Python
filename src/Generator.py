@@ -202,6 +202,7 @@ class Generator:
             possible_locations.append(Directions.UP)
 
         if len(possible_locations) == 0:
+            # Place a teleport-room to the boss-room
             floor.add_teleport_room(boss_room)
             if not (floor.contains_room(0, 0)):
                 boss_room.set_cord(0, 0)
@@ -213,37 +214,31 @@ class Generator:
                 boss_room.set_cord(Globals.width - 1, 0)
 
         elif len(possible_locations) >= 2:
-            if possible_locations.__contains__(Directions.UP) and \
-                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(
-                        Directions.RIGHT)):
-                floor.add_room_next_to(boss_room, Directions.UP, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            # Create a 4 * 4 boss-room
+            if Directions.UP in possible_locations and Directions.RIGHT in possible_locations:
+                self._add_rooms_next_to_room(boss_room, [Directions.UP, Directions.RIGHT, Directions.UP_RIGHT])
 
-                if possible_locations.__contains__(Directions.LEFT):
-                    floor.add_room_next_to(boss_room, Directions.LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-                    floor.add_room_next_to(boss_room, Directions.UP_LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            elif Directions.UP in possible_locations and Directions.LEFT in possible_locations:
+                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.UP, Directions.UP_LEFT])
 
-                elif possible_locations.__contains__(Directions.RIGHT):
-                    floor.add_room_next_to(boss_room, Directions.RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-                    floor.add_room_next_to(boss_room, Directions.UP_RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            elif Directions.DOWN in possible_locations and Directions.RIGHT in possible_locations:
+                self._add_rooms_next_to_room(boss_room, [Directions.DOWN, Directions.RIGHT, Directions.DOWN_RIGHT])
 
-            elif possible_locations.__contains__(Directions.DOWN) and \
-                    (possible_locations.__contains__(Directions.LEFT) or possible_locations.__contains__(
-                        Directions.RIGHT)):
-                floor.add_room_next_to(boss_room, Directions.DOWN, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            elif Directions.DOWN in possible_locations and Directions.LEFT in possible_locations:
+                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.DOWN, Directions.DOWN_LEFT])
 
-                if possible_locations.__contains__(Directions.LEFT):
-                    floor.add_room_next_to(boss_room, Directions.LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-                    floor.add_room_next_to(boss_room, Directions.DOWN_LEFT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-
-                elif possible_locations.__contains__(Directions.RIGHT):
-                    floor.add_room_next_to(boss_room, Directions.RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
-                    floor.add_room_next_to(boss_room, Directions.DOWN_RIGHT, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
         else:
+            # Create a 2 * 2 boss-room
             floor.add_room_next_to(boss_room, possible_locations[0], BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
 
         boss_room.set_type(RoomType.BOSS_ROOM)
         boss_room.set_color(BOSS_ROOM_COLOR)
         dead_end_indices.remove(boss_room_index)
+
+    def _add_rooms_next_to_room(self, room, directions):
+        floor = self._floors[self._current_floor]
+        for direction in directions:
+            floor.add_room_next_to(room, direction, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
