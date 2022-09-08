@@ -4,13 +4,13 @@ from pygame import Rect
 
 import Globals
 from Globals import Color, RoomType, DoorFace
-from Room import Room
+from rooms.PygameNormalRoom import PygameNormalRoom
 
 
 class MyTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
-        self._room = Room(10, 20, Color.ORANGE, 1, RoomType.NORMAL_ROOM)
+        self._room = PygameNormalRoom(10, 20, Color.ORANGE, 1, RoomType.NORMAL_ROOM)
 
     def test_to_json(self):
         ecpected = \
