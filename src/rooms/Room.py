@@ -1,9 +1,9 @@
-from abc import ABC, abstractmethod
+import json
 
 from Globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 
-class Room(ABC):
+class Room:
 
     def __init__(self, x: int, y: int, room_id: int, room_type: RoomType):
         self._x: int = x
@@ -12,13 +12,8 @@ class Room(ABC):
         self._room_type = room_type
         self._doors = []
 
-    @abstractmethod
-    def __getstate__(self):
-     pass
-
-    @abstractmethod
     def toJSON(self) -> str:
-        pass
+        return json.dumps(self.__getstate__(), sort_keys=True, indent=4)
 
     def set_type(self, room_type: RoomType) -> None:
         """
@@ -67,6 +62,10 @@ class Room(ABC):
         if len(self._doors) < MAX_DOOR_AMOUNT:
             self._doors.append(door_face)
 
-    @abstractmethod
-    def draw(self, screen):
-        pass
+    def __getstate__(self):
+        state = dict(self.__dict__)
+        doors = []
+        for door in self._doors:
+            doors.append(door.value)
+        state["_doors"] = doors
+        return state
