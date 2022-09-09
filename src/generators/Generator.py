@@ -1,40 +1,28 @@
 import math
 import random
-import Globals
-from Globals import Color, RoomType, Directions
-from floors.PygameFloor import PygameFloor
-import pygame
-from rooms.PygameNormalRoom import PygameNormalRoom
 from collections import deque
 
-MAX_ROOMS: int = 15
-SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
-MIN_DISTANCE = 4
+from Globals import RoomType, Directions
+import Globals
+from floors.Floor import Floor
+from rooms.Room import Room
 
 
 class Generator:
-    def __init__(self, seed: str, output_file: str, ui: bool):
-        """
-        Creates a new generator.
-        :param seed: seed for the random generator
-        :param output_file: file to save the floor to
-        :param ui: whether to show the floor or not
-        """
-        if ui:
-            self.screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
-            self.clock = pygame.time.Clock()
-        self._stage_id = 2
-        self._number_of_rooms: int
+
+    def __init__(self, seed: str, output_file: str, stage_id: int = 2):
+        self._stage_id = stage_id
         self._seed = seed
         self._output_file = output_file
-        self._floors = deque()
-        self._current_floor = -1
-        random.seed(seed)
+        self._floor = Floor(Globals.width, Globals.height)
 
     def toJSON(self):
         j = "{\n" + '"seed": "' + self._seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
-            str(Globals.height) + ',\n"floor": ' + self._floors[self._current_floor].toJSON() + "\n}"
+            str(Globals.height) + ',\n"floor": ' + self._floor.toJSON() + "\n}"
         return j
+
+    def _create_floor(self):
+        self._floor = Floor(Globals.height, Globals.width)
 
     def get_room_amount(self) -> int:
         """
@@ -43,16 +31,33 @@ class Generator:
         """
         if self._stage_id == -1:
             self._stage_id = 1
-        return min(MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(self._stage_id * 10) / 3.0))
+        return min(Globals.MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(self._stage_id * 10) / 3.0))
+
+    def _append_and_add_to_floor_grid(self, room_queue, room, direction):
+        floor = self._floor
+        room_to_add: tuple
+        if direction == Directions.UP:
+            room_to_add = (room[0], room[1] - 1)
+        elif direction == Directions.DOWN:
+            room_to_add = (room[0], room[1] + 1)
+        elif direction == Directions.LEFT:
+            room_to_add = (room[0] - 1, room[1])
+        elif direction == Directions.RIGHT:
+            room_to_add = (room[0] + 1, room[1])
+        else:
+            raise ValueError(direction + "is not a valid direction!")
+        room_queue.append(room_to_add)
+        floor.add_to_floor_grid(room_to_add[0], room_to_add[1])
+
+    def _place_room(self) -> bool:
+        return random.randint(1, 2) == 2
 
     def generate(self) -> None:
         """
         Generates the rooms for the floor.
         """
-
-        self._floors.append(PygameFloor(Globals.height, Globals.width))
-        self._current_floor = len(self._floors) - 1
-        floor = self._floors[self._current_floor]
+        self._create_floor()
+        floor = self._floor
 
         number_of_rooms = self.get_room_amount()
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
@@ -117,32 +122,13 @@ class Generator:
         self.add_special_rooms(dead_ends)
         floor.add_doors_to_rooms()
 
-    def _place_room(self) -> bool:
-        return random.randint(1, 2) == 2
-
-    def _append_and_add_to_floor_grid(self, room_queue, room, direction):
-        floor = self._floors[self._current_floor]
-        room_to_add: tuple
-        if direction == Directions.UP:
-            room_to_add = (room[0], room[1] - 1)
-        elif direction == Directions.DOWN:
-            room_to_add = (room[0], room[1] + 1)
-        elif direction == Directions.LEFT:
-            room_to_add = (room[0] - 1, room[1])
-        elif direction == Directions.RIGHT:
-            room_to_add = (room[0] + 1, room[1])
-        else:
-            raise ValueError(direction + "is not a valid direction!")
-        room_queue.append(room_to_add)
-        floor.add_to_floor_grid(room_to_add[0], room_to_add[1])
-
     def mark_dead_ends(self) -> list:
         """
         Searches for dead ends in the floor and marks them ands returns their indices in a list.
         :return: indices of all dead ends
         """
         dead_end_indices = []
-        floor = self._floors[self._current_floor]
+        floor = self._floor
         i = 0
         while i < len(floor.get_rooms()):
             room = floor.get_rooms()[i]
@@ -153,26 +139,31 @@ class Generator:
             i += 1
         return dead_end_indices
 
+    def _add_rooms_next_to_room(self, room, directions):
+        floor = self._floor
+        for direction in directions:
+            floor.add_room_next_to(room, direction, RoomType.BOSS_ROOM)
+
     def add_boss_room(self, dead_end_indices: list, start_room: tuple) -> None:
         """
         Marks a room as the boss room depending on the location of the start room.
         :param dead_end_indices: indices for all dead ends
         :param start_room: coordinates of the start room in a tuple
         """
-        floor = self._floors[self._current_floor]
-        boss_room: PygameNormalRoom = None
-        boss_room_index: int = None
+        floor = self._floor
+        boss_room: Room
+        boss_room_index: int = -1
         boss_room_x: int
         boss_room_y: int
         possible_locations: list = []
 
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            if (abs(start_room[0] - dead_end.get_x()) >= MIN_DISTANCE) and (
-                    abs(start_room[1] - dead_end.get_y()) >= MIN_DISTANCE):
+            if (abs(start_room[0] - dead_end.get_x()) >= Globals.MIN_DISTANCE) and (
+                    abs(start_room[1] - dead_end.get_y()) >= Globals.MIN_DISTANCE):
                 boss_room = dead_end
                 boss_room_index = index
-        if boss_room is None:
+        if boss_room_index == -1:
             boss_room = floor.get_rooms()[dead_end_indices[0]]
             boss_room_index = dead_end_indices[0]
 
@@ -228,45 +219,16 @@ class Generator:
         boss_room.set_type(RoomType.BOSS_ROOM)
         dead_end_indices.remove(boss_room_index)
 
-    def _add_rooms_next_to_room(self, room, directions):
-        floor = self._floors[self._current_floor]
-        for direction in directions:
-            floor.add_room_next_to(room, direction, RoomType.BOSS_ROOM)
-
     def add_special_rooms(self, dead_ends: list) -> None:
         """
         Places the special rooms on the floor
         :param dead_ends: indices of all dead ends
         """
-        floor = self._floors[self._current_floor]
+        floor = self._floor
         i = 0
-        while i < len(SPECIAL_ROOMS) and i < len(dead_ends):
-            floor.get_rooms()[dead_ends[i]].set_type(SPECIAL_ROOMS[i])
+        while i < len(Globals.SPECIAL_ROOMS) and i < len(dead_ends):
+            floor.get_rooms()[dead_ends[i]].set_type(Globals.SPECIAL_ROOMS[i])
             i += 1
-
-    def run(self):
-        active: bool = True
-        self.generate()
-        while active:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    active = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
-                        self.save()
-                    if event.key == pygame.K_LEFT:
-                        if self._current_floor > 0:
-                            self._current_floor -= 1
-                    if event.key == pygame.K_RIGHT:
-                        if self._current_floor < len(self._floors) - 1:
-                            self._current_floor += 1
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.generate()
-            self.screen.fill(Color.WHITE.value)
-            self._floors[self._current_floor].draw(self.screen)
-            pygame.display.flip()
-            self.clock.tick(5)
 
     def save(self):
         f = open(self._output_file, "w")
