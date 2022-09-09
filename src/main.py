@@ -1,4 +1,4 @@
-from Generator import Generator
+from generators.Generator import Generator
 import sys
 import secrets
 
