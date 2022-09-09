@@ -7,6 +7,8 @@ window_multiplier: float = 2
 
 width: int = 9
 height: int = 8
+MAX_ROOMS: int = 15
+MIN_DISTANCE = 4
 
 window_height = height * room_height * window_multiplier
 window_width = width * room_width * window_multiplier
@@ -71,3 +73,5 @@ Room_Colors = {
     RoomType.BOSS_TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED
 }
+
+SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
