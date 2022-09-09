@@ -1,8 +1,8 @@
 import numpy as np
 
 from Globals import Color, RoomType, Directions, DoorFace
-from rooms.PygameNormalRoom import PygameNormalRoom
-from rooms.PygameTeleportRoom import PygameTeleportRoom
+from rooms.Room import Room
+from rooms.TeleportRoom import TeleportRoom
 
 
 class Floor:
@@ -51,10 +51,10 @@ class Floor:
         :param y: y coordinate of the room
         :param room_type: type of the room (default = normal room)
         """
-        self._rooms.append(PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(Room(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: PygameNormalRoom, direction: Directions, room_type: RoomType) -> None:
+    def add_room_next_to(self, room: Room, direction: Directions, room_type: RoomType) -> None:
         """
         Creates and adds a room next to a given room.
         :param room: room where the new room is placed next to
@@ -78,14 +78,13 @@ class Floor:
         elif direction == Directions.DOWN_LEFT:
             self.add_room(room.get_x() - 1, room.get_y() + 1, room_type)
 
-    def add_teleport_room(self, room: PygameNormalRoom, color=Color.DARK_GRAY) -> None:
+    def add_teleport_room(self, room: Room) -> None:
         """
         Creates and adds a new Teleport room to the floor.
         :param room: Room which is connected to the teleport room.
         :param color: color for the room (default = gray)
         """
-        t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), color=color, room_id=self._room_id,
-                                    room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
+        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id, teleport_room=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 
