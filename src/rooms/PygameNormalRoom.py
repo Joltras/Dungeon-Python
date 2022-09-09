@@ -7,7 +7,6 @@ from Globals import Color, DoorFace, RoomType
 from rooms.Room import Room
 
 
-
 class PygameNormalRoom(Room):
 
     def __init__(self, x: int, y: int, color: Color, room_id: int, room_type: RoomType, width=Globals.room_width,
@@ -44,8 +43,8 @@ class PygameNormalRoom(Room):
         Creates a json string for the room object.
         :return: json string
         """
-        return json.dumps(self.__getstate__(), sort_keys=True, indent=4)
-
+        json_string = json.dumps(self.__getstate__(), sort_keys=True, indent=4)
+        return json_string
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -54,7 +53,7 @@ class PygameNormalRoom(Room):
         """
         pygame.draw.rect(screen, self._color.value, self._rect)
 
-    def draw_doors(self, screen: pygame.Surface, door_color = Globals.DOOR_COLOR) -> None:
+    def draw_doors(self, screen: pygame.Surface, door_color=Globals.DOOR_COLOR) -> None:
         """
         Draws all the doors of the room on the given screen.
         :param screen: screen to draw on
@@ -81,7 +80,6 @@ class PygameNormalRoom(Room):
                                  (self._rect.left + Globals.room_width / 4 * 3, self._rect.top + Globals.room_height),
                                  Globals.LINE_THICKNESS)
 
-
     def get_color(self) -> Color:
         """
         Returns the color of a room.
@@ -103,7 +101,6 @@ class PygameNormalRoom(Room):
         """
         return self._rect
 
-
     def set_cord(self, x: int, y: int) -> None:
         """
         Sets the coordinates of a room.
@@ -115,7 +112,3 @@ class PygameNormalRoom(Room):
         self._rect = pygame.Rect(self._x * Globals.room_width + Globals.floor_plan_coordinates[1],
                                  self._y * Globals.room_height + Globals.floor_plan_coordinates[0],
                                  Globals.room_width, Globals.room_height)
-
-
-
-
