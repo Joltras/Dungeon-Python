@@ -2,18 +2,12 @@ import math
 import random
 import Globals
 from Globals import Color, RoomType, Directions
-from Floor import Floor
+from floors.PygameFloor import PygameFloor
 import pygame
 from rooms.PygameNormalRoom import PygameNormalRoom
 from collections import deque
 
 MAX_ROOMS: int = 15
-NORMAL_ROOM_COLOR = Color.VIOLET
-START_ROOM_COLOR = Color.ORANGE
-BOSS_ROOM_COLOR = Color.RED
-ITEM_ROOM_COLOR = Color.GREEN
-SHOP_ROOM_COLOR = Color.YELLOW
-TELEPORT_ROOM_COLOR = Color.GRAY
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 MIN_DISTANCE = 4
 
@@ -56,13 +50,13 @@ class Generator:
         Generates the rooms for the floor.
         """
 
-        self._floors.append(Floor(Globals.height, Globals.width))
+        self._floors.append(PygameFloor(Globals.height, Globals.width))
         self._current_floor = len(self._floors) - 1
         floor = self._floors[self._current_floor]
 
         number_of_rooms = self.get_room_amount()
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
-        floor.add_room(start_room[0], start_room[1], START_ROOM_COLOR, RoomType.START_ROOM)
+        floor.add_room(start_room[0], start_room[1], RoomType.START_ROOM)
         floor.add_to_floor_grid(start_room[0], start_room[1])
         number_of_current_rooms = 1
 
@@ -116,7 +110,7 @@ class Generator:
         room_queue.remove(start_room)
         while len(room_queue) > 0:
             room = room_queue.pop()
-            floor.add_room(room[0], room[1], NORMAL_ROOM_COLOR)
+            floor.add_room(room[0], room[1])
 
         dead_ends = self.mark_dead_ends()
         self.add_boss_room(dead_ends, start_room)
@@ -229,16 +223,15 @@ class Generator:
 
         else:
             # Create a 2 * 2 boss-room
-            floor.add_room_next_to(boss_room, possible_locations[0], BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            floor.add_room_next_to(boss_room, possible_locations[0], RoomType.BOSS_ROOM)
 
         boss_room.set_type(RoomType.BOSS_ROOM)
-        boss_room.set_color(BOSS_ROOM_COLOR)
         dead_end_indices.remove(boss_room_index)
 
     def _add_rooms_next_to_room(self, room, directions):
         floor = self._floors[self._current_floor]
         for direction in directions:
-            floor.add_room_next_to(room, direction, BOSS_ROOM_COLOR, RoomType.BOSS_ROOM)
+            floor.add_room_next_to(room, direction, RoomType.BOSS_ROOM)
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
@@ -249,10 +242,6 @@ class Generator:
         i = 0
         while i < len(SPECIAL_ROOMS) and i < len(dead_ends):
             floor.get_rooms()[dead_ends[i]].set_type(SPECIAL_ROOMS[i])
-            if SPECIAL_ROOMS[i] == RoomType.SHOP_ROOM:
-                floor.get_rooms()[dead_ends[i]].set_color(SHOP_ROOM_COLOR)
-            elif SPECIAL_ROOMS[i] == RoomType.ITEM_ROOM:
-                floor.get_rooms()[dead_ends[i]].set_color(ITEM_ROOM_COLOR)
             i += 1
 
     def run(self):
@@ -263,14 +252,14 @@ class Generator:
                 if event.type == pygame.QUIT:
                     active = False
                 if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_s:
-                            self.save()
-                        if event.key == pygame.K_LEFT:
-                            if self._current_floor > 0:
-                                self._current_floor -= 1
-                        if event.key == pygame.K_RIGHT:
-                            if self._current_floor < len(self._floors) - 1:
-                                self._current_floor += 1
+                    if event.key == pygame.K_s:
+                        self.save()
+                    if event.key == pygame.K_LEFT:
+                        if self._current_floor > 0:
+                            self._current_floor -= 1
+                    if event.key == pygame.K_RIGHT:
+                        if self._current_floor < len(self._floors) - 1:
+                            self._current_floor += 1
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.generate()
