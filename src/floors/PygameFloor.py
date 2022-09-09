@@ -1,12 +1,7 @@
-import json
-
 import pygame
 import Globals as Globals
-from Globals import Color, RoomType, DoorFace, Directions
+from Globals import Color
 from floors.Floor import Floor
-from rooms.PygameNormalRoom import PygameNormalRoom
-import numpy as np
-from rooms.PygameTeleportRoom import PygameTeleportRoom
 
 
 class PygameFloor(Floor):
