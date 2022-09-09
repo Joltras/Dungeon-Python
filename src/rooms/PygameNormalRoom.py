@@ -3,33 +3,30 @@ import json
 import pygame
 
 import Globals
-from Globals import Color, DoorFace, RoomType
+from Globals import DoorFace, RoomType
 from rooms.Room import Room
 
 
 class PygameNormalRoom(Room):
 
-    def __init__(self, x: int, y: int, color: Color, room_id: int, room_type: RoomType, width=Globals.room_width,
+    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=Globals.room_width,
                  height=Globals.room_height):
         """
         Creates a new room with the given arguments.
         :param x: x coordinate of the room
         :param y: y coordinate of the room
-        :param color: color for the room
         :param room_id: id of the room
         :param room_type: type of room
         :param width: room width
         :param height: room height
         """
         super().__init__(x, y, room_id, room_type)
-        self._color = color
         self._rect = pygame.Rect(self._x * Globals.room_width + Globals.x_offset,
                                  self._y * Globals.room_height + Globals.y_offset,
                                  width, height)
 
     def __getstate__(self):
         state = dict(self.__dict__)
-        del state["_color"]
         del state["_rect"]
         doors = []
         for door in self._doors:
@@ -51,14 +48,15 @@ class PygameNormalRoom(Room):
         Draws the room on the screen.
         :param screen: screen to draw on
         """
-        pygame.draw.rect(screen, self._color.value, self._rect)
+        color = Globals.Room_Colors[self._room_type]
+        pygame.draw.rect(screen, color.value, self._rect)
 
-    def draw_doors(self, screen: pygame.Surface, door_color=Globals.DOOR_COLOR) -> None:
+    def draw_doors(self, screen: pygame.Surface) -> None:
         """
         Draws all the doors of the room on the given screen.
         :param screen: screen to draw on
         """
-
+        door_color = Globals.DOOR_COLOR
         for door in self._doors:
             if door == DoorFace.WEST:
                 pygame.draw.line(screen, door_color.value,
@@ -79,20 +77,6 @@ class PygameNormalRoom(Room):
                                  (self._rect.left + Globals.room_width / 4, self._rect.top + Globals.room_height),
                                  (self._rect.left + Globals.room_width / 4 * 3, self._rect.top + Globals.room_height),
                                  Globals.LINE_THICKNESS)
-
-    def get_color(self) -> Color:
-        """
-        Returns the color of a room.
-        :return: color
-        """
-        return self._color
-
-    def set_color(self, color: Color) -> None:
-        """
-        Sets the color of a room.
-        :param color: new color for the room
-        """
-        self._color = color
 
     def get_rect(self) -> pygame.Rect:
         """
