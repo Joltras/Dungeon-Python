@@ -1,7 +1,10 @@
 import pygame
 import Globals as Globals
-from Globals import Color
+from Globals import Color, RoomType
 from floors.Floor import Floor
+from rooms.PygameNormalRoom import PygameNormalRoom
+from rooms.PygameTeleportRoom import PygameTeleportRoom
+from rooms.Room import Room
 
 
 class PygameFloor(Floor):
@@ -50,6 +53,26 @@ class PygameFloor(Floor):
         for room in self._rooms:
             room.draw_doors(screen)
         pygame.draw.rect(screen, Color.DARK_GRAY.value, self._rect, 2)
+
+    def add_room(self, x: int, y: int, room_type=RoomType.NORMAL_ROOM):
+        """
+        Creates and adds a room to the floor.
+        :param x: x coordinate of the room
+        :param y: y coordinate of the room
+        :param room_type: type of the room (default = normal room)
+        """
+        self._rooms.append(PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
+        self._room_id += 1
+
+    def add_teleport_room(self, room: Room) -> None:
+        """
+        Creates and adds a new Teleport room to the floor.
+        :param room: Room which is connected to the teleport room.
+        """
+        t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id,
+                                    room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
+        self._rooms.append(t_room)
+        self._room_id += 1
 
 
 
