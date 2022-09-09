@@ -18,6 +18,23 @@ class Floor:
         del state['_room_id']
         return state
 
+    def toJSON(self):
+        """
+        Creates a json string for the current room object.
+        :return: json string
+        """
+        current_index: int = 0
+        max_index: int = len(self._rooms)
+        json_string = "{\n\"rooms\": ["
+        for room in self._rooms:
+            if current_index < max_index - 1:
+                json_string += room.toJSON() + ","
+            else:
+                json_string += room.toJSON()
+
+            current_index += 1
+        return json_string + "]\n}"
+
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
         Adds a room to the floor grid at the given location.
@@ -27,41 +44,39 @@ class Floor:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, color: Color = Color.VIOLET, room_type=RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, room_type=RoomType.NORMAL_ROOM):
         """
         Creates and adds a room to the floor.
         :param x: x coordinate of the room
         :param y: y coordinate of the room
-        :param color: color of the room (default = violet)
         :param room_type: type of the room (default = normal room)
         """
-        self._rooms.append(PygameNormalRoom(x=x, y=y, color=color, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: PygameNormalRoom, direction: Directions, color: Color, room_type: RoomType) -> None:
+    def add_room_next_to(self, room: PygameNormalRoom, direction: Directions, room_type: RoomType) -> None:
         """
         Creates and adds a room next to a given room.
         :param room: room where the new room is placed next to
         :param direction: direction in which the new room is placed
-        :param color: color for the room
         :param room_type: type for the room
         """
         if direction == Directions.UP:
-            self.add_room(room.get_x(), room.get_y() - 1, color, room_type)
+            self.add_room(room.get_x(), room.get_y() - 1, room_type)
         elif direction == Directions.DOWN:
-            self.add_room(room.get_x(), room.get_y() + 1, color, room_type)
+            self.add_room(room.get_x(), room.get_y() + 1, room_type)
         elif direction == Directions.LEFT:
-            self.add_room(room.get_x() - 1, room.get_y(), color, room_type)
+            self.add_room(room.get_x() - 1, room.get_y(), room_type)
         elif direction == Directions.RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y(), color, room_type)
+            self.add_room(room.get_x() + 1, room.get_y(), room_type)
         elif direction == Directions.UP_RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y() - 1, color, room_type)
+            self.add_room(room.get_x() + 1, room.get_y() - 1, room_type)
         elif direction == Directions.UP_LEFT:
-            self.add_room(room.get_x() - 1, room.get_y() - 1, color, room_type)
+            self.add_room(room.get_x() - 1, room.get_y() - 1, room_type)
         elif direction == Directions.DOWN_RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y() + 1, color, room_type)
+            self.add_room(room.get_x() + 1, room.get_y() + 1, room_type)
         elif direction == Directions.DOWN_LEFT:
-            self.add_room(room.get_x() - 1, room.get_y() + 1, color, room_type)
+            self.add_room(room.get_x() - 1, room.get_y() + 1, room_type)
 
     def add_teleport_room(self, room: PygameNormalRoom, color=Color.DARK_GRAY) -> None:
         """
