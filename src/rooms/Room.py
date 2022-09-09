@@ -12,6 +12,15 @@ class Room:
         self._room_type = room_type
         self._doors = []
 
+    def __getstate__(self):
+        state = dict(self.__dict__)
+        doors = []
+        for door in self._doors:
+            doors.append(door.value)
+        state["_doors"] = doors
+        state["_room_type"] = self._room_type.value
+        return state
+
     def toJSON(self) -> str:
         return json.dumps(self.__getstate__(), sort_keys=True, indent=4)
 
@@ -62,10 +71,5 @@ class Room:
         if len(self._doors) < MAX_DOOR_AMOUNT:
             self._doors.append(door_face)
 
-    def __getstate__(self):
-        state = dict(self.__dict__)
-        doors = []
-        for door in self._doors:
-            doors.append(door.value)
-        state["_doors"] = doors
-        return state
+
+
