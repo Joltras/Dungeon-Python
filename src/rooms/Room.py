@@ -12,6 +12,13 @@ class Room:
         self._room_type = room_type
         self._doors = []
 
+    def __eq__(self, other):
+        are_equal = False
+        if isinstance(other, Room):
+            if other._x == self._x and other._y == self._y and other._room_type == self._room_type and self._id == other._id:
+                are_equal = True
+        return are_equal
+
     def __getstate__(self):
         state = dict(self.__dict__)
         doors = []
