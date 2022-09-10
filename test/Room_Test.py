@@ -1,16 +1,13 @@
 import unittest
 
-from pygame import Rect
-
-import Globals
-from Globals import Color, RoomType, DoorFace
-from rooms.PygameNormalRoom import PygameNormalRoom
+from Globals import RoomType, DoorFace
+from rooms.Room import Room
 
 
 class MyTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
-        self._room = PygameNormalRoom(10, 20, 1, RoomType.NORMAL_ROOM)
+        self._room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
 
     def test_to_json(self):
         ecpected = \
@@ -22,6 +19,9 @@ class MyTestCase(unittest.TestCase):
     "_y": 20
 }"""
         self.assertEqual(ecpected, self._room.toJSON())
+
+    def test_get_doors(self):
+        self.assertEqual([], self._room.get_doors())
 
     def test_add_door(self):
         self._room.add_door(DoorFace.TOP)
@@ -42,16 +42,28 @@ class MyTestCase(unittest.TestCase):
     def test_get_y(self):
         self.assertEqual(20, self._room.get_y())
 
-    def test_get_color(self):
-        self.assertEqual(Color.ORANGE, self._room.get_color())
-
-    def test_get_rect(self):
-        expected = Rect(10 * Globals.room_width + Globals.x_offset, 20 * Globals.room_height + Globals.y_offset,
-                        Globals.room_width, Globals.room_height)
-        self.assertEqual(expected, self._room.get_rect())
-
     def test_get_id(self):
         self.assertEqual(1, self._room.get_id())
+
+    def test_get_room_type(self):
+        self.assertEqual(RoomType.NORMAL_ROOM, self._room.get_type())
+
+    def test_set_type(self):
+        self._room.set_type(RoomType.BOSS_ROOM)
+        self.assertEqual(RoomType.BOSS_ROOM, self._room.get_type())
+
+    def test_set_cord(self):
+        self._room.set_cord(50, 20)
+        self.assertEqual(50, self._room.get_x())
+        self.assertEqual(20, self._room.get_y())
+
+    def test_eql(self):
+        room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
+        self.assertTrue(room == self._room)
+
+    def test_eql_false(self):
+        room = Room(10, 30, 1, RoomType.NORMAL_ROOM)
+        self.assertFalse(room == self._room)
 
 
 if __name__ == '__main__':
