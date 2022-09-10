@@ -7,7 +7,7 @@ from collections import deque
 
 
 class PygameGenerator(Generator):
-    def __init__(self, seed: str, output_file: str, stage_id:int = 2):
+    def __init__(self, seed: str, output_file: str, stage_id: int = 2):
         """
         Creates a new generator.
         :param seed: seed for the random generator
@@ -54,5 +54,3 @@ class PygameGenerator(Generator):
             self._floors[self._current_floor].draw(self.screen)
             pygame.display.flip()
             self.clock.tick(5)
-
-
