@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
     "_x": 10,
     "_y": 20
 }"""
-        self.assertEqual(ecpected, self._room.toJSON())
+        self.assertEqual(ecpected, self._room.to_json())
 
     def test_get_doors(self):
         self.assertEqual([], self._room.get_doors())

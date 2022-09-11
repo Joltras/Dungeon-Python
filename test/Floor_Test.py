@@ -1,5 +1,7 @@
 import unittest
 
+import numpy as np
+
 from Globals import RoomType, DoorFace
 from floors.Floor import Floor
 from rooms.Room import Room
@@ -17,7 +19,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_to_json(self):
         expected = "{\n\"rooms\": []\n}"
-        self.assertEqual(expected, self._floor.toJSON())
+        self.assertEqual(expected, self._floor.to_json())
 
     def test_contains_room(self):
         self.assertFalse(self._floor.contains_room(1, 1))
@@ -38,6 +40,9 @@ class MyTestCase(unittest.TestCase):
                  Room(5, 5, 3, RoomType.NORMAL_ROOM)]
         self.assertEqual(rooms, self._floor_with_rooms.get_rooms())
 
+    def test_get_rooms2(self):
+        self.assertEqual([], self._floor.get_rooms())
+
     def test_add_doors(self):
         self._floor_with_rooms.add_doors_to_rooms()
         self.assertEqual([DoorFace.EAST, DoorFace.WEST], self._floor_with_rooms.get_rooms()[0].get_doors())
@@ -51,6 +56,15 @@ class MyTestCase(unittest.TestCase):
 
     def test_count_neighbours2(self):
         self.assertEqual(0, self._floor_with_rooms.count_neighbours(5, 5))
+
+    def test_is_dead_end(self):
+        self.assertTrue(self._floor_with_rooms.is_dead_end(1, 2))
+
+    def test_is_dead_end_false(self):
+        self.assertFalse(self._floor_with_rooms.is_dead_end(2, 2))
+
+    def test_add_teleport_room(self):
+        self._floor.add_teleport_room()
 
 
 
