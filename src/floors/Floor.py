@@ -6,8 +6,17 @@ from rooms.TeleportRoom import TeleportRoom
 
 
 class Floor:
+    """
+    Objects of this class are representing floors.
+    A floor manges the creation of rooms and contains them.
+    """
 
     def __init__(self, height: int, width: int):
+        """
+        Creates a new floor with the given width and height.
+        :param height: height for the floor
+        :param width: width for the floor
+        """
         self._rooms = []
         self._floor_grid = np.zeros((height, width))
         self._room_id = 0
@@ -18,7 +27,7 @@ class Floor:
         del state['_room_id']
         return state
 
-    def toJSON(self):
+    def to_json(self):
         """
         Creates a json string for the current room object.
         :return: json string
@@ -28,9 +37,9 @@ class Floor:
         json_string = "{\n\"rooms\": ["
         for room in self._rooms:
             if current_index < max_index - 1:
-                json_string += room.toJSON() + ","
+                json_string += room.to_json() + ","
             else:
-                json_string += room.toJSON()
+                json_string += room.to_json()
 
             current_index += 1
         return json_string + "]\n}"
@@ -40,11 +49,10 @@ class Floor:
         Adds a room to the floor grid at the given location.
         :param x: x coordinate of the room
         :param y: y coordinate of the room
-        :return:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM) -> None:
         """
         Creates and adds a room to the floor.
         :param x: x coordinate of the room
@@ -82,10 +90,10 @@ class Floor:
     def add_teleport_room(self, room: Room) -> None:
         """
         Creates and adds a new Teleport room to the floor.
+        The new teleport room is placed at the position from the given room.
         :param room: Room which is connected to the teleport room.
-        :param color: color for the room (default = gray)
         """
-        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id, teleport_room=room.get_id())
+        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id, teleport_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 

@@ -28,7 +28,11 @@ class Room:
         state["_room_type"] = self._room_type.value
         return state
 
-    def toJSON(self) -> str:
+    def to_json(self) -> str:
+        """
+        Creates a json representation of the room object.
+        :return: json string
+        """
         return json.dumps(self.__getstate__(), sort_keys=True, indent=4)
 
     def set_type(self, room_type: RoomType) -> None:
@@ -38,7 +42,11 @@ class Room:
         """
         self._room_type = room_type
 
-    def get_type(self):
+    def get_type(self) -> RoomType:
+        """
+        Returns the type of the room.
+        :return: type
+        """
         return self._room_type
 
     def get_x(self) -> int:
@@ -71,10 +79,18 @@ class Room:
         self._x = x
         self._y = y
 
-    def get_doors(self):
+    def get_doors(self) -> list:
+        """
+        Returns a list of all doors
+        :return: list of doors
+        """
         return self._doors
 
-    def add_door(self, door_face: DoorFace):
+    def add_door(self, door_face: DoorFace) -> None:
+        """
+        Adds a door at the given location to the room.
+        :param door_face: position to place the door
+        """
         if len(self._doors) < MAX_DOOR_AMOUNT:
             self._doors.append(door_face)
 

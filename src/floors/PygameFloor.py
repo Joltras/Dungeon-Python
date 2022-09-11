@@ -8,6 +8,9 @@ from rooms.Room import Room
 
 
 class PygameFloor(Floor):
+    """
+    A pygame version of the floor.
+    """
 
     def __init__(self, height: int, width: int):
         """
@@ -26,7 +29,7 @@ class PygameFloor(Floor):
         del state['_room_id']
         return state
 
-    def toJSON(self):
+    def to_json(self):
         """
         Creates a json string for the current room object.
         :return: json string
@@ -36,9 +39,9 @@ class PygameFloor(Floor):
         json_string = "{\n\"rooms\": ["
         for room in self._rooms:
             if current_index < max_index - 1:
-                json_string += room.toJSON() + ","
+                json_string += room.to_json() + ","
             else:
-                json_string += room.toJSON()
+                json_string += room.to_json()
 
             current_index += 1
         return json_string + "]\n}"
@@ -68,6 +71,7 @@ class PygameFloor(Floor):
     def add_teleport_room(self, room: Room) -> None:
         """
         Creates and adds a new Teleport room to the floor.
+        New teleport room is placed at the location from the given room.
         :param room: Room which is connected to the teleport room.
         """
         t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id,

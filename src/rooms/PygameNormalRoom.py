@@ -8,6 +8,9 @@ from rooms.Room import Room
 
 
 class PygameNormalRoom(Room):
+    """
+    Pygame version of room.
+    """
 
     def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=Globals.room_width,
                  height=Globals.room_height):
@@ -35,7 +38,7 @@ class PygameNormalRoom(Room):
         state["_room_type"] = self._room_type.value
         return state
 
-    def toJSON(self) -> str:
+    def to_json(self) -> str:
         """
         Creates a json string for the room object.
         :return: json string

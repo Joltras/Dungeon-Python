@@ -22,7 +22,7 @@ class PygameGenerator(Generator):
 
     def toJSON(self):
         j = "{\n" + '"seed": "' + self._seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
-            str(Globals.height) + ',\n"floor": ' + self._floors[self._current_floor].toJSON() + "\n}"
+            str(Globals.height) + ',\n"floor": ' + self._floors[self._current_floor].to_json() + "\n}"
         return j
 
     def _create_floor(self):
