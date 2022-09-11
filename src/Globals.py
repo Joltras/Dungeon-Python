@@ -7,11 +7,18 @@ window_multiplier: float = 2
 
 width: int = 9
 height: int = 8
+MAX_ROOMS: int = 15
+MIN_DISTANCE = 4
 
 window_height = height * room_height * window_multiplier
 window_width = width * room_width * window_multiplier
 
 floor_plan_coordinates = ((height * room_height) / 2, (width * room_width) / 2)
+x_offset = (width * room_width) / 2
+y_offset = (height * room_height) / 2
+
+MAX_DOOR_AMOUNT: int = 4
+LINE_THICKNESS = 5
 
 
 class Directions(Enum):
@@ -54,3 +61,17 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
+
+
+DOOR_COLOR = Color.BLACK
+Room_Colors = {
+    RoomType.NORMAL_ROOM: Color.VIOLET,
+    RoomType.DEAD_END: Color.VIOLET,
+    RoomType.ITEM_ROOM: Color.GREEN,
+    RoomType.SHOP_ROOM: Color.YELLOW,
+    RoomType.START_ROOM: Color.ORANGE,
+    RoomType.BOSS_TELEPORT_ROOM: Color.GRAY,
+    RoomType.BOSS_ROOM: Color.RED
+}
+
+SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)

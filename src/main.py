@@ -1,4 +1,5 @@
-from Generator import Generator
+from generators.Generator import Generator
+from generators.PygameGenerator import PygameGenerator
 import sys
 import secrets
 
@@ -10,10 +11,11 @@ Options:
     -u, --ui: Enables the UI, default is disabled."""
 
 def main(seed: str, output: str, ui: bool):
-    generator = Generator(seed, output, ui)
     if ui:
+        generator = PygameGenerator(seed, output)
         generator.run()
     else:
+        generator = Generator(seed, output)
         generator.generate()
         generator.save()
         print("Floor saved to " + output)
