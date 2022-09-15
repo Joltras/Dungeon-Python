@@ -188,6 +188,7 @@ class Generator:
         boss_room_x: int
         boss_room_y: int
         possible_locations: list = []
+        boss_room_placed = False
 
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
@@ -220,36 +221,58 @@ class Generator:
 
         if len(possible_locations) == 0:
             # Place a teleport-room to the boss-room
-            floor.add_teleport_room(boss_room)
-            if not (floor.contains_room(0, 0)):
-                boss_room.set_cord(0, 0)
-            elif not (floor.contains_room(0, Globals.height - 1)):
-                boss_room.set_cord(0, Globals.height - 1)
-            elif not (floor.contains_room(Globals.width - 1, Globals.height - 1)):
-                boss_room.set_cord(Globals.width - 1, Globals.height - 1)
-            elif not (floor.contains_room(Globals.width - 1, 0)):
-                boss_room.set_cord(Globals.width - 1, 0)
+            self._place_boss_with_teleport_room(boss_room)
+            boss_room_placed = True
 
         elif len(possible_locations) >= 2:
             # Create a 4 * 4 boss-room
-            if Directions.UP in possible_locations and Directions.RIGHT in possible_locations:
-                self._add_rooms_next_to_room(boss_room, [Directions.UP, Directions.RIGHT, Directions.UP_RIGHT])
+            boss_room_placed = self._place_big_boss_room(possible_locations, boss_room)
 
-            elif Directions.UP in possible_locations and Directions.LEFT in possible_locations:
-                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.UP, Directions.UP_LEFT])
-
-            elif Directions.DOWN in possible_locations and Directions.RIGHT in possible_locations:
-                self._add_rooms_next_to_room(boss_room, [Directions.DOWN, Directions.RIGHT, Directions.DOWN_RIGHT])
-
-            elif Directions.DOWN in possible_locations and Directions.LEFT in possible_locations:
-                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.DOWN, Directions.DOWN_LEFT])
-
-        else:
+        if not boss_room_placed:
             # Create a 2 * 2 boss-room
             floor.add_room_next_to(boss_room, possible_locations[0], RoomType.BOSS_ROOM)
 
         boss_room.set_type(RoomType.BOSS_ROOM)
         dead_end_indices.remove(boss_room_index)
+
+    def _place_big_boss_room(self, possible_locations, boss_room):
+        if Directions.UP in possible_locations and Directions.RIGHT in possible_locations:
+            if self._floor.has_no_neighbours(boss_room[0] + 1, boss_room[1] - 1):
+                self._add_rooms_next_to_room(boss_room, [Directions.UP, Directions.RIGHT, Directions.UP_RIGHT])
+                return True
+
+        if Directions.UP in possible_locations and Directions.LEFT in possible_locations:
+            if self._floor.has_no_neighbours(boss_room[0] - 1, boss_room[1] - 1):
+                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.UP, Directions.UP_LEFT])
+                return True
+
+        if Directions.DOWN in possible_locations and Directions.RIGHT in possible_locations:
+            if self._floor.has_no_neighbours(boss_room[0] + 1, boss_room[1] + 1):
+                self._add_rooms_next_to_room(boss_room, [Directions.DOWN, Directions.RIGHT, Directions.DOWN_RIGHT])
+                return True
+
+        if Directions.DOWN in possible_locations and Directions.LEFT in possible_locations:
+            if self._floor.has_no_neighbours(boss_room[0] - 1, boss_room[1] + 1):
+                self._add_rooms_next_to_room(boss_room, [Directions.LEFT, Directions.DOWN, Directions.DOWN_LEFT])
+                return True
+        return False
+
+    def _place_boss_with_teleport_room(self, boss_room) -> None:
+        """
+        Searches for a free places in the corners of the floor to replace the boss room.
+        :param boss_room: boss room to replace
+        """
+        floor = self._floor
+        floor.add_teleport_room(boss_room)
+        if not (floor.contains_room(0, 0)) and floor.has_no_neighbours(0, 0):
+            boss_room.set_cord(0, 0)
+        elif not (floor.contains_room(0, Globals.height - 1)) and floor.has_no_neighbours(0, Globals.height -1):
+            boss_room.set_cord(0, Globals.height - 1)
+        elif not (floor.contains_room(Globals.width - 1, Globals.height - 1)) and floor.has_no_neighbours(Globals.width -1, Globals.height -1):
+            boss_room.set_cord(Globals.width - 1, Globals.height - 1)
+        elif not (floor.contains_room(Globals.width - 1, 0)) and floor.has_no_neighbours(Globals.width - 1, 0):
+            boss_room.set_cord(Globals.width - 1, 0)
+
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
