@@ -9,19 +9,36 @@ from rooms.Room import Room
 
 
 class Generator:
+    """
+    Objects of this class are representing generators.
+    They generate a Floor object that contains all rooms.
+    """
 
     def __init__(self, seed: str, output_file: str, stage_id: int = 2):
+        """
+        Creates a new generator with the given arguments.
+        :param seed: seed for generating the floor
+        :param output_file: file name for saving the result
+        :param stage_id: id for the floor
+        """
         self._stage_id = stage_id
         self._seed = seed
         self._output_file = output_file
         self._floor = Floor(Globals.width, Globals.height)
 
-    def toJSON(self):
+    def to_json(self) -> str:
+        """
+        Creates a string representation of the generator object.
+        :return: json string of the generator
+        """
         j = "{\n" + '"seed": "' + self._seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
             str(Globals.height) + ',\n"floor": ' + self._floor.to_json() + "\n}"
         return j
 
-    def _create_floor(self):
+    def _create_floor(self) -> None:
+        """
+        Creates a new floor.
+        """
         self._floor = Floor(Globals.height, Globals.width)
 
     def get_room_amount(self) -> int:
@@ -33,7 +50,13 @@ class Generator:
             self._stage_id = 1
         return min(Globals.MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(self._stage_id * 10) / 3.0))
 
-    def _append_and_add_to_floor_grid(self, room_queue, room, direction):
+    def _append_and_add_to_floor_grid(self, room_queue: deque, room: tuple, direction: Directions) -> None:
+        """
+        Appends a room in the given direction next to the given room and adds it to the floor grid.
+        :param room_queue: queue to add the new room
+        :param room: room which the new room should be placed next to
+        :param direction: direction for placing the room
+        """
         floor = self._floor
         room_to_add: tuple
         if direction == Directions.UP:
@@ -50,6 +73,10 @@ class Generator:
         floor.add_to_floor_grid(room_to_add[0], room_to_add[1])
 
     def _place_room(self) -> bool:
+        """
+        Checks if a new room should be placed.
+        :return: True when room should be placed otherwise False
+        """
         return random.randint(1, 2) == 2
 
     def generate(self) -> None:
@@ -139,7 +166,12 @@ class Generator:
             i += 1
         return dead_end_indices
 
-    def _add_rooms_next_to_room(self, room, directions):
+    def _add_rooms_next_to_room(self, room, directions) -> None:
+        """
+        Adds new boss rooms next to a given room.
+        :param room: new rooms will be placed next to this room
+        :param directions: directions in which the new boss rooms will be placed
+        """
         floor = self._floor
         for direction in directions:
             floor.add_room_next_to(room, direction, RoomType.BOSS_ROOM)
@@ -230,7 +262,10 @@ class Generator:
             floor.get_rooms()[dead_ends[i]].set_type(Globals.SPECIAL_ROOMS[i])
             i += 1
 
-    def save(self):
+    def save(self) -> None:
+        """
+        Writes the generated floor in the output file.
+        """
         f = open(self._output_file, "w")
-        f.write(self.toJSON())
+        f.write(self.to_json())
         f.close()
