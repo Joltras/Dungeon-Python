@@ -12,6 +12,7 @@ Options:
     -f --floor: Sets the id for the floor, default is 0. (Must be 0 or greater)
     """
 
+
 def main(seed: str, output: str, ui: bool, floor_id):
     if ui:
         generator = PygameGenerator(seed, output, floor_id)
