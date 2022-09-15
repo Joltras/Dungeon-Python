@@ -8,14 +8,16 @@ Options:
     -h, --help: Prints this message.
     -s, --seed: Sets the seed for the random number generator.
     -o, --output: Sets the output file name, default is output.json.
-    -u, --ui: Enables the UI, default is disabled."""
+    -u, --ui: Enables the UI, default is disabled.
+    -f --floor: Sets the id for the floor, default is 0. (Must be 0 or greater)
+    """
 
-def main(seed: str, output: str, ui: bool):
+def main(seed: str, output: str, ui: bool, floor_id):
     if ui:
-        generator = PygameGenerator(seed, output)
+        generator = PygameGenerator(seed, output, floor_id)
         generator.run()
     else:
-        generator = Generator(seed, output)
+        generator = Generator(seed, output, floor_id)
         generator.generate()
         generator.save()
         print("Floor saved to " + output)
@@ -25,6 +27,7 @@ if __name__ == '__main__':
     seed: str = ""
     output: str = ""
     show_ui: bool = False
+    floor_id: int = 0
     i: int = 1
     while i < len(sys.argv):
         if sys.argv[i] == "-s" or sys.argv[i] == "--seed":
@@ -41,6 +44,20 @@ if __name__ == '__main__':
             if i + 1 < len(sys.argv):
                 output = sys.argv[i + 1]
                 i += 1
+        elif sys.argv[i] == "-f" or sys.argv[i] == "--floor":
+            if i + 1 < len(sys.argv):
+                try:
+                    floor_id = int(sys.argv[i + 1])
+                    i += 1
+                    if floor_id < 0:
+                        print("The floor id must be greater than 0!")
+                        exit(-1)
+                except ValueError:
+                    print(sys.argv[i + 1] + " is not a valid number!")
+                    exit(-1)
+        else:
+            print(sys.argv[i] + " is not a valid argument!")
+            exit(-1)
         i += 1
 
     if seed == "":
@@ -48,4 +65,4 @@ if __name__ == '__main__':
     if output == "":
         output = "output.json"
 
-    main(seed, output, show_ui)
+    main(seed, output, show_ui, floor_id)
