@@ -9,7 +9,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_to_json(self):
         expected = ""
-        self.assertEqual(expected, self._generator.toJSON())
+        self.assertEqual(expected, self._generator.to_json())
 
 
 if __name__ == '__main__':
