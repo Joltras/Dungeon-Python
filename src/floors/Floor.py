@@ -162,3 +162,13 @@ class Floor:
         :return: true if the room is a dead end otherwise false
         """
         return self.count_neighbours(x, y) == 1
+
+    def has_no_neighbours(self, x: int, y: int) -> bool:
+        """
+        Checks if they are zero neighbours at the given location.
+        :param x: x pos
+        :param y: y pos
+        :return: True if the location has zero neighbours otherwise False
+        """
+        return self.count_neighbours(x, y) == 0
+
