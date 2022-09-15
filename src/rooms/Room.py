@@ -12,6 +12,14 @@ class Room:
         self._room_type = room_type
         self._doors = []
 
+    def __getitem__(self, index: int) -> int:
+        if index < 0 or index > 1:
+            raise ValueError(str(index) + "is not a valid index")
+        if index == 0:
+            return self._x
+        if index == 1:
+            return self._y
+
     def __eq__(self, other):
         are_equal = False
         if isinstance(other, Room):
