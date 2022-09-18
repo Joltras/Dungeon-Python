@@ -1,6 +1,6 @@
 import numpy as np
 
-from Globals import Color, RoomType, Directions, DoorFace
+from Globals import RoomType, Directions, DoorFace
 from rooms.Room import Room
 from rooms.TeleportRoom import TeleportRoom
 
