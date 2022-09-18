@@ -1,3 +1,4 @@
+import os
 from enum import Enum
 
 room_width: int = 120
@@ -20,6 +21,7 @@ y_offset = (height * room_height) / 2
 MAX_DOOR_AMOUNT: int = 4
 LINE_THICKNESS = 5
 
+APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
 
 class Directions(Enum):
     UP = (0, -1)
