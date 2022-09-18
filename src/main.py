@@ -1,7 +1,10 @@
+import os.path
+
 from generators.Generator import Generator
 from generators.PygameGenerator import PygameGenerator
 import sys
 import secrets
+import Globals
 
 HELP_MESSAGE = """Creates a dungeon floor and saves it to a json file.
 Options:
@@ -12,8 +15,14 @@ Options:
     -f --floor: Sets the id for the floor, default is 0. (Must be 0 or greater)
     """
 
-
+# TODO: generate output file into the specific "output" folder
 def main(seed: str, output: str, ui: bool, floor_id):
+    output_folder = os.path.join(Globals.APPLICATION_PATH, "generation")
+
+    if not os.path.exists(output_folder):
+        os.mkdir(output_folder)
+        print("No output folder found. Creating specific folder")
+
     if ui:
         generator = PygameGenerator(seed, output, floor_id)
         generator.run()
