@@ -8,6 +8,7 @@ from floors.Floor import Floor
 from rooms.Room import Room
 
 
+# TODO: Add generatedBy key with "python" as value
 class Generator:
     """
     Objects of this class are representing generators.
@@ -266,13 +267,13 @@ class Generator:
         floor.add_teleport_room(boss_room)
         if not (floor.contains_room(0, 0)) and floor.has_no_neighbours(0, 0):
             boss_room.set_cord(0, 0)
-        elif not (floor.contains_room(0, Globals.height - 1)) and floor.has_no_neighbours(0, Globals.height -1):
+        elif not (floor.contains_room(0, Globals.height - 1)) and floor.has_no_neighbours(0, Globals.height - 1):
             boss_room.set_cord(0, Globals.height - 1)
-        elif not (floor.contains_room(Globals.width - 1, Globals.height - 1)) and floor.has_no_neighbours(Globals.width -1, Globals.height -1):
+        elif not (floor.contains_room(Globals.width - 1, Globals.height - 1)) and floor.has_no_neighbours(
+                Globals.width - 1, Globals.height - 1):
             boss_room.set_cord(Globals.width - 1, Globals.height - 1)
         elif not (floor.contains_room(Globals.width - 1, 0)) and floor.has_no_neighbours(Globals.width - 1, 0):
             boss_room.set_cord(Globals.width - 1, 0)
-
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
