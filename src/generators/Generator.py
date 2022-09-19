@@ -27,13 +27,18 @@ class Generator:
         self._output_file = output_file
         self._floor = Floor(Globals.width, Globals.height)
 
-    def to_json(self) -> str:
+    def to_json(self, indent: int) -> str:
         """
         Creates a string representation of the generator object.
         :return: json string of the generator
         """
-        j = "{\n" + '"seed": "' + self._seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
-            str(Globals.height) + ',\n"floor": ' + self._floor.to_json() + "\n}"
+        indent_s = Globals.BASE_INDENT * indent
+
+        j = "{\n" + \
+            indent_s + '"seed": "' + self._seed + '",\n' +\
+            indent_s + '"width": ' + str(Globals.width) + ',\n' + \
+            indent_s + '"height": ' + str(Globals.height) + ',\n' + \
+            indent_s + '"floor": ' + self._floor.to_json(indent + 1) + "\n}"
         return j
 
     def _create_floor(self) -> None:
@@ -291,5 +296,5 @@ class Generator:
         Writes the generated floor in the output file.
         """
         f = open(self._output_file, "w")
-        f.write(self.to_json())
+        f.write(self.to_json(1))
         f.close()

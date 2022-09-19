@@ -28,11 +28,6 @@ class PygameNormalRoom(Room):
                                  self._y * Globals.room_height + Globals.y_offset,
                                  width, height)
 
-    def __getstate__(self):
-        state = super().__getstate__()
-        del state["_rect"]
-        return state
-
 
     def draw(self, screen: pygame.Surface) -> None:
         """

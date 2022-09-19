@@ -20,6 +20,7 @@ y_offset = (height * room_height) / 2
 
 MAX_DOOR_AMOUNT: int = 4
 LINE_THICKNESS = 5
+BASE_INDENT = "  "
 
 APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
 

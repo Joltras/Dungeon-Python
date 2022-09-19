@@ -1,5 +1,6 @@
 import numpy as np
 
+import Globals
 from Globals import RoomType, Directions, DoorFace
 from rooms.Room import Room
 from rooms.TeleportRoom import TeleportRoom
@@ -21,23 +22,22 @@ class Floor:
         self._floor_grid = np.zeros((height, width))
         self._room_id = 0
 
-
-    def to_json(self):
+    def to_json(self, indent: int):
         """
         Creates a json string for the current room object.
         :return: json string
         """
+        indent_s: str = Globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = "{\n\"rooms\": ["
+        json_string = "{\n" + indent_s + '"rooms"' + ": [\n"
         for room in self._rooms:
             if current_index < max_index - 1:
-                json_string += room.to_json() + ","
+                json_string += room.to_json(indent + 2) + ",\n"
             else:
-                json_string += room.to_json()
-
+                json_string += room.to_json(indent + 2)
             current_index += 1
-        return json_string + "]\n}"
+        return json_string + "\n" + indent_s + "]" + indent_s + "\n  }"
 
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
@@ -166,4 +166,3 @@ class Floor:
         :return: True if the location has zero neighbours otherwise False
         """
         return self.count_neighbours(x, y) == 0
-
