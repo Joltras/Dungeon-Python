@@ -48,7 +48,6 @@ if __name__ == '__main__':
                 i += 1
         elif sys.argv[i] == "-u" or sys.argv[i] == "--ui":
             show_ui = True
-            i += 1
         elif sys.argv[i] == "-h" or sys.argv[i] == "--help":
             print(HELP_MESSAGE)
             exit(0)
