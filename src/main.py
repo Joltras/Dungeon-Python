@@ -15,9 +15,11 @@ Options:
     -f --floor: Sets the id for the floor, default is 0. (Must be 0 or greater)
     """
 
-# TODO: generate output file into the specific "output" folder
+
 def main(seed: str, output: str, ui: bool, floor_id):
     output_folder = os.path.join(Globals.APPLICATION_PATH, "generation")
+    output  = os.path.join(output_folder, output)
+
 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
