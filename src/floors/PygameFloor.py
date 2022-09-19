@@ -22,30 +22,6 @@ class PygameFloor(Floor):
         self._rect = pygame.Rect(Globals.floor_plan_coordinates[1], Globals.floor_plan_coordinates[0],
                                  width * Globals.room_width, height * Globals.room_height)
 
-    def __getstate__(self):
-        state = dict(self.__dict__)
-        del state['_rect']
-        del state['_floor_grid']
-        del state['_room_id']
-        return state
-
-    def to_json(self):
-        """
-        Creates a json string for the current room object.
-        :return: json string
-        """
-        current_index: int = 0
-        max_index: int = len(self._rooms)
-        json_string = "{\n\"rooms\": ["
-        for room in self._rooms:
-            if current_index < max_index - 1:
-                json_string += room.to_json() + ","
-            else:
-                json_string += room.to_json()
-
-            current_index += 1
-        return json_string + "]\n}"
-
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the floor with all the rooms on the screen.

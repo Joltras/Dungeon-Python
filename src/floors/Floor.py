@@ -21,11 +21,6 @@ class Floor:
         self._floor_grid = np.zeros((height, width))
         self._room_id = 0
 
-    def __getstate__(self):
-        state = dict(self.__dict__)
-        del state['_floor_grid']
-        del state['_room_id']
-        return state
 
     def to_json(self):
         """

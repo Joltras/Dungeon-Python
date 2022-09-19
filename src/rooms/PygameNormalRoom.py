@@ -29,22 +29,10 @@ class PygameNormalRoom(Room):
                                  width, height)
 
     def __getstate__(self):
-        state = dict(self.__dict__)
+        state = super().__getstate__()
         del state["_rect"]
-        doors = []
-        for door in self._doors:
-            doors.append(door.value)
-        state["_doors"] = doors
-        state["_room_type"] = self._room_type.value
         return state
 
-    def to_json(self) -> str:
-        """
-        Creates a json string for the room object.
-        :return: json string
-        """
-        json_string = json.dumps(self.__getstate__(), sort_keys=True, indent=4)
-        return json_string
 
     def draw(self, screen: pygame.Surface) -> None:
         """

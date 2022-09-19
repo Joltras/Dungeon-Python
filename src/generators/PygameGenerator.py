@@ -22,14 +22,6 @@ class PygameGenerator(Generator):
         self._floors = deque()
         self._current_floor = -1
 
-    def to_json(self) -> str:
-        """
-        Creates a json sting for the generator.
-        :return: json string
-        """
-        j = "{\n" + '"seed": "' + self._seed + '",\n' + '"width": ' + str(Globals.width) + ',\n"height": ' + \
-            str(Globals.height) + ',\n"floor": ' + self._floors[self._current_floor].to_json() + "\n}"
-        return j
 
     def _create_floor(self) -> None:
         """
