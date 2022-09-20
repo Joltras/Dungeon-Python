@@ -1,4 +1,5 @@
 import os.path
+from datetime import datetime
 
 from generators.Generator import Generator
 from generators.PygameGenerator import PygameGenerator
@@ -74,6 +75,9 @@ if __name__ == '__main__':
     if seed == "":
         seed = secrets.token_hex(16)
     if output == "":
-        output = "output.json"
+        time = str(datetime.now().microsecond)
+        output = time + ".json"
+    if not output.endswith(".json"):
+        output += ".json"
 
     main(seed, output, show_ui, floor_id)
