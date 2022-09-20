@@ -76,8 +76,8 @@ if __name__ == '__main__':
         seed = secrets.token_hex(16)
     if output == "":
         time = str(datetime.now().microsecond)
-        output = time + ".json"
-    if not output.endswith(".json"):
-        output += ".json"
+        output = time + Globals.JSON_SUFFIX
+    if not output.endswith(Globals.JSON_SUFFIX):
+        output += Globals.JSON_SUFFIX
 
     main(seed, output, show_ui, floor_id)
