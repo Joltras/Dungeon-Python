@@ -30,7 +30,7 @@ class Floor:
         indent_s: str = Globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = "{\n" + indent_s + '"rooms"' + ": [\n"
+        json_string = "{\n" + indent_s + '"_rooms"' + ": [\n"
         for room in self._rooms:
             if current_index < max_index - 1:
                 json_string += room.to_json(indent + 2) + ",\n"
