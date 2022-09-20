@@ -8,7 +8,6 @@ from floors.Floor import Floor
 from rooms.Room import Room
 
 
-# TODO: Add generatedBy key with "python" as value
 class Generator:
     """
     Objects of this class are representing generators.
@@ -35,10 +34,12 @@ class Generator:
         indent_s = Globals.BASE_INDENT * indent
 
         j = "{\n" + \
-            indent_s + '"seed": "' + self._seed + '",\n' +\
-            indent_s + '"width": ' + str(Globals.width) + ',\n' + \
-            indent_s + '"height": ' + str(Globals.height) + ',\n' + \
-            indent_s + '"floor": ' + self._floor.to_json(indent + 1) + "\n}"
+            indent_s + '"_seed": "' + self._seed + '",\n' +\
+            indent_s + '"_width": ' + str(Globals.width) + ',\n' + \
+            indent_s + '"_height": ' + str(Globals.height) + ',\n' + \
+            indent_s + '"_floor": ' + self._floor.to_json(indent + 1) + ",\n" + \
+            indent_s + '"_generated_by": "python"' +\
+            "\n}"
         return j
 
     def _create_floor(self) -> None:
