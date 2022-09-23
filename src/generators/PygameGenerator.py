@@ -27,7 +27,7 @@ class PygameGenerator(Generator):
         """
         Creates a new pygame floor.
         """
-        self._floors.append(PygameFloor(Globals.height, Globals.width))
+        self._floors.append(PygameFloor(Globals.FLOOR_HEIGHT, Globals.FLOOR_WIDTH))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
 
