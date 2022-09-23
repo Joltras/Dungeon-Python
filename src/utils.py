@@ -16,4 +16,4 @@ def place_room() -> bool:
     Checks if a new room should be placed.
     :return: True when room should be placed otherwise False
     """
-    return random.randint(1, 2) == 2
+    return random.randint(1, 50) >= 25
