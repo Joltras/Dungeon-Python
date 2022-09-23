@@ -10,6 +10,7 @@ class PygameGenerator(Generator):
     """
     Pygame version of the generator.
     """
+
     def __init__(self, seed: str, output_file: str, stage_id: int = 2):
         """
         Creates a new generator.
@@ -21,7 +22,6 @@ class PygameGenerator(Generator):
         self.clock = pygame.time.Clock()
         self._floors = deque()
         self._current_floor = -1
-
 
     def _create_floor(self) -> None:
         """
@@ -42,14 +42,7 @@ class PygameGenerator(Generator):
                 if event.type == pygame.QUIT:
                     active = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
-                        self.save()
-                    if event.key == pygame.K_LEFT:
-                        if self._current_floor > 0:
-                            self._current_floor -= 1
-                    if event.key == pygame.K_RIGHT:
-                        if self._current_floor < len(self._floors) - 1:
-                            self._current_floor += 1
+                    self.key_down(event)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.generate()
@@ -57,3 +50,15 @@ class PygameGenerator(Generator):
             self._floors[self._current_floor].draw(self.screen)
             pygame.display.flip()
             self.clock.tick(5)
+
+    def key_down(self, event) -> None:
+        """
+        Checks which key was pressed and reacts to it.
+        :param event:
+        """
+        if event.key == pygame.K_s:
+            self.save()
+        if event.key == pygame.K_LEFT and self._current_floor > 0:
+            self._current_floor -= 1
+        if event.key == pygame.K_RIGHT and self._current_floor < len(self._floors) - 1:
+            self._current_floor += 1
