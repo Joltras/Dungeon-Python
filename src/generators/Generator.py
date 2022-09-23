@@ -78,9 +78,10 @@ class Generator:
         floor = self._floor
 
         number_of_rooms = utils.calculate_room_amount(self._stage_id)
+
+        # Add start room
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
         floor.add_room(start_room[0], start_room[1], RoomType.START_ROOM)
-        floor.add_to_floor_grid(start_room[0], start_room[1])
         number_of_current_rooms = 1
 
         room_queue: deque = deque([])  # Room coordinates
