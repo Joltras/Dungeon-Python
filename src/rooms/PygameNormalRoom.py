@@ -28,7 +28,6 @@ class PygameNormalRoom(Room):
                                  self._y * Globals.room_height + Globals.y_offset,
                                  width, height)
 
-
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the room on the screen.
