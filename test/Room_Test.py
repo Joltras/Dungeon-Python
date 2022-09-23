@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
         self._room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
 
     def test_to_json(self):
-        ecpected = \
+        expected = \
             """{
     "_doors": [],
     "_id": 1,
@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
     "_x": 10,
     "_y": 20
 }"""
-        self.assertEqual(ecpected, self._room.to_json())
+        self.assertEqual(expected, self._room.to_json(1))
 
     def test_get_doors(self):
         self.assertEqual([], self._room.get_doors())
