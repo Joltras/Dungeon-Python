@@ -9,6 +9,30 @@ class GlobalsTest(unittest.TestCase):
         expected = [(0, -1), (1, 0), (0, 1), (-1, 0), (1, -1), (-1, -1), (1, 1), (-1, 1)]
         self.assertEqual(expected, Direction.list())
 
+    def test_up(self):
+        self.assertEqual((0, -1), Direction.UP.value)
+
+    def test_right(self):
+        self.assertEqual((1, 0), Direction.RIGHT.value)
+
+    def test_down(self):
+        self.assertEqual((0, 1), Direction.DOWN.value)
+
+    def test_left(self):
+        self.assertEqual((-1, 0), Direction.LEFT.value)
+
+    def test_up_right(self):
+        self.assertEqual((1, -1), Direction.UP_RIGHT.value)
+
+    def test_up_left(self):
+        self.assertEqual((-1, -1), Direction.UP_LEFT.value)
+
+    def test_down_right(self):
+        self.assertEqual((1, 1), Direction.DOWN_RIGHT.value)
+
+    def test_down_left(self):
+        self.assertEqual((-1, 1), Direction.DOWN_LEFT.value)
+
     def test_door_faces(self):
         expected = [0, 1, 2, 3]
         self.assertEqual(expected, Globals.DoorFace.list())
