@@ -30,14 +30,19 @@ class Floor:
         indent_s: str = Globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = "{\n" + indent_s + '"_rooms"' + ": [\n"
-        for room in self._rooms:
-            if current_index < max_index - 1:
-                json_string += room.to_json(indent + 2) + ",\n"
-            else:
-                json_string += room.to_json(indent + 2)
-            current_index += 1
-        return json_string + "\n" + indent_s + "]" + indent_s + "\n  }"
+        json_string = "{\n" + indent_s + '"_rooms"' + ": ["
+        if len(self._rooms) == 0:
+            json_string += "]"
+        else:
+            json_string += "\n"
+            for room in self._rooms:
+                if current_index < max_index - 1:
+                    json_string += room.to_json(indent + 2) + ",\n"
+                else:
+                    json_string += room.to_json(indent + 2)
+                current_index += 1
+            json_string += "\n" + indent_s + "]"
+        return json_string + indent_s + "\n}"
 
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
