@@ -1,3 +1,4 @@
+import os
 import unittest
 import Globals
 from Globals import RoomType, Color, Direction
@@ -44,7 +45,16 @@ class GlobalsTest(unittest.TestCase):
         self.assertEqual(8, Globals.FLOOR_HEIGHT)
 
     def test_floor_width(self):
-        self.assertEqual(9, Globals.ROOM_WIDTH)
+        self.assertEqual(9, Globals.FLOOR_WIDTH)
+
+    def test_base_indent(self):
+        self.assertEqual("  ", Globals.BASE_INDENT)
+
+    def test_json_suffix(self):
+        self.assertEqual(".json", Globals.JSON_SUFFIX)
+
+    def test_path(self):
+        self.assertEqual(os.path.realpath(os.path.dirname(__file__).replace("\\test", "")), Globals.APPLICATION_PATH)
 
 
 if __name__ == '__main__':
