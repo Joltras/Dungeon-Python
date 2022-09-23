@@ -12,8 +12,8 @@ class PygameNormalRoom(Room):
     Pygame version of room.
     """
 
-    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=Globals.room_width,
-                 height=Globals.room_height):
+    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=Globals.ROOM_WIDTH,
+                 height=Globals.ROOM_HEIGHT):
         """
         Creates a new room with the given arguments.
         :param x: x coordinate of the room
@@ -24,8 +24,8 @@ class PygameNormalRoom(Room):
         :param height: room height
         """
         super().__init__(x, y, room_id, room_type)
-        self._rect = pygame.Rect(self._x * Globals.room_width + Globals.x_offset,
-                                 self._y * Globals.room_height + Globals.y_offset,
+        self._rect = pygame.Rect(self._x * Globals.ROOM_WIDTH + Globals.x_offset,
+                                 self._y * Globals.ROOM_HEIGHT + Globals.y_offset,
                                  width, height)
 
     def draw(self, screen: pygame.Surface) -> None:
@@ -45,22 +45,22 @@ class PygameNormalRoom(Room):
         for door in self._doors:
             if door == DoorFace.WEST:
                 pygame.draw.line(screen, door_color.value,
-                                 (self._rect.left, self._rect.top + Globals.room_height / 4),
-                                 (self._rect.left, self._rect.top + Globals.room_height / 4 * 3),
+                                 (self._rect.left, self._rect.top + Globals.ROOM_HEIGHT / 4),
+                                 (self._rect.left, self._rect.top + Globals.ROOM_HEIGHT / 4 * 3),
                                  Globals.LINE_THICKNESS)
             elif door == DoorFace.EAST:
                 pygame.draw.line(screen, door_color.value,
-                                 (self._rect.left + Globals.room_width, self._rect.top + Globals.room_height / 4),
-                                 (self._rect.left + Globals.room_width, self._rect.top + Globals.room_height / 4 * 3),
+                                 (self._rect.left + Globals.ROOM_WIDTH, self._rect.top + Globals.ROOM_HEIGHT / 4),
+                                 (self._rect.left + Globals.ROOM_WIDTH, self._rect.top + Globals.ROOM_HEIGHT / 4 * 3),
                                  Globals.LINE_THICKNESS)
             elif door == DoorFace.TOP:
                 pygame.draw.line(screen, door_color.value,
-                                 (self._rect.left + Globals.room_width / 4, self._rect.top),
-                                 (self._rect.left + Globals.room_width / 4 * 3, self._rect.top), Globals.LINE_THICKNESS)
+                                 (self._rect.left + Globals.ROOM_WIDTH / 4, self._rect.top),
+                                 (self._rect.left + Globals.ROOM_WIDTH / 4 * 3, self._rect.top), Globals.LINE_THICKNESS)
             elif door == DoorFace.BOTTOM:
                 pygame.draw.line(screen, door_color.value,
-                                 (self._rect.left + Globals.room_width / 4, self._rect.top + Globals.room_height),
-                                 (self._rect.left + Globals.room_width / 4 * 3, self._rect.top + Globals.room_height),
+                                 (self._rect.left + Globals.ROOM_WIDTH / 4, self._rect.top + Globals.ROOM_HEIGHT),
+                                 (self._rect.left + Globals.ROOM_WIDTH / 4 * 3, self._rect.top + Globals.ROOM_HEIGHT),
                                  Globals.LINE_THICKNESS)
 
     def get_rect(self) -> pygame.Rect:
@@ -78,6 +78,6 @@ class PygameNormalRoom(Room):
         """
         self._x = x
         self._y = y
-        self._rect = pygame.Rect(self._x * Globals.room_width + Globals.floor_plan_coordinates[1],
-                                 self._y * Globals.room_height + Globals.floor_plan_coordinates[0],
-                                 Globals.room_width, Globals.room_height)
+        self._rect = pygame.Rect(self._x * Globals.ROOM_WIDTH + Globals.floor_plan_coordinates[1],
+                                 self._y * Globals.ROOM_HEIGHT + Globals.floor_plan_coordinates[0],
+                                 Globals.ROOM_WIDTH, Globals.ROOM_HEIGHT)
