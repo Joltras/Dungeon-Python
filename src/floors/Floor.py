@@ -1,7 +1,7 @@
 import numpy as np
 
 import Globals
-from Globals import RoomType, Directions, DoorFace
+from Globals import RoomType, Direction, DoorFace
 from rooms.Room import Room
 from rooms.TeleportRoom import TeleportRoom
 
@@ -63,28 +63,28 @@ class Floor:
         self._rooms.append(Room(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: Room, direction: Directions, room_type: RoomType) -> None:
+    def add_room_next_to(self, room: Room, direction: Direction, room_type: RoomType) -> None:
         """
         Creates and adds a room next to a given room.
         :param room: room where the new room is placed next to
         :param direction: direction in which the new room is placed
         :param room_type: type for the room
         """
-        if direction == Directions.UP:
+        if direction == Direction.UP:
             self.add_room(room.get_x(), room.get_y() - 1, room_type)
-        elif direction == Directions.DOWN:
+        elif direction == Direction.DOWN:
             self.add_room(room.get_x(), room.get_y() + 1, room_type)
-        elif direction == Directions.LEFT:
+        elif direction == Direction.LEFT:
             self.add_room(room.get_x() - 1, room.get_y(), room_type)
-        elif direction == Directions.RIGHT:
+        elif direction == Direction.RIGHT:
             self.add_room(room.get_x() + 1, room.get_y(), room_type)
-        elif direction == Directions.UP_RIGHT:
+        elif direction == Direction.UP_RIGHT:
             self.add_room(room.get_x() + 1, room.get_y() - 1, room_type)
-        elif direction == Directions.UP_LEFT:
+        elif direction == Direction.UP_LEFT:
             self.add_room(room.get_x() - 1, room.get_y() - 1, room_type)
-        elif direction == Directions.DOWN_RIGHT:
+        elif direction == Direction.DOWN_RIGHT:
             self.add_room(room.get_x() + 1, room.get_y() + 1, room_type)
-        elif direction == Directions.DOWN_LEFT:
+        elif direction == Direction.DOWN_LEFT:
             self.add_room(room.get_x() - 1, room.get_y() + 1, room_type)
 
     def add_teleport_room(self, room: Room) -> None:
