@@ -42,7 +42,7 @@ class Floor:
                     json_string += room.to_json(indent + 2)
                 current_index += 1
             json_string += "\n" + indent_s + "]"
-        return json_string + indent_s + "\n}"
+        return json_string + "\n}"
 
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
