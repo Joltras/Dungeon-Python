@@ -1,31 +1,16 @@
 import os
 from enum import Enum
 
-room_width: int = 120
-room_height: int = 60
 
-window_multiplier: float = 2
 
-width: int = 9
-height: int = 8
-MAX_ROOMS: int = 15
-MIN_DISTANCE = 4
 
-window_height = height * room_height * window_multiplier
-window_width = width * room_width * window_multiplier
 
-floor_plan_coordinates = ((height * room_height) / 2, (width * room_width) / 2)
-x_offset = (width * room_width) / 2
-y_offset = (height * room_height) / 2
 
-MAX_DOOR_AMOUNT: int = 4
-LINE_THICKNESS = 5
-BASE_INDENT = "  "
-JSON_SUFFIX = ".json"
+class Direction(Enum):
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
 
-APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
-
-class Directions(Enum):
     UP = (0, -1)
     RIGHT = (1, 0)
     DOWN = (0, 1)
@@ -37,6 +22,10 @@ class Directions(Enum):
 
 
 class DoorFace(Enum):
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
+
     TOP = 0
     EAST = 1
     BOTTOM = 2
@@ -44,6 +33,10 @@ class DoorFace(Enum):
 
 
 class RoomType(Enum):
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
+
     NORMAL_ROOM = 0
     DEAD_END = 1
     ITEM_ROOM = 2
@@ -68,6 +61,11 @@ class Color(Enum):
 
 
 DOOR_COLOR = Color.BLACK
+
+# Room constants
+MAX_DOOR_AMOUNT: int = 4
+ROOM_WIDTH: int = 120
+ROOM_HEIGHT: int = 60
 Room_Colors = {
     RoomType.NORMAL_ROOM: Color.VIOLET,
     RoomType.DEAD_END: Color.VIOLET,
@@ -77,5 +75,29 @@ Room_Colors = {
     RoomType.BOSS_TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED
 }
-
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
+
+# Json
+BASE_INDENT = "  "
+JSON_SUFFIX = ".json"
+APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
+
+# Floor
+# Width and height in number of rooms
+FLOOR_WIDTH: int = 9
+FLOOR_HEIGHT: int = 8
+MAX_ROOMS: int = 15
+# Distance between start and boss room
+MIN_DISTANCE = 6
+x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
+y_offset = 0
+floor_plan_coordinates = (y_offset, x_offset)
+
+
+# Window
+window_multiplier: float = 2
+window_height = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
+window_width = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
+
+
+LINE_THICKNESS = 5
