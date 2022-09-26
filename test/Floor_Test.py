@@ -8,7 +8,7 @@ from rooms.Room import Room
 from rooms.TeleportRoom import TeleportRoom
 
 
-class MyTestCase(unittest.TestCase):
+class FloorTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self._floor = Floor(20, 30)
