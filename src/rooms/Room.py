@@ -42,7 +42,7 @@ class Room:
                 json_string += ",\n"
             i += 1
         json_string += "\n" + indent_s + "],\n" + indent_s + '"_id": ' + str(
-            self._id) + ",\n" + indent_s + '"_room_type": ' + \
+                       self._id) + ",\n" + indent_s + '"_room_type": ' + \
                        str(self._room_type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
                        '"_y": ' + str(self._y) + "\n" + str(Globals.BASE_INDENT * (indent - 1)) + "}"
         return json_string
