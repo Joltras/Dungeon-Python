@@ -3,7 +3,7 @@ from collections import deque
 from generators.PygameGenerator import PygameGenerator
 
 
-class MyTestCase(unittest.TestCase):
+class PygameGeneratorTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self._generator = PygameGenerator("", "test.json")
