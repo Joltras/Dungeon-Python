@@ -19,7 +19,7 @@ class PygameFloor(Floor):
         :param width: width of the floor
         """
         super().__init__(height, width)
-        self._rect = pygame.Rect(Globals.floor_plan_coordinates[1], Globals.floor_plan_coordinates[0],
+        self._rect = pygame.Rect(Globals.x_offset, Globals.y_offset,
                                  width * Globals.ROOM_WIDTH, height * Globals.ROOM_HEIGHT)
 
     def draw(self, screen: pygame.Surface) -> None:
