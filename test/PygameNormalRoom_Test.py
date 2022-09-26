@@ -6,7 +6,7 @@ from Globals import RoomType
 from pygame import Rect
 
 
-class MyTestCase(unittest.TestCase):
+class PygameRoomTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self._room1 = PygameNormalRoom(1, 2, 3, RoomType.NORMAL_ROOM)
