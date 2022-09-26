@@ -4,7 +4,7 @@ from Globals import RoomType, DoorFace
 from rooms.Room import Room
 
 
-class MyTestCase(unittest.TestCase):
+class RoomTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self._room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
