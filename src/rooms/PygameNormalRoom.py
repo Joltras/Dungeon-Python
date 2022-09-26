@@ -89,8 +89,7 @@ class PygameNormalRoom(Room):
         :param x: new x coordinate
         :param y: new y coordinate
         """
-        self._x = x
-        self._y = y
-        self._rect = pygame.Rect(self._x * self._width + Globals.floor_plan_coordinates[1],
-                                 self._y * self._height + Globals.floor_plan_coordinates[0],
+        super().set_cord(x, y)
+        self._rect = pygame.Rect(self._x * self._width + Globals.x_offset,
+                                 self._y * self._height + Globals.y_offset,
                                  self._width, self._height)
