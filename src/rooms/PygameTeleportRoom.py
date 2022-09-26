@@ -1,9 +1,10 @@
 import Globals
-from Globals import RoomType, Color
+from Globals import RoomType
 from rooms.PygameNormalRoom import PygameNormalRoom
+from rooms.TeleportRoom import TeleportRoom
 
 
-class PygameTeleportRoom(PygameNormalRoom):
+class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):
 
     def __init__(self, x: int, y: int, room_id: int, teleport_room_id: int,
                  room_type: RoomType = RoomType.TELEPORT_ROOM,
