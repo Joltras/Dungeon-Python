@@ -87,7 +87,6 @@ MAX_ROOMS: int = 15
 MIN_DISTANCE = 6
 x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
 y_offset = 0
-floor_plan_coordinates = (y_offset, x_offset)
 
 # Window
 window_multiplier: float = 2
