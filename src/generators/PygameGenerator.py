@@ -23,6 +23,13 @@ class PygameGenerator(Generator):
         self._floors = deque()
         self._current_floor = -1
 
+    def get_floors(self) -> deque:
+        """
+        Returns all floors that have been generated.
+        :return: queue with all floors
+        """
+        return self._floors
+
     def _create_floor(self) -> None:
         """
         Creates a new pygame floor.
@@ -42,7 +49,7 @@ class PygameGenerator(Generator):
                 if event.type == pygame.QUIT:
                     active = False
                 if event.type == pygame.KEYDOWN:
-                    self.key_down(event)
+                    self._key_down(event)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.generate()
@@ -51,7 +58,7 @@ class PygameGenerator(Generator):
             pygame.display.flip()
             self.clock.tick(5)
 
-    def key_down(self, event) -> None:
+    def _key_down(self, event) -> None:
         """
         Checks which key was pressed and reacts to it.
         :param event:
