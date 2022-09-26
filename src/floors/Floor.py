@@ -20,6 +20,8 @@ class Floor:
         """
         self._rooms = []
         self._floor_grid = np.zeros((height, width))
+        self._width = width
+        self._height = height
         self._room_id = 0
 
     def to_json(self, indent: int):
