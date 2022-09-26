@@ -2,10 +2,6 @@ import os
 from enum import Enum
 
 
-
-
-
-
 class Direction(Enum):
     @classmethod
     def list(cls):
@@ -93,11 +89,9 @@ x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
 y_offset = 0
 floor_plan_coordinates = (y_offset, x_offset)
 
-
 # Window
 window_multiplier: float = 2
 window_height = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
 window_width = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
-
 
 LINE_THICKNESS = 5
