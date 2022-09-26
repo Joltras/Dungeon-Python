@@ -54,7 +54,7 @@ class GlobalsTest(unittest.TestCase):
             RoomType.ITEM_ROOM: Color.GREEN,
             RoomType.SHOP_ROOM: Color.YELLOW,
             RoomType.START_ROOM: Color.ORANGE,
-            RoomType.BOSS_TELEPORT_ROOM: Color.GRAY,
+            RoomType.TELEPORT_ROOM: Color.GRAY,
             RoomType.BOSS_ROOM: Color.RED
             }
         self.assertEqual(expected, Globals.Room_Colors)

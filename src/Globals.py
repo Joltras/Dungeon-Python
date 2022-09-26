@@ -38,7 +38,7 @@ class RoomType(Enum):
     ITEM_ROOM = 2
     SHOP_ROOM = 3
     START_ROOM = 4
-    BOSS_TELEPORT_ROOM = 5
+    TELEPORT_ROOM = 5
     BOSS_ROOM = 6
 
 
@@ -68,7 +68,7 @@ Room_Colors = {
     RoomType.ITEM_ROOM: Color.GREEN,
     RoomType.SHOP_ROOM: Color.YELLOW,
     RoomType.START_ROOM: Color.ORANGE,
-    RoomType.BOSS_TELEPORT_ROOM: Color.GRAY,
+    RoomType.TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED
 }
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)

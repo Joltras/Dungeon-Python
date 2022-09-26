@@ -51,7 +51,7 @@ class PygameFloor(Floor):
         :param room: Room which is connected to the teleport room.
         """
         t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id,
-                                    room_type=RoomType.BOSS_TELEPORT_ROOM, teleport_room_id=room.get_id())
+                                    room_type=RoomType.TELEPORT_ROOM, teleport_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 

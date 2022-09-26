@@ -12,7 +12,7 @@ class TeleportRoom(Room):
         :param room_id: 
         :param teleport_room_id: id of the room the teleport room is connected to
         """
-        super().__init__(x, y, room_id, RoomType.BOSS_TELEPORT_ROOM)
+        super().__init__(x, y, room_id, RoomType.TELEPORT_ROOM)
         self._teleport_room_id = teleport_room_id
 
     def get_teleport_room_ide(self) -> int:

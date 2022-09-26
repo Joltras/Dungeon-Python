@@ -6,7 +6,7 @@ from rooms.PygameNormalRoom import PygameNormalRoom
 class PygameTeleportRoom(PygameNormalRoom):
 
     def __init__(self, x: int, y: int, room_id: int, teleport_room_id: int,
-                 room_type: RoomType = RoomType.BOSS_TELEPORT_ROOM,
+                 room_type: RoomType = RoomType.TELEPORT_ROOM,
                  width=Globals.ROOM_WIDTH,
                  height=Globals.ROOM_HEIGHT):
         super().__init__(x, y, room_id, room_type, width, height)
