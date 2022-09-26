@@ -3,6 +3,7 @@ import unittest
 import Globals
 from Globals import RoomType, Color, Direction
 
+
 class GlobalsTest(unittest.TestCase):
 
     def test_directions(self):
@@ -56,7 +57,7 @@ class GlobalsTest(unittest.TestCase):
             RoomType.START_ROOM: Color.ORANGE,
             RoomType.TELEPORT_ROOM: Color.GRAY,
             RoomType.BOSS_ROOM: Color.RED
-            }
+        }
         self.assertEqual(expected, Globals.Room_Colors)
 
     def test_room_width(self):
