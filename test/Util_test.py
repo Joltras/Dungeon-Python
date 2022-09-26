@@ -2,7 +2,8 @@ import unittest
 import Globals
 import utils
 
-class MyTestCase(unittest.TestCase):
+
+class UtilsTest(unittest.TestCase):
 
     def test_calculate_room_amount(self):
         rooms = utils.calculate_room_amount(2)
@@ -10,6 +11,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_place_room(self):
         utils.place_room()
+
 
 if __name__ == '__main__':
     unittest.main()
