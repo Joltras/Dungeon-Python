@@ -21,8 +21,10 @@ class PygameNormalRoom(Room):
         :param height: room height
         """
         super().__init__(x, y, room_id, room_type)
-        self._rect = pygame.Rect(self._x * Globals.ROOM_WIDTH + Globals.x_offset,
-                                 self._y * Globals.ROOM_HEIGHT + Globals.y_offset,
+        self._height = height
+        self._width = width
+        self._rect = pygame.Rect(self._x * width + Globals.x_offset,
+                                 self._y * height + Globals.y_offset,
                                  width, height)
 
     def draw(self, screen: pygame.Surface) -> None:
@@ -67,6 +69,20 @@ class PygameNormalRoom(Room):
         """
         return self._rect
 
+    def get_height(self) -> int:
+        """
+        Returns the height of the room.
+        :return: height of the room
+        """
+        return self._height
+
+    def get_width(self) -> int:
+        """
+        Returns the width of the room.
+        :return: width of the room
+        """
+        return self._width
+
     def set_cord(self, x: int, y: int) -> None:
         """
         Sets the coordinates of a room.
@@ -75,6 +91,6 @@ class PygameNormalRoom(Room):
         """
         self._x = x
         self._y = y
-        self._rect = pygame.Rect(self._x * Globals.ROOM_WIDTH + Globals.floor_plan_coordinates[1],
-                                 self._y * Globals.ROOM_HEIGHT + Globals.floor_plan_coordinates[0],
-                                 Globals.ROOM_WIDTH, Globals.ROOM_HEIGHT)
+        self._rect = pygame.Rect(self._x * self._width + Globals.floor_plan_coordinates[1],
+                                 self._y * self._height + Globals.floor_plan_coordinates[0],
+                                 self._width, self._height)
