@@ -33,6 +33,17 @@ class MyTestCase(unittest.TestCase):
         expected = Rect(4 * 25 + Globals.x_offset, 5 * 36 + Globals.y_offset, 25, 36)
         self.assertEqual(expected, self._room2.get_rect())
 
+    def test_set_coordinates1(self):
+        self._room1.set_cord(6, 7)
+        expected = Rect(6 * Globals.ROOM_WIDTH + Globals.x_offset, 7 * Globals.ROOM_HEIGHT + Globals.y_offset,
+                        Globals.ROOM_WIDTH, Globals.ROOM_HEIGHT)
+        self.assertEqual(expected, self._room1.get_rect())
+
+    def test_set_coordinates2(self):
+        self._room2.set_cord(20, 55)
+        expected = Rect(20 * 25 + Globals.x_offset, 55 * 36 + Globals.y_offset, 25, 36)
+        self.assertEqual(expected, self._room2.get_rect())
+
 
 if __name__ == '__main__':
     unittest.main()
