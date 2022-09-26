@@ -25,6 +25,10 @@ class MyTestCase(unittest.TestCase):
     def test_contains_room(self):
         self.assertFalse(self._floor.contains_room(1, 1))
 
+    def test_add_to_floor_grid_error(self):
+        with self.assertRaises(IndexError):
+            self._floor.add_to_floor_grid(31, 0)
+
     def test_add_two_floor_grid(self):
         self._floor.add_to_floor_grid(2, 3)
         self.assertTrue(self._floor.contains_room(2, 3))
@@ -63,7 +67,6 @@ class MyTestCase(unittest.TestCase):
 
     def test_is_dead_end_false(self):
         self.assertFalse(self._floor_with_rooms.is_dead_end(2, 2))
-
 
 
 if __name__ == '__main__':
