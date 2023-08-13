@@ -18,7 +18,7 @@ class PygameGenerator(Generator):
         :param output_file: file to save the floor to
         """
         super().__init__(seed, output_file, stage_id)
-        self.screen = pygame.display.set_mode((Globals.window_width, Globals.window_height))
+        self.screen = pygame.display.set_mode((globals.window_width, globals.window_height))
         self.clock = pygame.time.Clock()
         self._floors = deque()
         self._current_floor = -1
@@ -34,7 +34,7 @@ class PygameGenerator(Generator):
         """
         Creates a new pygame floor.
         """
-        self._floors.append(PygameFloor(Globals.FLOOR_HEIGHT, Globals.FLOOR_WIDTH))
+        self._floors.append(PygameFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
 
