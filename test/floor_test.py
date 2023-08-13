@@ -1,11 +1,8 @@
 import unittest
 
-import numpy as np
-
-from globals import RoomType, DoorFace
 from floors.floor import Floor
+from globals import RoomType, DoorFace
 from rooms.room import Room
-from rooms.teleport_room import TeleportRoom
 
 
 class FloorTest(unittest.TestCase):
