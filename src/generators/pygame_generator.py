@@ -1,8 +1,8 @@
-import Globals
-from Globals import Color
-from floors.PygameFloor import PygameFloor
+import globals
+from globals import Color
+from floors.pygame_floor import PygameFloor
 import pygame
-from generators.Generator import Generator
+from generators.generator import Generator
 from collections import deque
 
 

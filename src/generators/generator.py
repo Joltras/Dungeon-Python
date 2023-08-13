@@ -1,10 +1,10 @@
 import random
 from collections import deque
 import utils
-from Globals import RoomType, Direction
-import Globals
-from floors.Floor import Floor
-from rooms.Room import Room
+from globals import RoomType, Direction
+import globals
+from floors.floor import Floor
+from rooms.room import Room
 
 
 class Generator:

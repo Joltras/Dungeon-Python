@@ -1,6 +1,6 @@
 import unittest
 from collections import deque
-from generators.PygameGenerator import PygameGenerator
+from generators.pygame_generator import PygameGenerator
 
 
 class PygameGeneratorTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import random
 import math
-import Globals
+import globals
 
 
 def calculate_room_amount(stage_id: int):

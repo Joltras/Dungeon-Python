@@ -1,5 +1,5 @@
 import unittest
-from rooms.TeleportRoom import TeleportRoom
+from rooms.teleport_room import TeleportRoom
 
 
 class TeleportRoomTest(unittest.TestCase):

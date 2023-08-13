@@ -1,9 +1,9 @@
 import numpy as np
 
-import Globals
-from Globals import RoomType, Direction, DoorFace
-from rooms.Room import Room
-from rooms.TeleportRoom import TeleportRoom
+import globals
+from globals import RoomType, Direction, DoorFace
+from rooms.room import Room
+from rooms.teleport_room import TeleportRoom
 
 
 class Floor:

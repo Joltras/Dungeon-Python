@@ -1,10 +1,10 @@
 import pygame
-import Globals as Globals
-from Globals import Color, RoomType
-from floors.Floor import Floor
-from rooms.PygameNormalRoom import PygameNormalRoom
-from rooms.PygameTeleportRoom import PygameTeleportRoom
-from rooms.Room import Room
+import globals as Globals
+from globals import Color, RoomType
+from floors.floor import Floor
+from rooms.pygame_normal_room import PygameNormalRoom
+from rooms.pygame_teleport_room import PygameTeleportRoom
+from rooms.room import Room
 
 
 class PygameFloor(Floor):

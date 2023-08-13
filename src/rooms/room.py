@@ -1,7 +1,7 @@
 import json
 
-import Globals
-from Globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
+import globals
+from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 
 class Room:

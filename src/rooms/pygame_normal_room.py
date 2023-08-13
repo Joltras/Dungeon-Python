@@ -1,7 +1,7 @@
 import pygame
-import Globals
-from Globals import DoorFace, RoomType
-from rooms.Room import Room
+import globals
+from globals import DoorFace, RoomType
+from rooms.room import Room
 
 
 class PygameNormalRoom(Room):

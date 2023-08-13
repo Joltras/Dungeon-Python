@@ -1,7 +1,7 @@
-import Globals
-from Globals import RoomType
-from rooms.PygameNormalRoom import PygameNormalRoom
-from rooms.TeleportRoom import TeleportRoom
+import globals
+from globals import RoomType
+from rooms.pygame_normal_room import PygameNormalRoom
+from rooms.teleport_room import TeleportRoom
 
 
 class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):

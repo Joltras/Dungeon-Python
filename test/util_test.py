@@ -1,5 +1,5 @@
 import unittest
-import Globals
+import globals
 import utils
 
 

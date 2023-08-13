@@ -1,7 +1,7 @@
 import unittest
 
-from Globals import RoomType, DoorFace
-from rooms.Room import Room
+from globals import RoomType, DoorFace
+from rooms.room import Room
 
 
 class RoomTest(unittest.TestCase):

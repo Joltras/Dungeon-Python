@@ -1,5 +1,5 @@
-from Globals import RoomType
-from rooms.Room import Room
+from globals import RoomType
+from rooms.room import Room
 
 
 class TeleportRoom(Room):
