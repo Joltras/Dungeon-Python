@@ -33,18 +33,18 @@ class Room:
         Creates a json representation of the room object.
         :return: json string
         """
-        indent_s: str = Globals.BASE_INDENT * indent
-        json_string: str = str(Globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
+        indent_s: str = globals.BASE_INDENT * indent
+        json_string: str = str(globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
         i = 0
         while i < len(self._doors):
-            json_string += indent_s + Globals.BASE_INDENT + str(self._doors[i].value)
+            json_string += indent_s + globals.BASE_INDENT + str(self._doors[i].value)
             if i != len(self._doors) - 1:
                 json_string += ",\n"
             i += 1
         json_string += "\n" + indent_s + "],\n" + indent_s + '"_id": ' + str(
                        self._id) + ",\n" + indent_s + '"_room_type": ' + \
                        str(self._room_type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
-                       '"_y": ' + str(self._y) + "\n" + str(Globals.BASE_INDENT * (indent - 1)) + "}"
+                       '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
         return json_string
 
     def set_type(self, room_type: RoomType) -> None:
