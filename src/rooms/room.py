@@ -1,5 +1,3 @@
-import json
-
 import globals
 from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
