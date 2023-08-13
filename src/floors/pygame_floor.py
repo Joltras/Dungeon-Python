@@ -1,5 +1,5 @@
 import pygame
-import globals as Globals
+import globals
 from globals import Color, RoomType
 from floors.floor import Floor
 from rooms.pygame_normal_room import PygameNormalRoom
@@ -19,8 +19,8 @@ class PygameFloor(Floor):
         :param width: width of the floor
         """
         super().__init__(height, width)
-        self._rect = pygame.Rect(Globals.x_offset, Globals.y_offset,
-                                 width * Globals.ROOM_WIDTH, height * Globals.ROOM_HEIGHT)
+        self._rect = pygame.Rect(globals.x_offset, globals.y_offset,
+                                 width * globals.ROOM_WIDTH, height * globals.ROOM_HEIGHT)
 
     def draw(self, screen: pygame.Surface) -> None:
         """
