@@ -4,7 +4,7 @@ import globals
 from globals import RoomType, Color, Direction
 
 
-class globalsTest(unittest.TestCase):
+class GlobalsTest(unittest.TestCase):
 
     def test_directions(self):
         expected = [(0, -1), (1, 0), (0, 1), (-1, 0), (1, -1), (-1, -1), (1, 1), (-1, 1)]
