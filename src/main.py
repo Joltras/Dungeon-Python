@@ -37,15 +37,15 @@ def main(seed: str, output: str, ui: bool, floor_id):
 
 
 if __name__ == '__main__':
-    seed: str = ""
-    output: str = ""
+    _seed: str = ""
+    _output: str = ""
     show_ui: bool = False
-    floor_id: int = 0
+    _floor_id: int = 0
     i: int = 1
     while i < len(sys.argv):
         if sys.argv[i] == "-s" or sys.argv[i] == "--seed":
             if i + 1 < len(sys.argv):
-                seed = sys.argv[i + 1]
+                _seed = sys.argv[i + 1]
                 i += 1
         elif sys.argv[i] == "-u" or sys.argv[i] == "--ui":
             show_ui = True
@@ -54,14 +54,14 @@ if __name__ == '__main__':
             exit(0)
         elif sys.argv[i] == "-o" or sys.argv[i] == "--output":
             if i + 1 < len(sys.argv):
-                output = sys.argv[i + 1]
+                _output = sys.argv[i + 1]
                 i += 1
         elif sys.argv[i] == "-f" or sys.argv[i] == "--floor":
             if i + 1 < len(sys.argv):
                 try:
-                    floor_id = int(sys.argv[i + 1])
+                    _floor_id = int(sys.argv[i + 1])
                     i += 1
-                    if floor_id < 0:
+                    if _floor_id < 0:
                         print("The floor id must be greater than 0!")
                         exit(-1)
                 except ValueError:
@@ -72,12 +72,12 @@ if __name__ == '__main__':
             exit(-1)
         i += 1
 
-    if seed == "":
-        seed = secrets.token_hex(16)
-    if output == "":
+    if _seed == "":
+        _seed = secrets.token_hex(16)
+    if _output == "":
         time = str(datetime.now().microsecond)
-        output = time + globals.JSON_SUFFIX
-    if not output.endswith(globals.JSON_SUFFIX):
-        output += globals.JSON_SUFFIX
+        _output = time + globals.JSON_SUFFIX
+    if not _output.endswith(globals.JSON_SUFFIX):
+        _output += globals.JSON_SUFFIX
 
-    main(seed, output, show_ui, floor_id)
+    main(_seed, _output, show_ui, _floor_id)
