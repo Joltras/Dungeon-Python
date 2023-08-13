@@ -29,7 +29,7 @@ class Floor:
         Creates a json string for the current room object.
         :return: json string
         """
-        indent_s: str = Globals.BASE_INDENT * indent
+        indent_s: str = globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
         json_string = "{\n" + indent_s + '"_rooms"' + ": ["

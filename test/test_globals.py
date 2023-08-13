@@ -4,7 +4,7 @@ import globals
 from globals import RoomType, Color, Direction
 
 
-class GlobalsTest(unittest.TestCase):
+class globalsTest(unittest.TestCase):
 
     def test_directions(self):
         expected = [(0, -1), (1, 0), (0, 1), (-1, 0), (1, -1), (-1, -1), (1, 1), (-1, 1)]
@@ -36,17 +36,17 @@ class GlobalsTest(unittest.TestCase):
 
     def test_door_faces(self):
         expected = [0, 1, 2, 3]
-        self.assertEqual(expected, Globals.DoorFace.list())
+        self.assertEqual(expected, globals.DoorFace.list())
 
     def test_room_types(self):
         expected = [0, 1, 2, 3, 4, 5, 6]
         self.assertEqual(expected, RoomType.list())
 
     def test_special_rooms(self):
-        self.assertEqual((RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), Globals.SPECIAL_ROOMS)
+        self.assertEqual((RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), globals.SPECIAL_ROOMS)
 
     def test_door_color(self):
-        self.assertEqual(Color.BLACK, Globals.DOOR_COLOR)
+        self.assertEqual(Color.BLACK, globals.DOOR_COLOR)
 
     def test_room_colors(self):
         expected = {
@@ -58,28 +58,28 @@ class GlobalsTest(unittest.TestCase):
             RoomType.TELEPORT_ROOM: Color.GRAY,
             RoomType.BOSS_ROOM: Color.RED
         }
-        self.assertEqual(expected, Globals.Room_Colors)
+        self.assertEqual(expected, globals.Room_Colors)
 
     def test_room_width(self):
-        self.assertEqual(120, Globals.ROOM_WIDTH)
+        self.assertEqual(120, globals.ROOM_WIDTH)
 
     def test_room_height(self):
-        self.assertEqual(60, Globals.ROOM_HEIGHT)
+        self.assertEqual(60, globals.ROOM_HEIGHT)
 
     def test_floor_height(self):
-        self.assertEqual(8, Globals.FLOOR_HEIGHT)
+        self.assertEqual(8, globals.FLOOR_HEIGHT)
 
     def test_floor_width(self):
-        self.assertEqual(9, Globals.FLOOR_WIDTH)
+        self.assertEqual(9, globals.FLOOR_WIDTH)
 
     def test_base_indent(self):
-        self.assertEqual("  ", Globals.BASE_INDENT)
+        self.assertEqual("  ", globals.BASE_INDENT)
 
     def test_json_suffix(self):
-        self.assertEqual(".json", Globals.JSON_SUFFIX)
+        self.assertEqual(".json", globals.JSON_SUFFIX)
 
     def test_path(self):
-        self.assertEqual(os.path.realpath(os.path.dirname(__file__).replace("\\test", "")), Globals.APPLICATION_PATH)
+        self.assertEqual(os.path.realpath(os.path.dirname(__file__).replace("\\test", "")), globals.APPLICATION_PATH)
 
 
 if __name__ == '__main__':

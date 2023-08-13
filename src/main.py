@@ -18,7 +18,7 @@ Options:
 
 
 def main(seed: str, output: str, ui: bool, floor_id):
-    output_folder = os.path.join(Globals.APPLICATION_PATH, "generation")
+    output_folder = os.path.join(globals.APPLICATION_PATH, "generation")
     output  = os.path.join(output_folder, output)
 
 
@@ -76,8 +76,8 @@ if __name__ == '__main__':
         seed = secrets.token_hex(16)
     if output == "":
         time = str(datetime.now().microsecond)
-        output = time + Globals.JSON_SUFFIX
-    if not output.endswith(Globals.JSON_SUFFIX):
-        output += Globals.JSON_SUFFIX
+        output = time + globals.JSON_SUFFIX
+    if not output.endswith(globals.JSON_SUFFIX):
+        output += globals.JSON_SUFFIX
 
     main(seed, output, show_ui, floor_id)

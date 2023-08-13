@@ -23,19 +23,19 @@ class Generator:
         self._stage_id = stage_id
         self._seed = seed
         self._output_file = output_file
-        self._floor = Floor(Globals.FLOOR_WIDTH, Globals.FLOOR_HEIGHT)
+        self._floor = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
 
     def to_json(self, indent: int) -> str:
         """
         Creates a string representation of the generator object.
         :return: json string of the generator
         """
-        indent_s = Globals.BASE_INDENT * indent
+        indent_s = globals.BASE_INDENT * indent
 
         j = "{\n" + \
             indent_s + '"_seed": "' + self._seed + '",\n' + \
-            indent_s + '"_width": ' + str(Globals.FLOOR_WIDTH) + ',\n' + \
-            indent_s + '"_height": ' + str(Globals.FLOOR_HEIGHT) + ',\n' + \
+            indent_s + '"_width": ' + str(globals.FLOOR_WIDTH) + ',\n' + \
+            indent_s + '"_height": ' + str(globals.FLOOR_HEIGHT) + ',\n' + \
             indent_s + '"_floor": ' + self._floor.to_json(indent + 1) + ",\n" + \
             indent_s + '"_generated_by": "python"' + \
             "\n}"
@@ -45,7 +45,7 @@ class Generator:
         """
         Creates a new floor.
         """
-        self._floor = Floor(Globals.FLOOR_HEIGHT, Globals.FLOOR_WIDTH)
+        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH)
 
     def _append_and_add_to_floor_grid(self, room_queue: deque, room: tuple, direction: Direction) -> None:
         """
@@ -104,7 +104,7 @@ class Generator:
                         break
 
                 # Down
-                if room[1] + 1 < Globals.FLOOR_HEIGHT and \
+                if room[1] + 1 < globals.FLOOR_HEIGHT and \
                         not floor.contains_room(room[0], room[1] + 1) and floor.count_neighbours(
                     room[0], room[1] + 1) <= 1 and \
                         utils.place_room():
@@ -114,7 +114,7 @@ class Generator:
                         break
 
                 # Right
-                if room[0] + 1 < Globals.FLOOR_WIDTH and \
+                if room[0] + 1 < globals.FLOOR_WIDTH and \
                         not floor.contains_room(room[0] + 1, room[1]) and floor.count_neighbours(
                         room[0] + 1, room[1]) <= 1 and utils.place_room():
                     self._append_and_add_to_floor_grid(room_queue, room, Direction.RIGHT)
@@ -187,14 +187,14 @@ class Generator:
 
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            if (abs(start_room[0] - dead_end.get_x()) >= Globals.MIN_DISTANCE) and (
-                    abs(start_room[1] - dead_end.get_y()) >= Globals.MIN_DISTANCE):
+            if (abs(start_room[0] - dead_end.get_x()) >= globals.MIN_DISTANCE) and (
+                    abs(start_room[1] - dead_end.get_y()) >= globals.MIN_DISTANCE):
                 boss_room = dead_end
                 boss_room_index = index
 
         boss_room_x = boss_room.get_x()
         boss_room_y = boss_room.get_y()
-        if (boss_room_x + 1 < Globals.FLOOR_WIDTH) and (
+        if (boss_room_x + 1 < globals.FLOOR_WIDTH) and (
                 floor.count_neighbours(boss_room_x + 1, boss_room_y) == 1) and not (
                 floor.contains_room(boss_room_x + 1, boss_room_y)):
             possible_locations.append(Direction.RIGHT)
@@ -203,7 +203,7 @@ class Generator:
                 not (floor.contains_room(boss_room_x - 1, boss_room_y)):
             possible_locations.append(Direction.LEFT)
 
-        if (boss_room_y + 1 < Globals.FLOOR_HEIGHT) and (floor.count_neighbours(boss_room_x, boss_room_y + 1) == 1) and \
+        if (boss_room_y + 1 < globals.FLOOR_HEIGHT) and (floor.count_neighbours(boss_room_x, boss_room_y + 1) == 1) and \
                 not (floor.contains_room(boss_room_x, boss_room_y + 1)):
             possible_locations.append(Direction.DOWN)
 
@@ -258,13 +258,13 @@ class Generator:
         floor.add_teleport_room(boss_room)
         if not (floor.contains_room(0, 0)) and floor.has_no_neighbours(0, 0):
             boss_room.set_cord(0, 0)
-        elif not (floor.contains_room(0, Globals.FLOOR_HEIGHT - 1)) and floor.has_no_neighbours(0, Globals.FLOOR_HEIGHT - 1):
-            boss_room.set_cord(0, Globals.FLOOR_HEIGHT - 1)
-        elif not (floor.contains_room(Globals.FLOOR_WIDTH - 1, Globals.FLOOR_HEIGHT - 1)) and floor.has_no_neighbours(
-                Globals.FLOOR_WIDTH - 1, Globals.FLOOR_HEIGHT - 1):
-            boss_room.set_cord(Globals.FLOOR_WIDTH - 1, Globals.FLOOR_HEIGHT - 1)
-        elif not (floor.contains_room(Globals.FLOOR_WIDTH - 1, 0)) and floor.has_no_neighbours(Globals.FLOOR_WIDTH - 1, 0):
-            boss_room.set_cord(Globals.FLOOR_WIDTH - 1, 0)
+        elif not (floor.contains_room(0, globals.FLOOR_HEIGHT - 1)) and floor.has_no_neighbours(0, globals.FLOOR_HEIGHT - 1):
+            boss_room.set_cord(0, globals.FLOOR_HEIGHT - 1)
+        elif not (floor.contains_room(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)) and floor.has_no_neighbours(
+                globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1):
+            boss_room.set_cord(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)
+        elif not (floor.contains_room(globals.FLOOR_WIDTH - 1, 0)) and floor.has_no_neighbours(globals.FLOOR_WIDTH - 1, 0):
+            boss_room.set_cord(globals.FLOOR_WIDTH - 1, 0)
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
@@ -273,8 +273,8 @@ class Generator:
         """
         floor = self._floor
         i = 0
-        while i < len(Globals.SPECIAL_ROOMS) and i < len(dead_ends):
-            floor.get_rooms()[dead_ends[i]].set_type(Globals.SPECIAL_ROOMS[i])
+        while i < len(globals.SPECIAL_ROOMS) and i < len(dead_ends):
+            floor.get_rooms()[dead_ends[i]].set_type(globals.SPECIAL_ROOMS[i])
             i += 1
 
     def save(self) -> None:
