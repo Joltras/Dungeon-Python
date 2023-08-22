@@ -4,11 +4,11 @@ from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 class Room:
 
-    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType):
+    def __init__(self, x: int, y: int, room_id: int, type: RoomType):
         self._x: int = x
         self._y: int = y
         self._id: int = room_id
-        self._room_type = room_type
+        self._type = type
         self._doors = []
 
     def __getitem__(self, index: int) -> int:
@@ -22,7 +22,7 @@ class Room:
     def __eq__(self, other):
         are_equal = False
         if isinstance(other, Room):
-            if other._x == self._x and other._y == self._y and other._room_type == self._room_type and self._id == other._id:
+            if other._x == self._x and other._y == self._y and other._type == self._type and self._id == other._id:
                 are_equal = True
         return are_equal
 
@@ -40,8 +40,8 @@ class Room:
                 json_string += ",\n"
             i += 1
         json_string += "\n" + indent_s + "],\n" + indent_s + '"_id": ' + str(
-                       self._id) + ",\n" + indent_s + '"_room_type": ' + \
-                       str(self._room_type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
+                       self._id) + ",\n" + indent_s + '"_type": ' + \
+                       str(self._type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
                        '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
         return json_string
 
@@ -50,14 +50,14 @@ class Room:
         Sets the type of the room.
         :param room_type: type for the room
         """
-        self._room_type = room_type
+        self._type = room_type
 
     def get_type(self) -> RoomType:
         """
         Returns the type of the room.
         :return: type
         """
-        return self._room_type
+        return self._type
 
     def get_x(self) -> int:
         """
