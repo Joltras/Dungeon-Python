@@ -32,7 +32,7 @@ class PygameNormalRoom(Room):
         Draws the room on the screen.
         :param screen: screen to draw on
         """
-        color = globals.Room_Colors[self._room_type]
+        color = globals.Room_Colors[self._type]
         pygame.draw.rect(screen, color.value, self._rect)
 
     def draw_doors(self, screen: pygame.Surface) -> None:
