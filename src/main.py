@@ -38,7 +38,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
 
 if __name__ == '__main__':
     _seed: str = ""
-    _output: str = ""
+    _output: str = "floor"
     show_ui: bool = False
     _floor_id: int = 0
     i: int = 1
@@ -74,10 +74,7 @@ if __name__ == '__main__':
 
     if _seed == "":
         _seed = secrets.token_hex(16)
-    if _output == "":
-        time = str(datetime.now().microsecond)
-        _output = time + globals.JSON_SUFFIX
-    if not _output.endswith(globals.JSON_SUFFIX):
-        _output += globals.JSON_SUFFIX
+
+
 
     main(_seed, _output, show_ui, _floor_id)
