@@ -113,14 +113,13 @@ class Floor:
         """
         return self._floor_grid
 
-    def contains_room(self, x: int, y: int) -> bool:
+    def contains_room(self, coordinates: tuple) -> bool:
         """
         Checks if there is a room at the given coordinates.
-        :param x: x coordinate
-        :param y: y coordinate
+        :param coordinates: coordinates to check
         :return: true if a there is a room otherwise false
         """
-        return self._floor_grid[y][x] == 1
+        return self._floor_grid[coordinates[1]][coordinates[0]] == 1
 
     def add_doors_to_rooms(self) -> None:
         """
