@@ -144,6 +144,8 @@ class Generator:
         :param dead_end_indices: indices for all dead ends
         :param start_room: coordinates of the start room in a tuple
         """
+        if len(dead_end_indices) == 0:
+            return
         floor = self._floor
         boss_room: Room
         boss_room_x: int
