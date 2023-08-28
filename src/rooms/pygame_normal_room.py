@@ -9,18 +9,18 @@ class PygameNormalRoom(Room):
     Pygame version of room.
     """
 
-    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=globals.ROOM_WIDTH,
+    def __init__(self, x: int, y: int, room_id: int, type: RoomType, width=globals.ROOM_WIDTH,
                  height=globals.ROOM_HEIGHT):
         """
         Creates a new room with the given arguments.
         :param x: x coordinate of the room
         :param y: y coordinate of the room
         :param room_id: id of the room
-        :param room_type: type of room
+        :param type: type of room
         :param width: room width
         :param height: room height
         """
-        super().__init__(x, y, room_id, room_type)
+        super().__init__(x, y, room_id, type)
         self._height = height
         self._width = width
         self._rect = pygame.Rect(self._x * width + globals.x_offset,
