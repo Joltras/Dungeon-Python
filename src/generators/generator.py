@@ -164,22 +164,20 @@ class Generator:
 
         boss_room_x = boss_room.get_x()
         boss_room_y = boss_room.get_y()
-        if (boss_room_x + 1 < globals.FLOOR_WIDTH) and (
-                floor.count_neighbours(boss_room_x + 1, boss_room_y) == 1) and not (
-                floor.contains_room((boss_room_x + 1, boss_room_y))):
-            possible_locations.append(Direction.RIGHT)
+        for direction in Direction:
+            if direction is Direction.RIGHT:
+                new_boss_tuple = (boss_room_x + 1, boss_room_y)
+            elif direction is Direction.LEFT:
+                new_boss_tuple = (boss_room_x - 1, boss_room_y)
+            elif direction is Direction.DOWN:
+                new_boss_tuple = (boss_room_x, boss_room_y + 1)
+            elif direction is Direction.UP:
+                new_boss_tuple = (boss_room_x, boss_room_y - 1)
+            else:
+                continue
+            if self._floor.is_within_border(new_boss_tuple) and floor.count_neighbours(new_boss_tuple[0], new_boss_tuple[1]) == 1 and not self._floor.contains_room(new_boss_tuple):
+                possible_locations.append(direction)
 
-        if (boss_room_x - 1 >= 0) and (floor.count_neighbours(boss_room_x - 1, boss_room_y) == 1) and \
-                not (floor.contains_room((boss_room_x - 1, boss_room_y))):
-            possible_locations.append(Direction.LEFT)
-
-        if (boss_room_y + 1 < globals.FLOOR_HEIGHT) and (floor.count_neighbours(boss_room_x, boss_room_y + 1) == 1) and \
-                not (floor.contains_room((boss_room_x, boss_room_y + 1))):
-            possible_locations.append(Direction.DOWN)
-
-        if (boss_room_y - 1 >= 0) and (floor.count_neighbours(boss_room_x, boss_room_y - 1) == 1) and \
-                not (floor.contains_room((boss_room_x, boss_room_y - 1))):
-            possible_locations.append(Direction.UP)
 
         if len(possible_locations) == 0:
             # Place a teleport-room to the boss-room
