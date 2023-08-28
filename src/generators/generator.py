@@ -1,6 +1,7 @@
 import random
 from collections import deque
 from datetime import datetime
+from typing import List
 
 import utils
 from globals import RoomType, Direction
@@ -18,9 +19,9 @@ class Generator:
     def __init__(self, seed: str, output_file: str, stage_id: int = 2):
         """
         Creates a new generator with the given arguments.
-        :param seed: seed for generating the floor
-        :param output_file: file name for saving the result
-        :param stage_id: id for the floor
+        @param seed: seed for generating the floor
+        @param output_file: file name for saving the result
+        @param stage_id: id for the floor
         """
         self._stage_id = stage_id
         self._seed = seed
@@ -30,7 +31,7 @@ class Generator:
     def to_json(self, indent: int) -> str:
         """
         Creates a string representation of the generator object.
-        :return: json string of the generator
+        @return: json string of the generator
         """
         indent_s = globals.BASE_INDENT * indent
 
@@ -50,8 +51,15 @@ class Generator:
         self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH)
 
     def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
+        """
+        Checks if a room can be added at the new position.
+        @param new_room_tuple: position for the new room
+        @param room_tuple_queue: queue for the rooms
+        @return: True if the position was added to the queue otherwise False
+        """
         print(str(new_room_tuple))
-        if self._floor.is_within_border(new_room_tuple) and (not self._floor.contains_room(new_room_tuple)) and (self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1) and utils.place_room():
+        if self._floor.is_within_border(new_room_tuple) and (not self._floor.contains_room(new_room_tuple)) and (
+                self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1) and utils.place_room():
             room_tuple_queue.append(new_room_tuple)
             self._floor.add_to_floor_grid(new_room_tuple[0], new_room_tuple[1])
             return True
@@ -114,7 +122,7 @@ class Generator:
     def mark_dead_ends(self) -> list:
         """
         Searches for dead ends in the floor and marks them ands returns their indices in a list.
-        :return: indices of all dead ends
+        @return: indices of all dead ends
         """
         dead_end_indices = []
         floor = self._floor
@@ -131,8 +139,8 @@ class Generator:
     def _add_rooms_next_to_room(self, room, directions) -> None:
         """
         Adds new boss rooms next to a given room.
-        :param room: new rooms will be placed next to this room
-        :param directions: directions in which the new boss rooms will be placed
+        @param room: new rooms will be placed next to this room
+        @param directions: directions in which the new boss rooms will be placed
         """
         floor = self._floor
         for direction in directions:
@@ -141,8 +149,8 @@ class Generator:
     def add_boss_room(self, dead_end_indices: list, start_room: tuple) -> None:
         """
         Marks a room as the boss room depending on the location of the start room.
-        :param dead_end_indices: indices for all dead ends
-        :param start_room: coordinates of the start room in a tuple
+        @param dead_end_indices: indices for all dead ends
+        @param start_room: coordinates of the start room in a tuple
         """
         if len(dead_end_indices) == 0:
             return
@@ -175,9 +183,11 @@ class Generator:
                 new_boss_tuple = (boss_room_x, boss_room_y - 1)
             else:
                 continue
-            if self._floor.is_within_border(new_boss_tuple) and floor.count_neighbours(new_boss_tuple[0], new_boss_tuple[1]) == 1 and not self._floor.contains_room(new_boss_tuple):
+            if self._floor.is_within_border(new_boss_tuple) and floor.count_neighbours(new_boss_tuple[0],
+                                                                                       new_boss_tuple[
+                                                                                           1]) == 1 and not self._floor.contains_room(
+                    new_boss_tuple):
                 possible_locations.append(direction)
-
 
         if len(possible_locations) == 0:
             # Place a teleport-room to the boss-room
@@ -195,7 +205,13 @@ class Generator:
         boss_room.set_type(RoomType.BOSS_ROOM)
         dead_end_indices.remove(boss_room_index)
 
-    def _place_big_boss_room(self, possible_locations, boss_room):
+    def _place_big_boss_room(self, possible_locations: List, boss_room: Room) -> bool:
+        """
+        Searches a free location to add more boss rooms next to the existing boss room.
+        @param possible_locations: possible positions for the other boss rooms
+        @param boss_room: current boss room
+        @return: True if more boss rooms are added otherwise False
+        """
         if Direction.UP in possible_locations and Direction.RIGHT in possible_locations:
             if self._floor.has_no_neighbours(boss_room[0] + 1, boss_room[1] - 1):
                 self._add_rooms_next_to_room(boss_room, [Direction.UP, Direction.RIGHT, Direction.UP_RIGHT])
@@ -220,7 +236,7 @@ class Generator:
     def _place_boss_with_teleport_room(self, boss_room) -> None:
         """
         Searches for a free places in the corners of the floor to replace the boss room.
-        :param boss_room: boss room to replace
+        @param boss_room: boss room to replace
         """
         floor = self._floor
         floor.add_teleport_room(boss_room)
@@ -238,8 +254,8 @@ class Generator:
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
-        Places the special rooms on the floor
-        :param dead_ends: indices of all dead ends
+        Places the special rooms on the dead ends of the floor.
+        @param dead_ends: indices of all dead ends
         """
         floor = self._floor
         i = 0
