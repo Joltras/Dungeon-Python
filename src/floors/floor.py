@@ -172,3 +172,6 @@ class Floor:
         :return: True if the location has zero neighbours otherwise False
         """
         return self.count_neighbours(x, y) == 0
+
+    def is_within_border(self, coordinates: tuple):
+        return 0 <= coordinates[0] < self._width and 0 <= coordinates[1] < self._height
