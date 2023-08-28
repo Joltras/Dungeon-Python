@@ -122,7 +122,7 @@ class Generator:
         while i < len(floor.get_rooms()):
             room = floor.get_rooms()[i]
             if floor.is_dead_end(room.get_x(), room.get_y()):
-                if room.get_type() != RoomType.START_ROOM:
+                if room.get_type() == RoomType.NORMAL_ROOM:
                     room.set_type(RoomType.DEAD_END)
                     dead_end_indices += (i,)
             i += 1
