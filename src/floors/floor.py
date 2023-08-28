@@ -173,5 +173,10 @@ class Floor:
         """
         return self.count_neighbours(x, y) == 0
 
-    def is_within_border(self, coordinates: tuple):
+    def is_within_border(self, coordinates: tuple) -> bool:
+        """
+        Checks if the given coordinates are within the floor.
+        @param coordinates: coordinates to check
+        @return: True if the coordinates are within the floor otherwise False
+        """
         return 0 <= coordinates[0] < self._width and 0 <= coordinates[1] < self._height
