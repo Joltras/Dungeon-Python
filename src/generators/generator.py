@@ -145,8 +145,6 @@ class Generator:
             return
         floor = self._floor
         boss_room: Room
-        boss_room_x: int
-        boss_room_y: int
         possible_locations: list = []
         boss_room_placed = False
         boss_room = floor.get_rooms()[dead_end_indices[0]]
@@ -191,25 +189,18 @@ class Generator:
         @param boss_room: current boss room
         @return: True if more boss rooms are added otherwise False
         """
-        if Direction.UP in possible_locations and Direction.RIGHT in possible_locations:
-            if self._floor.has_no_neighbours(boss_room[0] + 1, boss_room[1] - 1):
-                self._add_rooms_next_to_room(boss_room, [Direction.UP, Direction.RIGHT, Direction.UP_RIGHT])
+        directions = [
+            (Direction.RIGHT, Direction.UP, Direction.UP_RIGHT),
+            (Direction.RIGHT, Direction.DOWN, Direction.DOWN_RIGHT),
+            (Direction.LEFT, Direction.UP, Direction.UP_LEFT),
+            (Direction.LEFT, Direction.DOWN, Direction.DOWN_LEFT)
+        ]
+        for direction in directions:
+            corner = utils.add_direction_to_coordinates(direction[2], (boss_room[0], boss_room[1]))
+            if direction[0] in possible_locations and direction[1] in possible_locations and self._floor.has_no_neighbours(corner[0], corner[1]):
+                self._add_rooms_next_to_room(boss_room, direction)
                 return True
 
-        if Direction.UP in possible_locations and Direction.LEFT in possible_locations:
-            if self._floor.has_no_neighbours(boss_room[0] - 1, boss_room[1] - 1):
-                self._add_rooms_next_to_room(boss_room, [Direction.LEFT, Direction.UP, Direction.UP_LEFT])
-                return True
-
-        if Direction.DOWN in possible_locations and Direction.RIGHT in possible_locations:
-            if self._floor.has_no_neighbours(boss_room[0] + 1, boss_room[1] + 1):
-                self._add_rooms_next_to_room(boss_room, [Direction.DOWN, Direction.RIGHT, Direction.DOWN_RIGHT])
-                return True
-
-        if Direction.DOWN in possible_locations and Direction.LEFT in possible_locations:
-            if self._floor.has_no_neighbours(boss_room[0] - 1, boss_room[1] + 1):
-                self._add_rooms_next_to_room(boss_room, [Direction.LEFT, Direction.DOWN, Direction.DOWN_LEFT])
-                return True
         return False
 
     def _place_boss_with_teleport_room(self, boss_room) -> None:
@@ -221,14 +212,17 @@ class Generator:
         floor.add_teleport_room(boss_room)
         if not (floor.contains_room((0, 0))) and floor.has_no_neighbours(0, 0):
             boss_room.set_cord(0, 0)
-        elif not (floor.contains_room((0, globals.FLOOR_HEIGHT - 1))) and floor.has_no_neighbours(0,
-                                                                                                  globals.FLOOR_HEIGHT - 1):
+
+        elif (not (floor.contains_room((0, globals.FLOOR_HEIGHT - 1))) and
+              floor.has_no_neighbours(0, globals.FLOOR_HEIGHT - 1)):
             boss_room.set_cord(0, globals.FLOOR_HEIGHT - 1)
-        elif not (floor.contains_room((globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1))) and floor.has_no_neighbours(
-                globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1):
+
+        elif (not (floor.contains_room((globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1))) and
+              floor.has_no_neighbours(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)):
             boss_room.set_cord(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)
-        elif not (floor.contains_room((globals.FLOOR_WIDTH - 1, 0))) and floor.has_no_neighbours(
-                globals.FLOOR_WIDTH - 1, 0):
+
+        elif (not (floor.contains_room((globals.FLOOR_WIDTH - 1, 0))) and
+              floor.has_no_neighbours(globals.FLOOR_WIDTH - 1, 0)):
             boss_room.set_cord(globals.FLOOR_WIDTH - 1, 0)
 
     def add_special_rooms(self, dead_ends: list) -> None:
