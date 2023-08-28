@@ -84,17 +84,8 @@ class Generator:
         room_tuple_list = []
         while number_of_current_rooms < number_of_rooms and len(room_tuple_queue) > 0:
             room_tuple = room_tuple_queue.pop()
-            for direction in Direction:
-                if direction is Direction.UP:
-                    new_room_tuple: tuple = (room_tuple[0], room_tuple[1] - 1)
-                elif direction is Direction.DOWN:
-                    new_room_tuple = (room_tuple[0], room_tuple[1] + 1)
-                elif direction is Direction.RIGHT:
-                    new_room_tuple = (room_tuple[0] + 1, room_tuple[1])
-                elif direction is Direction.LEFT:
-                    new_room_tuple = (room_tuple[0] - 1, room_tuple[1])
-                else:
-                    continue
+            for direction in Direction.main_directions():
+                new_room_tuple = utils.add_direction_to_coordinates(direction, room_tuple)
                 if self._add_new_room(new_room_tuple, room_tuple_queue):
                     number_of_current_rooms += 1
                     print(room_tuple_queue)
@@ -172,17 +163,8 @@ class Generator:
 
         boss_room_x = boss_room.get_x()
         boss_room_y = boss_room.get_y()
-        for direction in Direction:
-            if direction is Direction.RIGHT:
-                new_boss_tuple = (boss_room_x + 1, boss_room_y)
-            elif direction is Direction.LEFT:
-                new_boss_tuple = (boss_room_x - 1, boss_room_y)
-            elif direction is Direction.DOWN:
-                new_boss_tuple = (boss_room_x, boss_room_y + 1)
-            elif direction is Direction.UP:
-                new_boss_tuple = (boss_room_x, boss_room_y - 1)
-            else:
-                continue
+        for direction in Direction.main_directions():
+            new_boss_tuple = utils.add_direction_to_coordinates(direction, (boss_room_x, boss_room_y))
             if self._floor.is_within_border(new_boss_tuple) and floor.count_neighbours(new_boss_tuple[0],
                                                                                        new_boss_tuple[
                                                                                            1]) == 1 and not self._floor.contains_room(
