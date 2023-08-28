@@ -35,3 +35,11 @@ def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tu
         return coordinates[0] - 1, coordinates[1]
     if direction is Direction.RIGHT:
         return coordinates[0] + 1, coordinates[1]
+    if direction is Direction.UP_LEFT:
+        return coordinates[0] - 1, coordinates[1] - 1
+    if direction is Direction.UP_RIGHT:
+        return coordinates[0] + 1, coordinates[1] - 1
+    if direction is Direction.DOWN_LEFT:
+        return coordinates[0] - 1, coordinates[1] + 1
+    if direction is Direction.DOWN_RIGHT:
+        return coordinates[0] + 1, coordinates[1] + 1
