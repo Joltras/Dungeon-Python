@@ -71,8 +71,6 @@ class Generator:
         """
         self._create_floor()
         floor = self._floor
-        print("-------------------------------")
-
         number_of_rooms = utils.calculate_room_amount(self._stage_id)
 
         # Add start room
@@ -165,10 +163,9 @@ class Generator:
         boss_room_y = boss_room.get_y()
         for direction in Direction.main_directions():
             new_boss_tuple = utils.add_direction_to_coordinates(direction, (boss_room_x, boss_room_y))
-            if self._floor.is_within_border(new_boss_tuple) and floor.count_neighbours(new_boss_tuple[0],
-                                                                                       new_boss_tuple[
-                                                                                           1]) == 1 and not self._floor.contains_room(
-                    new_boss_tuple):
+            if (self._floor.is_within_border(new_boss_tuple) and
+                    floor.count_neighbours(new_boss_tuple[0], new_boss_tuple[1]) == 1 and
+                    not self._floor.contains_room(new_boss_tuple)):
                 possible_locations.append(direction)
 
         if len(possible_locations) == 0:
