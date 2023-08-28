@@ -54,15 +54,15 @@ class Floor:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM) -> None:
+    def add_room(self, x: int, y: int, type: RoomType = RoomType.NORMAL_ROOM) -> None:
         """
         Creates and adds a room to the floor.
         :param x: x coordinate of the room
         :param y: y coordinate of the room
-        :param room_type: type of the room (default = normal room)
+        :param type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
-        self._rooms.append(Room(x=x, y=y, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(Room(x=x, y=y, type=type, room_id=self._room_id))
         self._room_id += 1
 
     def add_room_next_to(self, room: Room, direction: Direction, room_type: RoomType) -> None:
