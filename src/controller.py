@@ -16,6 +16,10 @@ async def root():
 
 @app.get("/g")
 async def generate():
+    """
+    This endpoint generates a floor and returns it in a FileResponse as a json file.
+    @return: Floor in json format
+    """
     generator = Generator(secrets.token_hex(16), "floor.json")
     generator.generate()
     generator.save()
