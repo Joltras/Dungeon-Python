@@ -240,7 +240,7 @@ class Generator:
             floor.get_rooms()[dead_ends[i]].set_type(globals.SPECIAL_ROOMS[i])
             i += 1
 
-    def save(self) -> None:
+    def save(self) -> str:
         """
         Writes the generated floor in the output file.
         """
@@ -250,3 +250,4 @@ class Generator:
         f = open(output, "w")
         f.write(self.to_json(1))
         f.close()
+        return output
