@@ -149,13 +149,17 @@ class Generator:
         boss_room_placed = False
         boss_room = floor.get_rooms()[dead_end_indices[0]]
         boss_room_index = dead_end_indices[0]
-
+        max_distance = 0
+        max_distance_index = 0
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            if (abs(start_room[0] - dead_end.get_x()) >= globals.MIN_DISTANCE) and (
-                    abs(start_room[1] - dead_end.get_y()) >= globals.MIN_DISTANCE):
-                boss_room = dead_end
-                boss_room_index = index
+            current_distance = (start_room[0] - dead_end[0]) * (start_room[0] - dead_end[0]) + (start_room[1] - dead_end[1]) * (start_room[1] - dead_end[1])
+            if max_distance < current_distance:
+                max_distance = current_distance
+                max_distance_index = index
+
+            boss_room = floor.get_rooms()[max_distance_index]
+            boss_room_index = max_distance_index
 
         boss_room_x = boss_room.get_x()
         boss_room_y = boss_room.get_y()
