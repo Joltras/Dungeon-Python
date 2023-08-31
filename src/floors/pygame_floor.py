@@ -49,7 +49,7 @@ class PygameFloor(Floor):
         New teleport room is placed at the location from the given room.
         @param room: Room which is connected to the teleport room.
         """
-        t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id, teleport_room_id=room.get_id())
+        t_room = PygameTeleportRoom(x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 

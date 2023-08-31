@@ -19,8 +19,7 @@ Options:
 
 def main(seed: str, output: str, ui: bool, floor_id):
     output_folder = os.path.join(globals.APPLICATION_PATH, "generation")
-    output  = os.path.join(output_folder, output)
-
+    output = os.path.join(output_folder, output)
 
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
@@ -39,8 +38,8 @@ def main(seed: str, output: str, ui: bool, floor_id):
 if __name__ == '__main__':
     _seed: str = ""
     _output: str = "floor"
-    show_ui: bool = False
-    _floor_id: int = 0
+    show_ui: bool = True
+    _floor_id: int = 2
     i: int = 1
     while i < len(sys.argv):
         if sys.argv[i] == "-s" or sys.argv[i] == "--seed":
@@ -74,7 +73,5 @@ if __name__ == '__main__':
 
     if _seed == "":
         _seed = secrets.token_hex(16)
-
-
 
     main(_seed, _output, show_ui, _floor_id)

@@ -77,21 +77,21 @@ class Floor:
         @param room_type: type for the room
         """
         if direction == Direction.UP:
-            self.add_room(room.get_x(), room.get_y() - 1, room_type)
+            self.add_room(room[0], room[1] - 1, room_type)
         elif direction == Direction.DOWN:
-            self.add_room(room.get_x(), room.get_y() + 1, room_type)
+            self.add_room(room[0], room[1] + 1, room_type)
         elif direction == Direction.LEFT:
-            self.add_room(room.get_x() - 1, room.get_y(), room_type)
+            self.add_room(room[0] - 1, room[1], room_type)
         elif direction == Direction.RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y(), room_type)
+            self.add_room(room[0] + 1, room[1], room_type)
         elif direction == Direction.UP_RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y() - 1, room_type)
+            self.add_room(room[0] + 1, room[1] - 1, room_type)
         elif direction == Direction.UP_LEFT:
-            self.add_room(room.get_x() - 1, room.get_y() - 1, room_type)
+            self.add_room(room[0] - 1, room[1] - 1, room_type)
         elif direction == Direction.DOWN_RIGHT:
-            self.add_room(room.get_x() + 1, room.get_y() + 1, room_type)
+            self.add_room(room[0] + 1, room[1] + 1, room_type)
         elif direction == Direction.DOWN_LEFT:
-            self.add_room(room.get_x() - 1, room.get_y() + 1, room_type)
+            self.add_room(room[0] - 1, room[1] + 1, room_type)
 
     def add_teleport_room(self, room: Room) -> None:
         """
@@ -99,7 +99,7 @@ class Floor:
         The new teleport room is placed at the position from the given room.
         @param room: Room which is connected to the teleport room.
         """
-        t_room = TeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id, connected_room_id=room.get_id())
+        t_room = TeleportRoom(x=room[0], y=room[1], room_id=self._room_id, connected_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 
@@ -130,8 +130,8 @@ class Floor:
         Adds doors to all rooms on the floor.
         """
         for room in self._rooms:
-            x = room.get_x()
-            y = room.get_y()
+            x = room[0]
+            y = room[1]
             if x + 1 < len(self._floor_grid[y]) and self._floor_grid[y][x + 1] == 1:
                 room.add_door(DoorFace.EAST)
             if x - 1 >= 0 and self._floor_grid[y][x - 1] == 1:

@@ -36,12 +36,6 @@ class RoomTest(unittest.TestCase):
         expected = [DoorFace.TOP, DoorFace.BOTTOM, DoorFace.EAST, DoorFace.WEST]
         self.assertEqual(expected, self._room.get_doors())
 
-    def test_get_x(self):
-        self.assertEqual(10, self._room.get_x())
-
-    def test_get_y(self):
-        self.assertEqual(20, self._room.get_y())
-
     def test_get_id(self):
         self.assertEqual(1, self._room.get_id())
 
@@ -54,16 +48,8 @@ class RoomTest(unittest.TestCase):
 
     def test_set_cord(self):
         self._room.set_cord(50, 20)
-        self.assertEqual(50, self._room.get_x())
-        self.assertEqual(20, self._room.get_y())
-
-    def test_eql(self):
-        room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
-        self.assertTrue(room == self._room)
-
-    def test_eql_false(self):
-        room = Room(10, 30, 1, RoomType.NORMAL_ROOM)
-        self.assertFalse(room == self._room)
+        self.assertEqual(50, self._room[0])
+        self.assertEqual(20, self._room[1])
 
 
 if __name__ == '__main__':

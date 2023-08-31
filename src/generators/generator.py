@@ -118,7 +118,7 @@ class Generator:
         i = 0
         while i < len(floor.get_rooms()):
             room = floor.get_rooms()[i]
-            if floor.is_dead_end(room.get_x(), room.get_y()):
+            if floor.is_dead_end(room[0], room[1]):
                 if room.get_type() == RoomType.NORMAL_ROOM:
                     room.set_type(RoomType.DEAD_END)
                     dead_end_indices += (i,)
@@ -161,8 +161,8 @@ class Generator:
             boss_room = floor.get_rooms()[max_distance_index]
             boss_room_index = max_distance_index
 
-        boss_room_x = boss_room.get_x()
-        boss_room_y = boss_room.get_y()
+        boss_room_x = boss_room[0]
+        boss_room_y = boss_room[1]
         for direction in Direction.main_directions():
             new_boss_tuple = utils.add_direction_to_coordinates(direction, (boss_room_x, boss_room_y))
             if (self._floor.is_within_border(new_boss_tuple) and

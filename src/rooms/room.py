@@ -65,20 +65,6 @@ class Room:
         """
         return self._type
 
-    def get_x(self) -> int:
-        """
-        Returns the x coordinate of the room.
-        @return: x coordinate
-        """
-        return self._x
-
-    def get_y(self) -> int:
-        """
-        Returns the y coordinate of the room.
-        @return: y coordinate
-        """
-        return self._y
-
     def get_id(self) -> int:
         """
         Returns the id of a room.
