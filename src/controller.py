@@ -22,6 +22,5 @@ async def generate():
     """
     generator = Generator(secrets.token_hex(16), "floor.json")
     generator.generate()
-    generator.save()
-    path = os.path.join(globals.APPLICATION_PATH, "generation/floor.json")
+    path = generator.save()
     return FileResponse(path=path, filename="floor.json")
