@@ -14,8 +14,8 @@ class PygameGenerator(Generator):
     def __init__(self, seed: str, output_file: str, stage_id: int = 2):
         """
         Creates a new generator.
-        :param seed: seed for the random generator
-        :param output_file: file to save the floor to
+        @param seed: seed for the random generator
+        @param output_file: file to save the floor to
         """
         super().__init__(seed, output_file, stage_id)
         self.screen = pygame.display.set_mode((globals.window_width, globals.window_height))
@@ -26,7 +26,7 @@ class PygameGenerator(Generator):
     def get_floors(self) -> deque:
         """
         Returns all floors that have been generated.
-        :return: queue with all floors
+        @return: queue with all floors
         """
         return self._floors
 
@@ -61,7 +61,7 @@ class PygameGenerator(Generator):
     def _key_down(self, event) -> None:
         """
         Checks which key was pressed and reacts to it.
-        :param event:
+        @param event:
         """
         if event.key == pygame.K_s:
             self.save()
