@@ -1,9 +1,13 @@
+from typing import List, Tuple, TypeVar
+
 import numpy as np
 
 import globals
 from globals import RoomType, Direction, DoorFace
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
+
+T = TypeVar('T', bound=Room)
 
 
 class Floor:
@@ -18,11 +22,11 @@ class Floor:
         @param height: height for the floor
         @param width: width for the floor
         """
-        self._rooms = []
+        self._rooms: List[T] = []
         self._floor_grid = np.zeros((height, width))
-        self._width = width
-        self._height = height
-        self._room_id = 0
+        self._width: int = width
+        self._height: int = height
+        self._room_id: int = 0
 
     def to_json(self, indent: int):
         """
@@ -99,7 +103,7 @@ class Floor:
         self._rooms.append(t_room)
         self._room_id += 1
 
-    def get_rooms(self) -> list:
+    def get_rooms(self) -> List[Room]:
         """
         Returns a list containing all the rooms of the floor.
         @return: rooms
@@ -113,7 +117,7 @@ class Floor:
         """
         return self._floor_grid
 
-    def contains_room(self, coordinates: tuple) -> bool:
+    def contains_room(self, coordinates: Tuple[int, int]) -> bool:
         """
         Checks if there is a room at the given coordinates.
         @param coordinates: coordinates to check
@@ -173,7 +177,7 @@ class Floor:
         """
         return self.count_neighbours(x, y) == 0
 
-    def is_within_border(self, coordinates: tuple) -> bool:
+    def is_within_border(self, coordinates: Tuple[int, int]) -> bool:
         """
         Checks if the given coordinates are within the floor.
         @param coordinates: coordinates to check
