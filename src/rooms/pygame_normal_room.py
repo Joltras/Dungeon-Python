@@ -13,12 +13,12 @@ class PygameNormalRoom(Room):
                  height=globals.ROOM_HEIGHT):
         """
         Creates a new room with the given arguments.
-        :param x: x coordinate of the room
-        :param y: y coordinate of the room
-        :param room_id: id of the room
-        :param type: type of room
-        :param width: room width
-        :param height: room height
+        @param x: x coordinate of the room
+        @param y: y coordinate of the room
+        @param room_id: id of the room
+        @param type: type of room
+        @param width: room width
+        @param height: room height
         """
         super().__init__(x, y, room_id, type)
         self._height = height
@@ -30,7 +30,7 @@ class PygameNormalRoom(Room):
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the room on the screen.
-        :param screen: screen to draw on
+        @param screen: screen to draw on
         """
         color = globals.Room_Colors[self._type]
         pygame.draw.rect(screen, color.value, self._rect)
@@ -38,7 +38,7 @@ class PygameNormalRoom(Room):
     def draw_doors(self, screen: pygame.Surface) -> None:
         """
         Draws all the doors of the room on the given screen.
-        :param screen: screen to draw on
+        @param screen: screen to draw on
         """
         door_color = globals.DOOR_COLOR
         for door in self._doors:
@@ -65,29 +65,29 @@ class PygameNormalRoom(Room):
     def get_rect(self) -> pygame.Rect:
         """
         Returns the rectangle of a room.
-        :return: rectangle
+        @return: rectangle
         """
         return self._rect
 
     def get_height(self) -> int:
         """
         Returns the height of the room.
-        :return: height of the room
+        @return: height of the room
         """
         return self._height
 
     def get_width(self) -> int:
         """
         Returns the width of the room.
-        :return: width of the room
+        @return: width of the room
         """
         return self._width
 
     def set_cord(self, x: int, y: int) -> None:
         """
         Sets the coordinates of a room.
-        :param x: new x coordinate
-        :param y: new y coordinate
+        @param x: new x coordinate
+        @param y: new y coordinate
         """
         super().set_cord(x, y)
         self._rect = pygame.Rect(self._x * self._width + globals.x_offset,
