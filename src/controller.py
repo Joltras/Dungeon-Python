@@ -14,7 +14,7 @@ async def root():
     return {"message": "Test"}
 
 
-@app.get("/g/{floor_id}")
+@app.get("/gen/{floor_id}")
 async def generate_with_id(floor_id: int) -> FileResponse:
     """
     This endpoint generates a floor with the given id and returns it in a FileResponse as a json file.
@@ -27,7 +27,7 @@ async def generate_with_id(floor_id: int) -> FileResponse:
     return FileResponse(path=path, filename="floor.json")
 
 
-@app.get("/g")
+@app.get("/gen")
 async def generate() -> FileResponse:
     """
     This endpoint generates a floor with the id zero and returns it as a json file.
