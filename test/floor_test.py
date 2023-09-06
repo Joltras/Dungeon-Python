@@ -20,7 +20,7 @@ class FloorTest(unittest.TestCase):
         self.assertEqual(expected, self._floor.to_json(1))
 
     def test_contains_room(self):
-        self.assertFalse(self._floor.contains_room(1, 1))
+        self.assertFalse(self._floor.contains_room((1, 1)))
 
     def test_add_to_floor_grid_error(self):
         with self.assertRaises(IndexError):
@@ -28,12 +28,13 @@ class FloorTest(unittest.TestCase):
 
     def test_add_two_floor_grid(self):
         self._floor.add_to_floor_grid(2, 3)
-        self.assertTrue(self._floor.contains_room(2, 3))
+        self.assertTrue(self._floor.contains_room((2, 3)))
 
     def test_add_room(self):
         self._floor.add_room(1, 1)
-        self.assertTrue(self._floor.contains_room(1, 1))
-        self.assertEqual(Room(1, 1, 0, RoomType.NORMAL_ROOM), self._floor.get_rooms()[0])
+        self.assertTrue(self._floor.contains_room((1, 1)))
+        result = self._floor.get_rooms()[0]
+        self.assertEqual(Room(1, 1, 0, RoomType.NORMAL_ROOM), result)
 
     def test_get_rooms(self):
         rooms = [Room(2, 2, 0, RoomType.NORMAL_ROOM),
