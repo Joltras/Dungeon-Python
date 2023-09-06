@@ -35,6 +35,7 @@ class Room:
     def to_json(self, indent: int) -> str:
         """
         Creates a json representation of the room object.
+        @param indent: Amount of indentation the json representation should have
         @return: json string
         """
         indent_s: str = globals.BASE_INDENT * indent
