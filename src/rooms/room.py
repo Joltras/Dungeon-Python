@@ -46,9 +46,9 @@ class Room:
                 json_string += ",\n"
             i += 1
         json_string += "\n" + indent_s + "],\n" + indent_s + '"_id": ' + str(
-                       self._id) + ",\n" + indent_s + '"_type": ' + \
-                       str(self._type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
-                       '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
+            self._id) + ",\n" + indent_s + '"_type": ' + \
+            str(self._type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
+            '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
         return json_string
 
     def set_type(self, room_type: RoomType) -> None:
@@ -95,3 +95,22 @@ class Room:
         """
         if len(self._doors) < MAX_DOOR_AMOUNT:
             self._doors.append(door_face)
+
+    def __eq__(self, other) -> bool:
+        """
+        Compares two rooms which each other.
+        Two rooms are equal if they are at the same coordinates and have the same type.
+        @param other: Other object to compare
+        @return: True if other is a room and they are equal otherwise false.
+        """
+        if type(other) is not Room:
+            return False
+        other_room: Room = other
+        return self._x == other_room._x and self._y == other_room._y and self._type == other_room._type
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of a room object.
+        @return: String representation
+        """
+        return self.to_json(0)
