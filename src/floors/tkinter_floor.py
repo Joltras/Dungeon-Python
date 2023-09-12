@@ -1,22 +1,19 @@
 import globals
 from floors.floor import Floor
-import tkinter as tk
-import utils
 
 from rooms.tkinter_room import TkinterRoom
 
 
 class TkinterFloor(Floor):
-    def __init__(self, height: int, width: int):
+    def __init__(self, height: int, width: int, canvas):
         """
         Creates a new floor width the given width and height.
         :param height: height of the floor
         :param width: width of the floor
         """
         super().__init__(height, width)
-        color = globals.Color.GRAY.value
-        hex = utils.rgb2hex(color[0], color[1], color[2])
-        self._canvas = tk.Canvas(height= height, width=width, background=hex)
+        self._canvas = canvas
+        self._first_draw = True
 
     def add_room(self, x: int, y: int, type=globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
@@ -26,6 +23,6 @@ class TkinterFloor(Floor):
     def draw(self, root) -> None:
         """
         """
-        self._canvas.pack(anchor=tk.CENTER, expand = True)
+        self._canvas.delete("all")
         for room in self._rooms:
             room.draw(self._canvas)
