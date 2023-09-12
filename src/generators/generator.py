@@ -1,14 +1,14 @@
 import random
 from collections import deque
 from datetime import datetime
-from typing import List
+from typing import List, TypeVar
 
 import utils
 from globals import RoomType, Direction
 import globals
 from floors.floor import Floor
 from rooms.room import Room
-
+T = TypeVar('T', bound=Floor)
 
 class Generator:
     """
@@ -26,7 +26,7 @@ class Generator:
         self._stage_id = stage_id
         self._seed = seed
         self._output_file = output_file
-        self._floor = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
+        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
 
     def to_json(self, indent: int) -> str:
         """
