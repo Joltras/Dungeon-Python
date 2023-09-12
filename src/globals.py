@@ -7,6 +7,10 @@ class Direction(Enum):
     def list(cls):
         return list(map(lambda c: c.value, cls))
 
+    @classmethod
+    def main_directions(cls):
+        return cls.UP, cls.DOWN, cls.LEFT, cls.RIGHT
+
     UP = (0, -1)
     RIGHT = (1, 0)
     DOWN = (0, 1)
@@ -84,7 +88,6 @@ FLOOR_WIDTH: int = 9
 FLOOR_HEIGHT: int = 8
 MAX_ROOMS: int = 15
 # Distance between start and boss room
-MIN_DISTANCE = 6
 x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
 y_offset = 0
 

@@ -11,14 +11,32 @@ class RoomTest(unittest.TestCase):
 
     def test_to_json(self):
         expected = \
-            """{
-    "_doors": [],
+            """  {
+    "_doors": [
+
+    ],
     "_id": 1,
-    "_room_type": 0,
+    "_type": 0,
     "_x": 10,
     "_y": 20
-}"""
-        self.assertEqual(expected, self._room.to_json(1))
+  }"""
+        self.assertEqual(expected, self._room.to_json(2))
+
+    def test_to_json_with_doors(self):
+        expected = \
+            """  {
+    "_doors": [
+      0,
+      1
+    ],
+    "_id": 1,
+    "_type": 0,
+    "_x": 10,
+    "_y": 20
+  }"""
+        self._room.add_door(DoorFace.TOP)
+        self._room.add_door(DoorFace.EAST)
+        self.assertEqual(expected, self._room.to_json(2))
 
     def test_get_doors(self):
         self.assertEqual([], self._room.get_doors())
@@ -36,12 +54,6 @@ class RoomTest(unittest.TestCase):
         expected = [DoorFace.TOP, DoorFace.BOTTOM, DoorFace.EAST, DoorFace.WEST]
         self.assertEqual(expected, self._room.get_doors())
 
-    def test_get_x(self):
-        self.assertEqual(10, self._room.get_x())
-
-    def test_get_y(self):
-        self.assertEqual(20, self._room.get_y())
-
     def test_get_id(self):
         self.assertEqual(1, self._room.get_id())
 
@@ -54,16 +66,12 @@ class RoomTest(unittest.TestCase):
 
     def test_set_cord(self):
         self._room.set_cord(50, 20)
-        self.assertEqual(50, self._room.get_x())
-        self.assertEqual(20, self._room.get_y())
+        self.assertEqual(50, self._room[0])
+        self.assertEqual(20, self._room[1])
 
-    def test_eql(self):
-        room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
-        self.assertTrue(room == self._room)
-
-    def test_eql_false(self):
-        room = Room(10, 30, 1, RoomType.NORMAL_ROOM)
-        self.assertFalse(room == self._room)
+    def test_get_cord_with_exception(self):
+        with self.assertRaises(ValueError, msg="20 is not a valid index"):
+            result = self._room[20]
 
 
 if __name__ == '__main__':

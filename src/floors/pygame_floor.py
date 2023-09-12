@@ -15,17 +15,16 @@ class PygameFloor(Floor):
     def __init__(self, height: int, width: int):
         """
         Creates a new floor width the given width and height.
-        :param height: height of the floor
-        :param width: width of the floor
+        @param height: height of the floor
+        @param width: width of the floor
         """
         super().__init__(height, width)
-        self._rect = pygame.Rect(globals.x_offset, globals.y_offset,
-                                 width * globals.ROOM_WIDTH, height * globals.ROOM_HEIGHT)
+        self._rect = pygame.Rect(globals.x_offset, globals.y_offset, width * globals.ROOM_WIDTH, height * globals.ROOM_HEIGHT)
 
     def draw(self, screen: pygame.Surface) -> None:
         """
         Draws the floor with all the rooms on the screen.
-        :param screen: screen to draw on
+        @param screen: screen to draw on
         """
         for room in self._rooms:
             room.draw(screen)
@@ -36,9 +35,9 @@ class PygameFloor(Floor):
     def add_room(self, x: int, y: int, type=RoomType.NORMAL_ROOM):
         """
         Creates and adds a room to the floor.
-        :param x: x coordinate of the room
-        :param y: y coordinate of the room
-        :param type: type of the room (default = normal room)
+        @param x: x coordinate of the room
+        @param y: y coordinate of the room
+        @param type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
         self._rooms.append(PygameNormalRoom(x=x, y=y, type=type, room_id=self._room_id))
@@ -48,10 +47,9 @@ class PygameFloor(Floor):
         """
         Creates and adds a new Teleport room to the floor.
         New teleport room is placed at the location from the given room.
-        :param room: Room which is connected to the teleport room.
+        @param room: Room which is connected to the teleport room.
         """
-        t_room = PygameTeleportRoom(x=room.get_x(), y=room.get_y(), room_id=self._room_id,
-                                    room_type=RoomType.TELEPORT_ROOM, teleport_room_id=room.get_id())
+        t_room = PygameTeleportRoom(x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id())
         self._rooms.append(t_room)
         self._room_id += 1
 

@@ -1,6 +1,7 @@
 import random
 import math
 import globals
+from globals import Direction
 
 
 def calculate_room_amount(stage_id: int):
@@ -20,3 +21,28 @@ def place_room() -> bool:
 
 def rgb2hex(r,g,b):
     return "#{:02x}{:02x}{:02x}".format(r,g,b)
+
+
+def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tuple:
+    """
+    Calculates the room according to the given room and direction
+    @param direction: direction for the room to calculate
+    @param coordinates: start point for the calculation
+    @return: calculated point
+    """
+    if direction is Direction.UP:
+        return coordinates[0], coordinates[1] - 1
+    if direction is Direction.DOWN:
+        return coordinates[0], coordinates[1] + 1
+    if direction is Direction.LEFT:
+        return coordinates[0] - 1, coordinates[1]
+    if direction is Direction.RIGHT:
+        return coordinates[0] + 1, coordinates[1]
+    if direction is Direction.UP_LEFT:
+        return coordinates[0] - 1, coordinates[1] - 1
+    if direction is Direction.UP_RIGHT:
+        return coordinates[0] + 1, coordinates[1] - 1
+    if direction is Direction.DOWN_LEFT:
+        return coordinates[0] - 1, coordinates[1] + 1
+    if direction is Direction.DOWN_RIGHT:
+        return coordinates[0] + 1, coordinates[1] + 1
