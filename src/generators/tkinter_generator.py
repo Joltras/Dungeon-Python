@@ -1,5 +1,5 @@
 import tkinter as tk
-from  tkinter import ttk
+from tkinter import ttk
 from collections import deque
 import globals
 import utils
@@ -20,7 +20,8 @@ class TkinterGenerator(Generator):
         self._tk = tk.Tk()
         color = globals.Color.GRAY.value
         hex = utils.rgb2hex(color[0], color[1], color[2])
-        self._canvas = tk.Canvas(height=(globals.FLOOR_HEIGHT + 1) * globals.ROOM_HEIGHT, width=(globals.ROOM_WIDTH + 1) * globals.ROOM_WIDTH,
+        self._canvas = tk.Canvas(height=globals.FLOOR_HEIGHT * globals.ROOM_HEIGHT,
+                                 width=globals.ROOM_WIDTH * globals.ROOM_WIDTH,
                                  background=hex)
 
     def _create_floor(self) -> None:
@@ -38,6 +39,10 @@ class TkinterGenerator(Generator):
         if self._current_floor < len(self._floors) - 1:
             self._current_floor += 1
             self._floors[self._current_floor].draw(tk)
+
+    def _generate_and_draw_floor(self):
+        self.generate()
+        self._floors[self._current_floor].draw(tk)
 
     def run(self):
         self._tk.title("Dungeon Generator")
