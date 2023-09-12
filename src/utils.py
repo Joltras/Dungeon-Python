@@ -17,3 +17,6 @@ def place_room() -> bool:
     :return: True when room should be placed otherwise False
     """
     return random.randint(1, 50) >= 25
+
+def rgb2hex(r,g,b):
+    return "#{:02x}{:02x}{:02x}".format(r,g,b)
