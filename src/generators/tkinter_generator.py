@@ -55,7 +55,7 @@ class TkinterGenerator(Generator):
         button_frame.pack()
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
         button_pre.pack(side=tk.LEFT)
-        button_gen = ttk.Button(button_frame, text="Generate", command=self.generate)
+        button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
         button_gen.pack(side=tk.LEFT)
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
