@@ -240,13 +240,16 @@ class Generator:
             floor.get_rooms()[dead_ends[i]].set_type(globals.SPECIAL_ROOMS[i])
             i += 1
 
-    def save(self) -> str:
+    def save(self, path: str = "") -> str:
         """
         Writes the generated floor in the output file.
         """
-        output = self._output_file
-        time = str(datetime.now().microsecond)
-        output += time + globals.JSON_SUFFIX
+        if len(path) > 0:
+            output = path
+        else:
+            output = self._output_file
+            time = str(datetime.now().microsecond)
+            output += time + globals.JSON_SUFFIX
         f = open(output, "w")
         f.write(self.to_json(1))
         f.close()
