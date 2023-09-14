@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from  tkinter import filedialog
 from collections import deque
 import globals
 import utils
@@ -44,19 +45,35 @@ class TkinterGenerator(Generator):
         self.generate()
         self._floors[self._current_floor].draw(tk)
 
+    def save(self) -> str:
+        options = {
+            'defaultextension': globals.JSON_SUFFIX,
+            'filetypes': [('Json', globals.JSON_SUFFIX)],
+            'initialdir': self._output_file,
+            'initialfile': "floor.json",
+            'title': 'Datei speichern unter'
+        }
+        path = filedialog.asksaveasfilename(**options)
+        print(path)
+        return super().save(path)
+
     def run(self):
         self._tk.title("Dungeon Generator")
         self._tk.geometry("1200x600")
-        ttk.Label(self._tk, text="Current Floor").pack()
+        name = tk.StringVar()
+        name.set(self._output_file)
+        ttk.Label(self._tk, text="Current Floor: " + name.get()).pack()
         self.generate()
         self._floors[self._current_floor].draw(tk)
         self._canvas.pack(anchor=tk.NW, expand=True)
         button_frame = tk.Frame(self._tk)
-        button_frame.pack()
+        button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
         button_pre.pack(side=tk.LEFT)
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
         button_gen.pack(side=tk.LEFT)
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
+        button_save = ttk.Button(button_frame, text="Save", command=self.save)
+        button_save.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
