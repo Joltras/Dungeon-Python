@@ -15,7 +15,10 @@ class PygameGenerator(Generator):
         """
         Creates a new generator.
         @param seed: seed for the random generator
-        @param output_file: file to save the floor to
+        @param output_file_name: Name for the output file
+        @param output_file_path: Path for the output file
+        @param stage_id: ID for the stage
+
         """
         super().__init__(seed, output_file_name, output_file_path, stage_id)
         self.screen = pygame.display.set_mode((globals.window_width, globals.window_height))
