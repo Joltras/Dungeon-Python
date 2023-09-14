@@ -23,7 +23,7 @@ class TkinterGenerator(Generator):
         self._floors = deque()
         self._current_floor = -1
         self._tk = tk.Tk()
-        color = globals.Color.GRAY.value
+        color = globals.Color.LIGHT_GRAY.value
         hex_color = utils.rgb2hex(color[0], color[1], color[2])
         self._canvas = tk.Canvas(height=globals.FLOOR_HEIGHT * globals.ROOM_HEIGHT,
                                  width=globals.ROOM_WIDTH * globals.ROOM_WIDTH,
@@ -77,14 +77,15 @@ class TkinterGenerator(Generator):
             'defaultextension': globals.JSON_SUFFIX,
             'filetypes': [('Json', globals.JSON_SUFFIX)],
             'initialdir': self._output_file_path,
-            'initialfile': "floor.json",
+            'initialfile': self._output_file_name,
             'title': 'Datei speichern unter'
         }
         file_path = filedialog.asksaveasfilename(**options)
-        self._output_file_path = os.path.dirname(file_path)
-        self._output_file_name = os.path.basename(file_path)
-        self._name.set(self._output_file_name)
-        self._path.set(self._output_file_path)
+        if len(file_path) > 0:
+            self._output_file_path = os.path.dirname(file_path)
+            self._output_file_name = os.path.basename(file_path)
+            self._name.set(self._output_file_name)
+            self._path.set(self._output_file_path)
         print(file_path)
         return super().save(file_path)
 
@@ -101,10 +102,14 @@ class TkinterGenerator(Generator):
 
         information_frame.pack(pady=(0, 10))
 
-        name_text = ttk.Label(information_frame, text="Floor name: " + self._name.get())
+        name_text = ttk.Label(information_frame, text="Floor name: ")
         name_text.pack(side=tk.LEFT)
-        path_text = ttk.Label(information_frame, text="Current path: " + self._path.get())
-        path_text.pack(side=tk.LEFT)
+        name_label = ttk.Label(information_frame, textvariable=self._name)
+        name_label.pack(side=tk.LEFT)
+        path_text = ttk.Label(information_frame, text="Current path: ")
+        path_text.pack(side=tk.LEFT, padx=(25, 0))
+        path_label = ttk.Label(information_frame, textvariable=self._path)
+        path_label.pack(side=tk.LEFT)
 
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
