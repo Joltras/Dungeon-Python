@@ -9,13 +9,13 @@ from generators.generator import Generator
 
 
 class TkinterGenerator(Generator):
-    def __init__(self, seed: str, output_file: str, stage_id: int = 2):
+    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
         Creates a new generator.
         :param seed: seed for the random generator
         :param output_file: file to save the floor to
         """
-        super().__init__(seed, output_file, stage_id)
+        super().__init__(seed, output_file_name, output_file_path, stage_id)
         self._floors = deque()
         self._current_floor = -1
         self._tk = tk.Tk()
@@ -45,7 +45,7 @@ class TkinterGenerator(Generator):
         self.generate()
         self._floors[self._current_floor].draw(tk)
 
-    def save(self) -> str:
+    def save(self, path: str = "") -> str:
         options = {
             'defaultextension': globals.JSON_SUFFIX,
             'filetypes': [('Json', globals.JSON_SUFFIX)],
@@ -53,15 +53,15 @@ class TkinterGenerator(Generator):
             'initialfile': "floor.json",
             'title': 'Datei speichern unter'
         }
-        path = filedialog.asksaveasfilename(**options)
-        print(path)
-        return super().save(path)
+        file_path = filedialog.asksaveasfilename(**options)
+        print(file_path)
+        return super().save(file_path)
 
     def run(self):
         self._tk.title("Dungeon Generator")
         self._tk.geometry("1200x600")
         name = tk.StringVar()
-        name.set(self._output_file)
+        name.set(globals.DEFAULT_FLOOR_NAME)
         ttk.Label(self._tk, text="Current Floor: " + name.get()).pack()
         self.generate()
         self._floors[self._current_floor].draw(tk)
@@ -74,6 +74,6 @@ class TkinterGenerator(Generator):
         button_gen.pack(side=tk.LEFT)
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
-        button_save = ttk.Button(button_frame, text="Save", command=self.save)
+        button_save = ttk.Button(button_frame, text="Save As", command=self.save)
         button_save.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
