@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -27,6 +28,10 @@ class TkinterGenerator(Generator):
         self._canvas = tk.Canvas(height=globals.FLOOR_HEIGHT * globals.ROOM_HEIGHT,
                                  width=globals.ROOM_WIDTH * globals.ROOM_WIDTH,
                                  background=hex_color)
+        self._path = tk.StringVar()
+        self._path.set(self._output_file_path)
+        self._name = tk.StringVar()
+        self._name.set(self._output_file_name)
 
     def _create_floor(self) -> None:
         """
@@ -66,6 +71,8 @@ class TkinterGenerator(Generator):
         @param path: Optional path
         @return: Path the floor has been saved to
         """
+        if len(path) > 0:
+            return super().save(path)
         options = {
             'defaultextension': globals.JSON_SUFFIX,
             'filetypes': [('Json', globals.JSON_SUFFIX)],
@@ -74,6 +81,10 @@ class TkinterGenerator(Generator):
             'title': 'Datei speichern unter'
         }
         file_path = filedialog.asksaveasfilename(**options)
+        self._output_file_path = os.path.dirname(file_path)
+        self._output_file_name = os.path.basename(file_path)
+        self._name.set(self._output_file_name)
+        self._path.set(self._output_file_path)
         print(file_path)
         return super().save(file_path)
 
@@ -82,14 +93,20 @@ class TkinterGenerator(Generator):
         Sets up the ui elements and starts the main loop of the application.
         """
         self._tk.title("Dungeon Generator")
-        self._tk.geometry("1200x600")
-        name = tk.StringVar()
-        name.set(globals.DEFAULT_FLOOR_NAME)
-        ttk.Label(self._tk, text="Current Floor: " + name.get()).pack()
+        self._tk.geometry("1200x550")
         self.generate()
         self._floors[self._current_floor].draw(tk)
         self._canvas.pack(anchor=tk.NW, expand=True)
-        button_frame = tk.Frame(self._tk)
+        information_frame = ttk.Frame()
+
+        information_frame.pack(pady=(0, 10))
+
+        name_text = ttk.Label(information_frame, text="Floor name: " + self._name.get())
+        name_text.pack(side=tk.LEFT)
+        path_text = ttk.Label(information_frame, text="Current path: " + self._path.get())
+        path_text.pack(side=tk.LEFT)
+
+        button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
         button_pre.pack(side=tk.LEFT)
@@ -97,6 +114,9 @@ class TkinterGenerator(Generator):
         button_gen.pack(side=tk.LEFT)
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
-        button_save = ttk.Button(button_frame, text="Save As", command=self.save)
-        button_save.pack(side=tk.RIGHT, padx=(100, 0))
+        button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
+        button_save.pack(side=tk.RIGHT, padx=(10, 0))
+        button_save_as = ttk.Button(button_frame, text="Save As", command=self.save)
+        button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
