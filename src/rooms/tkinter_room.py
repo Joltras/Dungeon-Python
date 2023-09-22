@@ -4,9 +4,10 @@ from rooms.room import Room
 import tkinter as tk
 import utils
 
+
 class TkinterRoom(Room):
     def __init__(self, x: int, y: int, room_id: int, type: RoomType, width=globals.ROOM_WIDTH,
-                 height=globals.ROOM_HEIGHT,):
+                 height=globals.ROOM_HEIGHT, ):
         super().__init__(x, y, room_id, type)
         self._width = width
         self._height = height
@@ -20,3 +21,6 @@ class TkinterRoom(Room):
         hex = utils.rgb2hex(color[0], color[1], color[2])
         canvas.create_rectangle((x0, y0), (x1, y1), fill=hex)
 
+    @classmethod
+    def from_room(cls, room: Room):
+        return TkinterRoom(room._x, room._y, room._id, room._type)
