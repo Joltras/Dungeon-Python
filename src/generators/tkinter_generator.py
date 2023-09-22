@@ -1,7 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from collections import deque
 import globals
 import utils
@@ -72,7 +72,21 @@ class TkinterGenerator(Generator):
         @return: Path the floor has been saved to
         """
         if len(path) > 0:
-            return super().save(path)
+            save_file = False
+            # Check if the file already exists
+            if os.path.exists(path):
+                # Show dialog for overwriting the file
+                if messagebox.askyesno("File already exists", "Do you want to overwrite the file?"):
+                    save_file = True
+            else:
+                save_file = True
+            if save_file:
+                # Save the file to the given path
+                path = super().save(path)
+                # Show dialog for saving the file
+                messagebox.showinfo("Save", "File saved successfully!")
+
+            return path
         options = {
             'defaultextension': globals.JSON_SUFFIX,
             'filetypes': [('Json', globals.JSON_SUFFIX)],
