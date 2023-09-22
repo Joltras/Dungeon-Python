@@ -52,6 +52,13 @@ class Room:
             '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
         return json_string
 
+    @classmethod
+    def from_dict(cls, json_dict: dict):
+        room = Room(json_dict["_x"], json_dict["_y"], json_dict["_id"], RoomType(json_dict["_type"]))
+        for door in json_dict["_doors"]:
+            room._doors.append(DoorFace(door))
+        return room
+
     def set_type(self, room_type: RoomType) -> None:
         """
         Sets the type of the room.
