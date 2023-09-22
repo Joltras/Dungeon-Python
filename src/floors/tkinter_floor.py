@@ -27,6 +27,19 @@ class TkinterFloor(Floor):
         self._rooms.append(t_room)
         self._room_id += 1
 
+    @classmethod
+    def from_floor(cls, floor: Floor, canvas):
+        """
+        Creates a new TkinterFloor from a floor.
+        @param canvas: Canvas to draw on
+        @param floor: floor to copy
+        @return: new TkinterFloor
+        """
+        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas)
+        for room in floor._rooms:
+            tkinter_floor._rooms.append(TkinterRoom.from_room(room))
+        return tkinter_floor
+
     def draw(self, root) -> None:
         """
         """
