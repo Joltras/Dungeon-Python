@@ -100,8 +100,8 @@ class TkinterGenerator(Generator):
         self._canvas.pack(anchor=tk.NW, expand=True)
         information_frame = ttk.Frame()
 
+        # Create information frame
         information_frame.pack(pady=(0, 10))
-
         name_text = ttk.Label(information_frame, text="Floor name: ")
         name_text.pack(side=tk.LEFT)
         name_label = ttk.Label(information_frame, textvariable=self._name)
@@ -111,14 +111,19 @@ class TkinterGenerator(Generator):
         path_label = ttk.Label(information_frame, textvariable=self._path)
         path_label.pack(side=tk.LEFT)
 
+        # Create button frame
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
         button_pre.pack(side=tk.LEFT)
+        self._tk.bind("<Left>", lambda event: self._decrease_floor())
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
         button_gen.pack(side=tk.LEFT)
+        # Spacebar to generate
+        self._tk.bind("<space>", lambda event: self._generate_and_draw_floor())
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
+        self._tk.bind("<Right>", lambda event: self._increase_floor())
         button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
             self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
         button_save.pack(side=tk.RIGHT, padx=(10, 0))
