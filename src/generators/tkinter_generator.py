@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 from collections import deque
 import globals
 import utils
+from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator
 
@@ -49,6 +50,7 @@ class TkinterGenerator(Generator):
         if self._current_floor > 0:
             self._current_floor -= 1
             self._floors[self._current_floor].draw(tk)
+            self._floor = self._floors[self._current_floor]
 
     def _increase_floor(self) -> None:
         """
@@ -57,6 +59,7 @@ class TkinterGenerator(Generator):
         if self._current_floor < len(self._floors) - 1:
             self._current_floor += 1
             self._floors[self._current_floor].draw(tk)
+            self._floor = self._floors[self._current_floor]
 
     def _generate_and_draw_floor(self) -> None:
         """
@@ -64,6 +67,30 @@ class TkinterGenerator(Generator):
         """
         self.generate()
         self._floors[self._current_floor].draw(tk)
+        self._floor = self._floors[self._current_floor]
+
+    def open(self) -> None:
+        options = {
+            'defaultextension': globals.JSON_SUFFIX,
+            'filetypes': [('Json', globals.JSON_SUFFIX)],
+            'initialdir': self._output_file_path,
+            'initialfile': self._output_file_name,
+            'title': 'Open File'
+        }
+        path = filedialog.askopenfilename(**options)
+        if len(path) > 0:
+            self._output_file_path = os.path.dirname(path)
+            self._output_file_name = os.path.basename(path)
+            self._name.set(self._output_file_name)
+            self._path.set(self._output_file_path)
+            with open(path, "r") as file:
+                json_string = file.read()
+                self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas)
+                self._floors.append(self._floor)
+                self._current_floor = len(self._floors) - 1
+                self._floors[self._current_floor].draw(tk)
+
+
 
     def save(self, path: str = "") -> str:
         """
@@ -150,4 +177,7 @@ class TkinterGenerator(Generator):
         button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
         # Ctrl + Shift + s to save as
         self._tk.bind("<Control-S>", lambda event: self.save())
+        button_open = ttk.Button(button_frame, text="Open", command=self.open)
+        button_open.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
+
