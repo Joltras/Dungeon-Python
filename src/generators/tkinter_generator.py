@@ -116,17 +116,24 @@ class TkinterGenerator(Generator):
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
         button_pre.pack(side=tk.LEFT)
+        # Left arrow to decrease
         self._tk.bind("<Left>", lambda event: self._decrease_floor())
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
         button_gen.pack(side=tk.LEFT)
-        # Spacebar to generate
+        # Space to generate
         self._tk.bind("<space>", lambda event: self._generate_and_draw_floor())
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
         button_next.pack(side=tk.LEFT)
+        # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
         button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
             self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
         button_save.pack(side=tk.RIGHT, padx=(10, 0))
+        # Ctrl + s to save
+        self._tk.bind("<Control-s>", lambda event: self.save(os.path.join(
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
         button_save_as = ttk.Button(button_frame, text="Save As", command=self.save)
         button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
+        # Ctrl + Shift + s to save as
+        self._tk.bind("<Control-S>", lambda event: self.save())
         self._tk.mainloop()
