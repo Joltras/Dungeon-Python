@@ -1,3 +1,4 @@
+import json
 from typing import List, Tuple, TypeVar
 
 import numpy as np
@@ -49,6 +50,16 @@ class Floor:
                 current_index += 1
             json_string += "\n" + indent_s + "]"
         return json_string + "\n}"
+
+    @classmethod
+    def from_json(cls, json_string: str):
+        json_dict = json.loads(json_string)
+        floor = Floor(json_dict["_height"], json_dict["_width"])
+        rooms = json_dict["_floor"]["_rooms"]
+        for room in rooms:
+            floor._rooms.append(Room.from_dict(room))
+        return floor
+
 
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
