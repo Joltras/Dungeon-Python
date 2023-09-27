@@ -90,8 +90,6 @@ class TkinterGenerator(Generator):
                 self._current_floor = len(self._floors) - 1
                 self._floors[self._current_floor].draw(tk)
 
-
-
     def save(self, path: str = "") -> str:
         """
         Shows a dialog for saving the floor to a file.
@@ -136,6 +134,7 @@ class TkinterGenerator(Generator):
         """
         self._tk.title("Dungeon Generator")
         self._tk.geometry("1200x550")
+        self._tk.resizable(False, False)
         self.generate()
         self._floors[self._current_floor].draw(tk)
         self._canvas.pack(anchor=tk.NW, expand=True)
@@ -180,4 +179,3 @@ class TkinterGenerator(Generator):
         button_open = ttk.Button(button_frame, text="Open", command=self.open)
         button_open.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
-
