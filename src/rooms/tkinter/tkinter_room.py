@@ -6,9 +6,9 @@ import utils
 
 
 class TkinterRoom(Room):
-    def __init__(self, x: int, y: int, room_id: int, type: RoomType, width=globals.ROOM_WIDTH,
+    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=globals.ROOM_WIDTH,
                  height=globals.ROOM_HEIGHT, ):
-        super().__init__(x, y, room_id, type)
+        super().__init__(x, y, room_id, room_type)
         self._width = width
         self._height = height
 
@@ -18,8 +18,8 @@ class TkinterRoom(Room):
         x1 = x0 + self._width
         y1 = y0 + self._height
         color = globals.Room_Colors[self._type].value
-        hex = utils.rgb2hex(color[0], color[1], color[2])
-        canvas.create_rectangle((x0, y0), (x1, y1), fill=hex)
+        hex_color = utils.rgb2hex(color[0], color[1], color[2])
+        canvas.create_rectangle((x0, y0), (x1, y1), fill=hex_color)
 
     @classmethod
     def from_room(cls, room: Room):

@@ -1,7 +1,7 @@
 from globals import RoomType
 import globals
 from rooms.teleport_room import TeleportRoom
-from rooms.tkinter_room import TkinterRoom
+from rooms.tkinter.tkinter_room import TkinterRoom
 
 
 class TkinterTeleportRoom(TkinterRoom, TeleportRoom):
