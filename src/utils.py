@@ -19,8 +19,9 @@ def place_room() -> bool:
     """
     return random.randint(1, 50) >= 25
 
-def rgb2hex(r,g,b):
-    return "#{:02x}{:02x}{:02x}".format(r,g,b)
+
+def rgb2hex(r, g, b):
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
 def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tuple:
