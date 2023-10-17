@@ -1,5 +1,5 @@
-import os
 import secrets
+
 from fastapi import FastAPI
 from starlette.responses import FileResponse
 
@@ -7,7 +7,7 @@ import globals
 from generators.generator import Generator
 
 app = FastAPI()
-
+_file_name = globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX
 
 @app.get("/")
 async def root():
@@ -21,10 +21,10 @@ async def generate_with_id(floor_id: int) -> FileResponse:
     @param floor_id id for the floor
     @return: Floor in json file
     """
-    generator = Generator(secrets.token_hex(16), "floor.json", floor_id)
+    generator = Generator(seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=floor_id)
     generator.generate()
     path = generator.save()
-    return FileResponse(path=path, filename="floor.json")
+    return FileResponse(path=path, filename=_file_name)
 
 
 @app.get("/gen")
@@ -33,7 +33,7 @@ async def generate() -> FileResponse:
     This endpoint generates a floor with the id zero and returns it as a json file.
     @return: Floor as json file
     """
-    generator = Generator(secrets.token_hex(16), "floor.json", 0)
+    generator = Generator(seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=0)
     generator.generate()
     path = generator.save()
-    return FileResponse(path=path, filename="floor.json")
+    return FileResponse(path=path, filename=_file_name)
