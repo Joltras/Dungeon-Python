@@ -1,13 +1,15 @@
+from tkinter import Canvas
+from tkinter import Tk
+
 import globals
 from floors.floor import Floor
 from rooms.room import Room
-
 from rooms.tkinter.tkinter_room import TkinterRoom
 from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
 
 
 class TkinterFloor(Floor):
-    def __init__(self, height: int, width: int, canvas):
+    def __init__(self, height: int, width: int, canvas: Canvas):
         """
         Creates a new floor width the given width and height.
         @param height: height of the floor
@@ -40,9 +42,15 @@ class TkinterFloor(Floor):
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
 
-    def draw(self, root) -> None:
+    def draw(self, root: Tk) -> None:
         """
         """
         self._canvas.delete("all")
-        for room in self._rooms:
-            room.draw(self._canvas)
+        sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id(), reverse=False)
+        for room in sorted_rooms:
+           root.after(1000, lambda r = room : self.draw_room(root, sorted_rooms))
+
+    def draw_room(self, root: Tk, rooms, index=0) -> None:
+        if index < len(rooms):
+            rooms[index].draw(self._canvas)
+            root.after(1000, lambda: self.draw_room(root, rooms, index + 1))
