@@ -41,7 +41,7 @@ class TkinterGenerator(Generator):
         self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
-        self._floors[self._current_floor].draw(tk)
+        self._floors[self._current_floor].draw(self._tk)
 
     def _decrease_floor(self) -> None:
         """
@@ -49,7 +49,7 @@ class TkinterGenerator(Generator):
         """
         if self._current_floor > 0:
             self._current_floor -= 1
-            self._floors[self._current_floor].draw(tk)
+            self._floors[self._current_floor].draw(self._tk)
             self._floor = self._floors[self._current_floor]
 
     def _increase_floor(self) -> None:
@@ -58,7 +58,7 @@ class TkinterGenerator(Generator):
         """
         if self._current_floor < len(self._floors) - 1:
             self._current_floor += 1
-            self._floors[self._current_floor].draw(tk)
+            self._floors[self._current_floor].draw(self._tk)
             self._floor = self._floors[self._current_floor]
 
     def _generate_and_draw_floor(self) -> None:
@@ -66,7 +66,7 @@ class TkinterGenerator(Generator):
         Cals the generate method and the draw method of the floor.
         """
         self.generate()
-        self._floors[self._current_floor].draw(tk)
+        self._floors[self._current_floor].draw(self._tk)
         self._floor = self._floors[self._current_floor]
 
     def open(self) -> None:
@@ -88,7 +88,7 @@ class TkinterGenerator(Generator):
                 self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas)
                 self._floors.append(self._floor)
                 self._current_floor = len(self._floors) - 1
-                self._floors[self._current_floor].draw(tk)
+                self._floors[self._current_floor].draw(self._tk)
 
     def save(self, path: str = "") -> str:
         """
@@ -136,7 +136,7 @@ class TkinterGenerator(Generator):
         self._tk.geometry("1200x550")
         self._tk.resizable(False, False)
         self.generate()
-        self._floors[self._current_floor].draw(tk)
+        self._floors[self._current_floor].draw(self._tk)
         self._canvas.pack(anchor=tk.NW, expand=True)
         information_frame = ttk.Frame()
 
