@@ -9,7 +9,6 @@ from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator
 
-
 class TkinterGenerator(Generator):
     def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
@@ -33,6 +32,36 @@ class TkinterGenerator(Generator):
         self._path.set(self._output_file_path)
         self._name = tk.StringVar()
         self._name.set(self._output_file_name)
+        self._current_theme = "light"
+        self.apply_theme()
+
+    def apply_theme(self) -> None:
+        """
+        Applies the current theme to the application.
+        """
+        if self._current_theme == "light":
+            style = ttk.Style(self._tk)
+            style.configure("TButton", background="white", foreground="black", hover="black")
+            style.theme_use("default")
+            self._canvas.configure(background="white")
+        else:
+            self._canvas.configure(background="black")
+            style = ttk.Style(self._tk)
+            style.configure("TButton", background="black", foreground="white")
+            # set color on hover
+            style.map("TButton", background=[("active", "gray")])
+            style.theme_use("default")
+
+    def switch_theme(self) -> None:
+        """
+        Switches the theme of the application.
+        """
+        if self._current_theme == "light":
+            self._current_theme = "dark"
+        else:
+            self._current_theme = "light"
+        self.apply_theme()
+
 
     def _create_floor(self) -> None:
         """
@@ -178,4 +207,7 @@ class TkinterGenerator(Generator):
         self._tk.bind("<Control-S>", lambda event: self.save())
         button_open = ttk.Button(button_frame, text="Open", command=self.open)
         button_open.pack(side=tk.RIGHT, padx=(100, 0))
+        # Theme button
+        button_theme = ttk.Button(button_frame, text="Switch Theme", command=self.switch_theme)
+        button_theme.pack(side=tk.RIGHT, padx=(100, 0))
         self._tk.mainloop()
