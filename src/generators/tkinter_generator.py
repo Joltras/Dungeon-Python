@@ -32,6 +32,7 @@ class TkinterGenerator(Generator):
         self._path.set(self._output_file_path)
         self._name = tk.StringVar()
         self._name.set(self._output_file_name)
+        self._menu_bar = tk.Menu(self._tk)
         self._current_theme = "light"
         self.apply_theme()
 
@@ -40,14 +41,16 @@ class TkinterGenerator(Generator):
         Applies the current theme to the application.
         """
         if self._current_theme == "light":
+            self._tk.configure(background="light gray", highlightbackground="black")
             style = ttk.Style(self._tk)
             style.configure("TButton", background="white", foreground="black", hover="black")
             # menu bar
             style.configure("TMenu", background="white", foreground="black")
             style.theme_use("default")
-            self._canvas.configure(background="white")
+            self._canvas.configure(background="white", highlightbackground="black")
         else:
-            self._canvas.configure(background="black")
+            self._tk.configure(background="dark gray", highlightbackground="white")
+            self._canvas.configure(background="black", highlightbackground="white")
             style = ttk.Style(self._tk)
             style.configure("TButton", background="black", foreground="white")
             # set color on hover
