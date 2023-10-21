@@ -6,6 +6,7 @@ from generators.pygame_generator import PygameGenerator
 import sys
 import secrets
 import globals
+from generators.tkinter_generator import TkinterGenerator
 
 HELP_MESSAGE = """Creates a dungeon floor and saves it to a json file.
 Options:
@@ -26,7 +27,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
         print("No output folder found. Creating specific folder")
 
     if ui:
-        generator = PygameGenerator(seed, output, floor_id)
+        generator = TkinterGenerator(seed, output, output_folder, floor_id)
         generator.run()
     else:
         generator = Generator(seed, output, floor_id)
