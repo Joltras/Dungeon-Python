@@ -2,8 +2,8 @@ import pygame
 import globals
 from globals import Color, RoomType
 from floors.floor import Floor
-from rooms.pygame_normal_room import PygameNormalRoom
-from rooms.pygame_teleport_room import PygameTeleportRoom
+from rooms.pygame.pygame_normal_room import PygameNormalRoom
+from rooms.pygame.pygame_teleport_room import PygameTeleportRoom
 from rooms.room import Room
 
 

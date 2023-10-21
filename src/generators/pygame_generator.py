@@ -11,13 +11,16 @@ class PygameGenerator(Generator):
     Pygame version of the generator.
     """
 
-    def __init__(self, seed: str, output_file: str, stage_id: int = 2):
+    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
         Creates a new generator.
         @param seed: seed for the random generator
-        @param output_file: file to save the floor to
+        @param output_file_name: Name for the output file
+        @param output_file_path: Path for the output file
+        @param stage_id: ID for the stage
+
         """
-        super().__init__(seed, output_file, stage_id)
+        super().__init__(seed, output_file_name, output_file_path, stage_id)
         self.screen = pygame.display.set_mode((globals.window_width, globals.window_height))
         self.clock = pygame.time.Clock()
         self._floors = deque()

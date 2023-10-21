@@ -1,13 +1,16 @@
+import os
 import random
 from collections import deque
 from datetime import datetime
-from typing import List
+from typing import List, TypeVar
 
 import utils
 from globals import RoomType, Direction
 import globals
 from floors.floor import Floor
 from rooms.room import Room
+
+T = TypeVar('T', bound=Floor)
 
 
 class Generator:
@@ -16,17 +19,18 @@ class Generator:
     They generate a Floor object that contains all rooms.
     """
 
-    def __init__(self, seed: str, output_file: str, stage_id: int = 2):
+    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
         Creates a new generator with the given arguments.
         @param seed: seed for generating the floor
-        @param output_file: file name for saving the result
+        @param output_file_name: name for the outputfile
         @param stage_id: id for the floor
         """
         self._stage_id = stage_id
         self._seed = seed
-        self._output_file = output_file
-        self._floor = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
+        self._output_file_name = output_file_name
+        self._output_file_path = output_file_path
+        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
 
     def to_json(self, indent: int) -> str:
         """
@@ -153,7 +157,8 @@ class Generator:
         max_distance_index = 0
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            current_distance = (start_room[0] - dead_end[0]) * (start_room[0] - dead_end[0]) + (start_room[1] - dead_end[1]) * (start_room[1] - dead_end[1])
+            current_distance = (start_room[0] - dead_end[0]) * (start_room[0] - dead_end[0]) + (
+                        start_room[1] - dead_end[1]) * (start_room[1] - dead_end[1])
             if max_distance < current_distance:
                 max_distance = current_distance
                 max_distance_index = index
@@ -240,14 +245,19 @@ class Generator:
             floor.get_rooms()[dead_ends[i]].set_type(globals.SPECIAL_ROOMS[i])
             i += 1
 
-    def save(self) -> str:
+    def save(self, path: str = "") -> str:
         """
         Writes the generated floor in the output file.
         """
-        output = self._output_file
-        time = str(datetime.now().microsecond)
-        output += time + globals.JSON_SUFFIX
+        if len(path) > 0:
+            output = path
+        else:
+            time = str(datetime.now().microsecond)
+            n = self._output_file_name + time + globals.JSON_SUFFIX
+            output = os.path.join(self._output_file_path, n)
+
         f = open(output, "w")
         f.write(self.to_json(1))
         f.close()
+        print("Saved file under: " + output)
         return output

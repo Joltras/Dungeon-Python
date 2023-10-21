@@ -81,6 +81,8 @@ SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 BASE_INDENT = "  "
 JSON_SUFFIX = ".json"
 APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
+DEFAULT_FLOOR_NAME = "floor"
+DEFAULT_FLOOR_DIRECTORY = "generation"
 
 # Floor
 # Width and height in number of rooms
