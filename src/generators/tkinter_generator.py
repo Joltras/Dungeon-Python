@@ -42,6 +42,8 @@ class TkinterGenerator(Generator):
         if self._current_theme == "light":
             style = ttk.Style(self._tk)
             style.configure("TButton", background="white", foreground="black", hover="black")
+            # menu bar
+            style.configure("TMenu", background="white", foreground="black")
             style.theme_use("default")
             self._canvas.configure(background="white")
         else:
@@ -50,6 +52,8 @@ class TkinterGenerator(Generator):
             style.configure("TButton", background="black", foreground="white")
             # set color on hover
             style.map("TButton", background=[("active", "gray")])
+            # menu bar
+            style.configure("TMenubutton", background="black", foreground="white")
             style.theme_use("default")
 
     def switch_theme(self) -> None:
@@ -195,19 +199,25 @@ class TkinterGenerator(Generator):
         button_next.pack(side=tk.LEFT)
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
-        button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save.pack(side=tk.RIGHT, padx=(10, 0))
+
         # Ctrl + s to save
         self._tk.bind("<Control-s>", lambda event: self.save(os.path.join(
             self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save_as = ttk.Button(button_frame, text="Save As", command=self.save)
-        button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
+
         # Ctrl + Shift + s to save as
         self._tk.bind("<Control-S>", lambda event: self.save())
-        button_open = ttk.Button(button_frame, text="Open", command=self.open)
-        button_open.pack(side=tk.RIGHT, padx=(100, 0))
-        # Theme button
-        button_theme = ttk.Button(button_frame, text="Switch Theme", command=self.switch_theme)
-        button_theme.pack(side=tk.RIGHT, padx=(100, 0))
+
+        # Ctrl + o to open
+        self._tk.bind("<Control-o>", lambda event: self.open())
+
+        # Create a menu bar
+        menu_bar = tk.Menu(self._tk)
+        self._tk.config(menu=menu_bar)
+        menu_bar.add_command(label="Open", command=self.open)
+        menu_bar.add_command(label="Save", command=lambda: self.save(os.path.join(
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
+        menu_bar.add_command(label="Save As", command=self.save)
+        menu_bar.add_command(label="Switch Theme", command=self.switch_theme)
+        menu_bar.add_command(label="Exit", command=self._tk.quit)
+        self.apply_theme()
         self._tk.mainloop()
