@@ -200,24 +200,16 @@ class TkinterGenerator(Generator):
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
 
-        # Ctrl + s to save
-        self._tk.bind("<Control-s>", lambda event: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-
-        # Ctrl + Shift + s to save as
-        self._tk.bind("<Control-S>", lambda event: self.save())
-
-        # Ctrl + o to open
-        self._tk.bind("<Control-o>", lambda event: self.open())
 
         # Create a menu bar
         menu_bar = tk.Menu(self._tk)
         self._tk.config(menu=menu_bar)
-        menu_bar.add_command(label="Open", command=self.open)
+        menu_bar.add_command(label="Open", command=self.open, accelerator="Ctrl+o")
         menu_bar.add_command(label="Save", command=lambda: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        menu_bar.add_command(label="Save As", command=self.save)
-        menu_bar.add_command(label="Switch Theme", command=self.switch_theme)
-        menu_bar.add_command(label="Exit", command=self._tk.quit)
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX)
+                             , accelerator="Ctrl+s")
+        menu_bar.add_command(label="Save As", command=self.save, accelerator="Ctrl+Shift+s")
+        menu_bar.add_command(label="Switch Theme", command=self.switch_theme, accelerator="Ctrl+t")
+        menu_bar.add_command(label="Exit", command=self._tk.quit, accelerator="Ctrl+q")
         self.apply_theme()
         self._tk.mainloop()
