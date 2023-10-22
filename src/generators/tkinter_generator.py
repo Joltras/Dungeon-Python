@@ -46,12 +46,14 @@ class TkinterGenerator(Generator):
             style.configure("TButton", background="white", foreground="black", hover="black")
             # menu bar
             style.configure("TMenu", background="white", foreground="black")
+            style.configure("TFrame", background="light gray", foreground="black")
             style.theme_use("default")
             self._canvas.configure(background="white", highlightbackground="black")
         else:
             self._tk.configure(background="dark gray", highlightbackground="white")
             self._canvas.configure(background="black", highlightbackground="white")
             style = ttk.Style(self._tk)
+            style.configure("TFrame", background="dark gray", foreground="white")
             style.configure("TButton", background="black", foreground="white")
             # set color on hover
             style.map("TButton", background=[("active", "gray")])
@@ -191,15 +193,15 @@ class TkinterGenerator(Generator):
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
-        button_pre.pack(side=tk.LEFT)
+        button_pre.pack(side=tk.LEFT, padx=10)
         # Left arrow to decrease
         self._tk.bind("<Left>", lambda event: self._decrease_floor())
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
-        button_gen.pack(side=tk.LEFT)
+        button_gen.pack(side=tk.LEFT, padx=10)
         # Space to generate
         self._tk.bind("<space>", lambda event: self._generate_and_draw_floor())
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
-        button_next.pack(side=tk.LEFT)
+        button_next.pack(side=tk.LEFT, padx=10)
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
 
