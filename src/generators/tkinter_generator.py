@@ -44,8 +44,6 @@ class TkinterGenerator(Generator):
             self._tk.configure(background="light gray", highlightbackground="black")
             style = ttk.Style(self._tk)
             style.configure("TButton", background="white", foreground="black", hover="black")
-            # menu bar
-            style.configure("TMenu", background="white", foreground="black")
             style.configure("TFrame", background="light gray", foreground="black")
             style.theme_use("default")
             self._canvas.configure(background="white", highlightbackground="black")
@@ -57,9 +55,6 @@ class TkinterGenerator(Generator):
             style.configure("TButton", background="black", foreground="white")
             # set color on hover
             style.map("TButton", background=[("active", "gray")])
-            # menu bar
-            style.configure("TMenubutton", background="black", foreground="white")
-            style.theme_use("default")
 
     def switch_theme(self) -> None:
         """
