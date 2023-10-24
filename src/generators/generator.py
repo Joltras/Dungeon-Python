@@ -180,12 +180,12 @@ class Generator:
             self._place_boss_with_teleport_room(boss_room)
             boss_room_placed = True
 
-        elif len(possible_locations) >= 2:
-            # Create a 4 * 4 boss-room
+        elif len(possible_locations) >= 2 and random.randint(0, 10) < 5:
+            # Create a 2 * 2 boss-room
             boss_room_placed = self._place_big_boss_room(possible_locations, boss_room)
 
-        if not boss_room_placed:
-            # Create a 2 * 2 boss-room
+        if not boss_room_placed and len(possible_locations) >= 1 and random.randint(0, 10) < 5:
+            # Create a 1 * 2 boss-room
             floor.add_room_next_to(boss_room, possible_locations[0], RoomType.BOSS_ROOM)
 
         boss_room.set_type(RoomType.BOSS_ROOM)
