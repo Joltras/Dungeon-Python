@@ -27,7 +27,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
         print("No output folder found. Creating specific folder")
 
     if ui:
-        generator = TkinterGenerator(seed, output, output_folder, floor_id)
+        generator = TkinterGenerator(seed, globals.DEFAULT_FLOOR_NAME, output_folder, floor_id)
         generator.run()
     else:
         generator = Generator(seed, output, floor_id)
