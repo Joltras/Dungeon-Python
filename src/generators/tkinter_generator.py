@@ -161,7 +161,9 @@ class TkinterGenerator(Generator):
             self._output_file_name = os.path.basename(file_path)
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
+            self._floors[self._current_floor].name = self._name.get()
         print(file_path)
+
         return super().save(file_path)
 
     def run(self) -> None:
