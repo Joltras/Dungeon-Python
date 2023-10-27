@@ -1,11 +1,9 @@
 import os.path
-from datetime import datetime
-
-from generators.generator import Generator
-from generators.pygame_generator import PygameGenerator
-import sys
 import secrets
+import sys
+
 import globals
+from generators.generator import Generator
 from generators.tkinter_generator import TkinterGenerator
 
 HELP_MESSAGE = """Creates a dungeon floor and saves it to a json file.
