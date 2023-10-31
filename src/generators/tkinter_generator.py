@@ -74,7 +74,6 @@ class TkinterGenerator(Generator):
         self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas, name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
-        self._floors[self._current_floor].draw(tk)
         self._name.set(self._floors[self._current_floor].name)
 
     def _decrease_floor(self) -> None:
@@ -82,6 +81,7 @@ class TkinterGenerator(Generator):
         Lowers the index of the current floor.
         """
         if self._current_floor > 0:
+            self._floor.stop_drawing()
             self._current_floor -= 1
             self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
@@ -92,6 +92,7 @@ class TkinterGenerator(Generator):
         Increases the index of the current floor.
         """
         if self._current_floor < len(self._floors) - 1:
+            self._floor.stop_drawing()
             self._current_floor += 1
             self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
@@ -102,7 +103,8 @@ class TkinterGenerator(Generator):
         Cals the generate method and the draw method of the floor.
         """
         self.generate()
-        self._floors[self._current_floor].draw(tk)
+       # self._floors[self._current_floor].draw(tk)
+        self._floors[self._current_floor].draw_thread(tk)
         self._floor = self._floors[self._current_floor]
 
     def open(self) -> None:
@@ -121,6 +123,7 @@ class TkinterGenerator(Generator):
             self._path.set(self._output_file_path)
             with open(path, "r") as file:
                 json_string = file.read()
+                self._floor.stop_drawing()
                 self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas, self._output_file_name)
                 self._floors.append(self._floor)
                 self._current_floor = len(self._floors) - 1
