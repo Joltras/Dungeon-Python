@@ -9,7 +9,6 @@ from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator
 
-
 class TkinterGenerator(Generator):
     def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
@@ -33,6 +32,40 @@ class TkinterGenerator(Generator):
         self._path.set(self._output_file_path)
         self._name = tk.StringVar()
         self._name.set(self._output_file_name)
+        self._menu_bar = tk.Menu(self._tk)
+        self._current_theme = "light"
+        self.apply_theme()
+
+    def apply_theme(self) -> None:
+        """
+        Applies the current theme to the application.
+        """
+        if self._current_theme == "light":
+            self._tk.configure(background="light gray", highlightbackground="black")
+            style = ttk.Style(self._tk)
+            style.configure("TButton", background="white", foreground="black", hover="black")
+            style.configure("TFrame", background="light gray", foreground="black")
+            style.theme_use("default")
+            self._canvas.configure(background="white", highlightbackground="black")
+        else:
+            self._tk.configure(background="dark gray", highlightbackground="white")
+            self._canvas.configure(background="black", highlightbackground="white")
+            style = ttk.Style(self._tk)
+            style.configure("TFrame", background="dark gray", foreground="white")
+            style.configure("TButton", background="black", foreground="white")
+            # set color on hover
+            style.map("TButton", background=[("active", "gray")])
+
+    def switch_theme(self) -> None:
+        """
+        Switches the theme of the application.
+        """
+        if self._current_theme == "light":
+            self._current_theme = "dark"
+        else:
+            self._current_theme = "light"
+        self.apply_theme()
+
 
     def _create_floor(self) -> None:
         """
@@ -155,27 +188,28 @@ class TkinterGenerator(Generator):
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
-        button_pre.pack(side=tk.LEFT)
+        button_pre.pack(side=tk.LEFT, padx=10)
         # Left arrow to decrease
         self._tk.bind("<Left>", lambda event: self._decrease_floor())
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
-        button_gen.pack(side=tk.LEFT)
+        button_gen.pack(side=tk.LEFT, padx=10)
         # Space to generate
         self._tk.bind("<space>", lambda event: self._generate_and_draw_floor())
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
-        button_next.pack(side=tk.LEFT)
+        button_next.pack(side=tk.LEFT, padx=10)
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
-        button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save.pack(side=tk.RIGHT, padx=(10, 0))
-        # Ctrl + s to save
-        self._tk.bind("<Control-s>", lambda event: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save_as = ttk.Button(button_frame, text="Save As", command=self.save)
-        button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
-        # Ctrl + Shift + s to save as
-        self._tk.bind("<Control-S>", lambda event: self.save())
-        button_open = ttk.Button(button_frame, text="Open", command=self.open)
-        button_open.pack(side=tk.RIGHT, padx=(100, 0))
+
+
+        # Create a menu bar
+        menu_bar = tk.Menu(self._tk)
+        self._tk.config(menu=menu_bar)
+        menu_bar.add_command(label="Open", command=self.open, accelerator="Ctrl+o")
+        menu_bar.add_command(label="Save", command=lambda: self.save(os.path.join(
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX)
+                             , accelerator="Ctrl+s")
+        menu_bar.add_command(label="Save As", command=self.save, accelerator="Ctrl+Shift+s")
+        menu_bar.add_command(label="Switch Theme", command=self.switch_theme, accelerator="Ctrl+t")
+        menu_bar.add_command(label="Exit", command=self._tk.quit, accelerator="Ctrl+q")
+        self.apply_theme()
         self._tk.mainloop()
