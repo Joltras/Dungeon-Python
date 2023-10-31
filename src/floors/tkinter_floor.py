@@ -1,15 +1,13 @@
-from tkinter import Canvas
-from tkinter import Tk
-
 import globals
 from floors.floor import Floor
 from rooms.room import Room
+
 from rooms.tkinter.tkinter_room import TkinterRoom
 from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
 
 
 class TkinterFloor(Floor):
-    def __init__(self, height: int, width: int, canvas: Canvas):
+    def __init__(self, height: int, width: int, canvas, name: str):
         """
         Creates a new floor width the given width and height.
         @param height: height of the floor
@@ -18,6 +16,7 @@ class TkinterFloor(Floor):
         super().__init__(height, width)
         self._canvas = canvas
         self._first_draw = True
+        self.name = name
 
     def add_room(self, x: int, y: int, type=globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
@@ -30,27 +29,21 @@ class TkinterFloor(Floor):
         self._room_id += 1
 
     @classmethod
-    def from_floor(cls, floor: Floor, canvas):
+    def from_floor(cls, floor: Floor, canvas, name: str):
         """
         Creates a new TkinterFloor from a floor.
         @param canvas: Canvas to draw on
         @param floor: floor to copy
         @return: new TkinterFloor
         """
-        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas)
+        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name)
         for room in floor._rooms:
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
 
-    def draw(self, root: Tk) -> None:
+    def draw(self, root) -> None:
         """
         """
         self._canvas.delete("all")
-        sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id(), reverse=False)
-        for room in sorted_rooms:
-           root.after(1000, lambda r = room : self.draw_room(root, sorted_rooms))
-
-    def draw_room(self, root: Tk, rooms, index=0) -> None:
-        if index < len(rooms):
-            rooms[index].draw(self._canvas)
-            root.after(1000, lambda: self.draw_room(root, rooms, index + 1))
+        for room in self._rooms:
+            room.draw(self._canvas)

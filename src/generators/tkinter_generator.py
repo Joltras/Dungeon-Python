@@ -9,7 +9,6 @@ from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator
 
-
 class TkinterGenerator(Generator):
     def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
         """
@@ -33,15 +32,50 @@ class TkinterGenerator(Generator):
         self._path.set(self._output_file_path)
         self._name = tk.StringVar()
         self._name.set(self._output_file_name)
+        self._menu_bar = tk.Menu(self._tk)
+        self._current_theme = "light"
+        self.apply_theme()
+
+    def apply_theme(self) -> None:
+        """
+        Applies the current theme to the application.
+        """
+        if self._current_theme == "light":
+            self._tk.configure(background="light gray", highlightbackground="black")
+            style = ttk.Style(self._tk)
+            style.configure("TButton", background="white", foreground="black", hover="black")
+            style.configure("TFrame", background="light gray", foreground="black")
+            style.theme_use("default")
+            self._canvas.configure(background="white", highlightbackground="black")
+        else:
+            self._tk.configure(background="dark gray", highlightbackground="white")
+            self._canvas.configure(background="black", highlightbackground="white")
+            style = ttk.Style(self._tk)
+            style.configure("TFrame", background="dark gray", foreground="white")
+            style.configure("TButton", background="black", foreground="white")
+            # set color on hover
+            style.map("TButton", background=[("active", "gray")])
+
+    def switch_theme(self) -> None:
+        """
+        Switches the theme of the application.
+        """
+        if self._current_theme == "light":
+            self._current_theme = "dark"
+        else:
+            self._current_theme = "light"
+        self.apply_theme()
+
 
     def _create_floor(self) -> None:
         """
         Creates a new TkinterFloor and appends it to the floor queue.
         """
-        self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas))
+        self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas, name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
-        self._floors[self._current_floor].draw(self._tk)
+        self._floors[self._current_floor].draw(tk)
+        self._name.set(self._floors[self._current_floor].name)
 
     def _decrease_floor(self) -> None:
         """
@@ -49,8 +83,9 @@ class TkinterGenerator(Generator):
         """
         if self._current_floor > 0:
             self._current_floor -= 1
-            self._floors[self._current_floor].draw(self._tk)
+            self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
+            self._name.set(self._floors[self._current_floor].name)
 
     def _increase_floor(self) -> None:
         """
@@ -58,15 +93,16 @@ class TkinterGenerator(Generator):
         """
         if self._current_floor < len(self._floors) - 1:
             self._current_floor += 1
-            self._floors[self._current_floor].draw(self._tk)
+            self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
+            self._name.set(self._floors[self._current_floor].name)
 
     def _generate_and_draw_floor(self) -> None:
         """
         Cals the generate method and the draw method of the floor.
         """
         self.generate()
-        self._floors[self._current_floor].draw(self._tk)
+        self._floors[self._current_floor].draw(tk)
         self._floor = self._floors[self._current_floor]
 
     def open(self) -> None:
@@ -85,10 +121,10 @@ class TkinterGenerator(Generator):
             self._path.set(self._output_file_path)
             with open(path, "r") as file:
                 json_string = file.read()
-                self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas)
+                self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas, self._output_file_name)
                 self._floors.append(self._floor)
                 self._current_floor = len(self._floors) - 1
-                self._floors[self._current_floor].draw(self._tk)
+                self._floors[self._current_floor].draw(tk)
 
     def save(self, path: str = "") -> str:
         """
@@ -125,7 +161,9 @@ class TkinterGenerator(Generator):
             self._output_file_name = os.path.basename(file_path)
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
+            self._floors[self._current_floor].name = self._name.get()
         print(file_path)
+
         return super().save(file_path)
 
     def run(self) -> None:
@@ -136,7 +174,7 @@ class TkinterGenerator(Generator):
         self._tk.geometry("1200x550")
         self._tk.resizable(False, False)
         self.generate()
-        self._floors[self._current_floor].draw(self._tk)
+        self._floors[self._current_floor].draw(tk)
         self._canvas.pack(anchor=tk.NW, expand=True)
         information_frame = ttk.Frame()
 
@@ -155,27 +193,28 @@ class TkinterGenerator(Generator):
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
         button_pre = ttk.Button(button_frame, text="<-", command=self._decrease_floor)
-        button_pre.pack(side=tk.LEFT)
+        button_pre.pack(side=tk.LEFT, padx=10)
         # Left arrow to decrease
         self._tk.bind("<Left>", lambda event: self._decrease_floor())
         button_gen = ttk.Button(button_frame, text="Generate", command=self._generate_and_draw_floor)
-        button_gen.pack(side=tk.LEFT)
+        button_gen.pack(side=tk.LEFT, padx=10)
         # Space to generate
         self._tk.bind("<space>", lambda event: self._generate_and_draw_floor())
         button_next = ttk.Button(button_frame, text="->", command=self._increase_floor)
-        button_next.pack(side=tk.LEFT)
+        button_next.pack(side=tk.LEFT, padx=10)
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
-        button_save = ttk.Button(button_frame, text="Save", command=lambda: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save.pack(side=tk.RIGHT, padx=(10, 0))
-        # Ctrl + s to save
-        self._tk.bind("<Control-s>", lambda event: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX))
-        button_save_as = ttk.Button(button_frame, text="Save As", command=self.save)
-        button_save_as.pack(side=tk.RIGHT, padx=(100, 0))
-        # Ctrl + Shift + s to save as
-        self._tk.bind("<Control-S>", lambda event: self.save())
-        button_open = ttk.Button(button_frame, text="Open", command=self.open)
-        button_open.pack(side=tk.RIGHT, padx=(100, 0))
+
+
+        # Create a menu bar
+        menu_bar = tk.Menu(self._tk)
+        self._tk.config(menu=menu_bar)
+        menu_bar.add_command(label="Open", command=self.open, accelerator="Ctrl+o")
+        menu_bar.add_command(label="Save", command=lambda: self.save(os.path.join(
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX)
+                             , accelerator="Ctrl+s")
+        menu_bar.add_command(label="Save As", command=self.save, accelerator="Ctrl+Shift+s")
+        menu_bar.add_command(label="Switch Theme", command=self.switch_theme, accelerator="Ctrl+t")
+        menu_bar.add_command(label="Exit", command=self._tk.quit, accelerator="Ctrl+q")
+        self.apply_theme()
         self._tk.mainloop()
