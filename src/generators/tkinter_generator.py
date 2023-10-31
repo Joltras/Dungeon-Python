@@ -71,10 +71,11 @@ class TkinterGenerator(Generator):
         """
         Creates a new TkinterFloor and appends it to the floor queue.
         """
-        self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas))
+        self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas, name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
         self._floors[self._current_floor].draw(tk)
+        self._name.set(self._floors[self._current_floor].name)
 
     def _decrease_floor(self) -> None:
         """
@@ -84,6 +85,7 @@ class TkinterGenerator(Generator):
             self._current_floor -= 1
             self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
+            self._name.set(self._floors[self._current_floor].name)
 
     def _increase_floor(self) -> None:
         """
@@ -93,6 +95,7 @@ class TkinterGenerator(Generator):
             self._current_floor += 1
             self._floors[self._current_floor].draw(tk)
             self._floor = self._floors[self._current_floor]
+            self._name.set(self._floors[self._current_floor].name)
 
     def _generate_and_draw_floor(self) -> None:
         """
@@ -118,7 +121,7 @@ class TkinterGenerator(Generator):
             self._path.set(self._output_file_path)
             with open(path, "r") as file:
                 json_string = file.read()
-                self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas)
+                self._floor = TkinterFloor.from_floor(Floor.from_json(json_string), self._canvas, self._output_file_name)
                 self._floors.append(self._floor)
                 self._current_floor = len(self._floors) - 1
                 self._floors[self._current_floor].draw(tk)
@@ -158,7 +161,9 @@ class TkinterGenerator(Generator):
             self._output_file_name = os.path.basename(file_path)
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
+            self._floors[self._current_floor].name = self._name.get()
         print(file_path)
+
         return super().save(file_path)
 
     def run(self) -> None:
