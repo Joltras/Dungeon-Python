@@ -59,8 +59,8 @@ class TkinterFloor(Floor):
         print(thread.ident)
 
     def stop_drawing(self) -> None:
-        print("stop drawing")
         self._is_drawing = False
+
     def draw_step_by_step(self, root) -> None:
         """
         Draws the floor step by step.
@@ -68,12 +68,10 @@ class TkinterFloor(Floor):
         """
         self._canvas.delete("all")
         sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id())
-        print("start drawing")
         self._is_drawing = True
         for room in sorted_rooms:
-            print(self._is_drawing)
             if not self._is_drawing:
                 sorted_rooms.clear()
                 return
             room.draw(self._canvas)
-            time.sleep(1)
+            time.sleep(0.5)
