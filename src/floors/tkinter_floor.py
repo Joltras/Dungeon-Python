@@ -1,3 +1,6 @@
+import threading
+import time
+
 import globals
 from floors.floor import Floor
 from rooms.room import Room
@@ -17,6 +20,7 @@ class TkinterFloor(Floor):
         self._canvas = canvas
         self._first_draw = True
         self.name = name
+        self._is_drawing = False
 
     def add_room(self, x: int, y: int, type=globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
@@ -44,6 +48,30 @@ class TkinterFloor(Floor):
     def draw(self, root) -> None:
         """
         """
+        self.stop_drawing()
         self._canvas.delete("all")
         for room in self._rooms:
             room.draw(self._canvas)
+
+    def draw_thread(self, root) -> None:
+        thread = threading.Thread(target=self.draw_step_by_step, args=(root,))
+        thread.start()
+        print(thread.ident)
+
+    def stop_drawing(self) -> None:
+        self._is_drawing = False
+
+    def draw_step_by_step(self, root) -> None:
+        """
+        Draws the floor step by step.
+        @param root: root of the tkinter window
+        """
+        self._canvas.delete("all")
+        sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id())
+        self._is_drawing = True
+        for room in sorted_rooms:
+            if not self._is_drawing:
+                sorted_rooms.clear()
+                return
+            room.draw(self._canvas)
+            time.sleep(0.5)
