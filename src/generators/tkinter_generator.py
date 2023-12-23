@@ -176,8 +176,8 @@ class TkinterGenerator(Generator):
         """
         Sets up the ui elements and starts the main loop of the application.
         """
-        self._tk.title("Dungeon Generator")
-        self._tk.geometry("1200x550")
+        self._tk.title(utils.window_title)
+        self._tk.geometry(utils.window_size)
         self._tk.resizable(False, False)
         self.generate()
         self._floors[self._current_floor_index].draw(tk)
@@ -224,8 +224,7 @@ class TkinterGenerator(Generator):
         self._tk.config(menu=menu_bar)
         menu_bar.add_command(label="Open", command=self.open, accelerator="Ctrl+o")
         menu_bar.add_command(label="Save", command=lambda: self.save(os.path.join(
-            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX)
-                             , accelerator="Ctrl+s")
+            self._output_file_path, self._output_file_name) + globals.JSON_SUFFIX), accelerator="Ctrl+s")
         menu_bar.add_command(label="Save As", command=self.save, accelerator="Ctrl+Shift+s")
         menu_bar.add_command(label="Switch Theme", command=self.switch_theme, accelerator="Ctrl+t")
         menu_bar.add_command(label="Exit", command=self._tk.quit, accelerator="Ctrl+q")
