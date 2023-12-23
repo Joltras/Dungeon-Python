@@ -116,14 +116,11 @@ class Generator:
         """
         dead_end_indices = []
         floor = self._floor
-        i = 0
-        while i < len(floor.get_rooms()):
+        for i in range(len(floor.get_rooms())):
             room = floor.get_rooms()[i]
-            if floor.is_dead_end(room[0], room[1]):
-                if room.get_type() == RoomType.NORMAL_ROOM:
-                    room.set_type(RoomType.DEAD_END)
-                    dead_end_indices += (i,)
-            i += 1
+            if floor.is_dead_end(room[0], room[1]) and room.get_type() == RoomType.NORMAL_ROOM:
+                room.set_type(RoomType.DEAD_END)
+                dead_end_indices += (i,)
         return dead_end_indices
 
     def _add_rooms_next_to_room(self, room, directions) -> None:
@@ -154,8 +151,7 @@ class Generator:
         max_distance_index = 0
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            current_distance = (start_room[0] - dead_end[0]) * (start_room[0] - dead_end[0]) + (
-                        start_room[1] - dead_end[1]) * (start_room[1] - dead_end[1])
+            current_distance = utils.calculate_distance(start_room, dead_end)
             if max_distance < current_distance:
                 max_distance = current_distance
                 max_distance_index = index
@@ -187,6 +183,8 @@ class Generator:
 
         boss_room.set_type(RoomType.BOSS_ROOM)
         dead_end_indices.remove(boss_room_index)
+
+
 
     def _place_big_boss_room(self, possible_locations: List, boss_room: Room) -> bool:
         """
