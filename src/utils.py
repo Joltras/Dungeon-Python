@@ -47,3 +47,12 @@ def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tu
         return coordinates[0] - 1, coordinates[1] + 1
     if direction is Direction.DOWN_RIGHT:
         return coordinates[0] + 1, coordinates[1] + 1
+
+
+json_file_options: dict = {
+            'defaultextension': globals.JSON_SUFFIX,
+            'filetypes': [('Json', globals.JSON_SUFFIX)],
+        }
+
+open_file_text: str = "Open File"
+save_file_text: str = "Save File"
