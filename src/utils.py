@@ -50,9 +50,16 @@ def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tu
 
 
 json_file_options: dict = {
-            'defaultextension': globals.JSON_SUFFIX,
-            'filetypes': [('Json', globals.JSON_SUFFIX)],
-        }
+    'defaultextension': globals.JSON_SUFFIX,
+    'filetypes': [('Json', globals.JSON_SUFFIX)],
+}
 
 open_file_text: str = "Open File"
 save_file_text: str = "Save File"
+
+window_title: str = "Floor Generator"
+window_size: str = "1200x550"
+
+
+def calculate_distance(cord1, cord2) -> int:
+    return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (cord1[1] - cord2[1])
