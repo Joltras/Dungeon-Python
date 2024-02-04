@@ -1,5 +1,7 @@
 import random
 import math
+from typing import Tuple
+
 import globals
 from globals import Direction
 
@@ -24,7 +26,7 @@ def rgb2hex(r, g, b):
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
-def add_direction_to_coordinates(direction: Direction, coordinates: tuple) -> tuple:
+def add_direction_to_coordinates(direction: Direction, coordinates: Tuple[int, int]) -> Tuple[int, int]:
     """
     Calculates the room according to the given room and direction
     @param direction: direction for the room to calculate

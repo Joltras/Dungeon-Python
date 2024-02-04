@@ -2,7 +2,7 @@ import os
 import random
 from collections import deque
 from datetime import datetime
-from typing import List, TypeVar
+from typing import List, TypeVar, Tuple
 
 import utils
 from globals import RoomType, Direction
@@ -184,8 +184,6 @@ class Generator:
         boss_room.set_type(RoomType.BOSS_ROOM)
         dead_end_indices.remove(boss_room_index)
 
-
-
     def _place_big_boss_room(self, possible_locations: List, boss_room: Room) -> bool:
         """
         Searches a free location to add more boss rooms next to the existing boss room.
@@ -201,7 +199,8 @@ class Generator:
         ]
         for direction in directions:
             corner = utils.add_direction_to_coordinates(direction[2], (boss_room[0], boss_room[1]))
-            if direction[0] in possible_locations and direction[1] in possible_locations and self._floor.has_no_neighbours(corner[0], corner[1]):
+            if (direction[0] in possible_locations and direction[1] in possible_locations
+                    and self._floor.has_no_neighbours(corner[0], corner[1])):
                 self._add_rooms_next_to_room(boss_room, direction)
                 return True
 
@@ -214,20 +213,21 @@ class Generator:
         """
         floor = self._floor
         floor.add_teleport_room(boss_room)
-        if not (floor.contains_room((0, 0))) and floor.has_no_neighbours(0, 0):
+        if self._check_if_not_contains_room_and_has_no_neighbours(floor.top_left()):
             boss_room.set_cord(0, 0)
 
-        elif (not (floor.contains_room((0, globals.FLOOR_HEIGHT - 1))) and
-              floor.has_no_neighbours(0, globals.FLOOR_HEIGHT - 1)):
+        elif self._check_if_not_contains_room_and_has_no_neighbours(floor.top_right()):
             boss_room.set_cord(0, globals.FLOOR_HEIGHT - 1)
 
-        elif (not (floor.contains_room((globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1))) and
-              floor.has_no_neighbours(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)):
+        elif self._check_if_not_contains_room_and_has_no_neighbours(floor.bottom_left()):
             boss_room.set_cord(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)
 
-        elif (not (floor.contains_room((globals.FLOOR_WIDTH - 1, 0))) and
-              floor.has_no_neighbours(globals.FLOOR_WIDTH - 1, 0)):
+        elif self._check_if_not_contains_room_and_has_no_neighbours(floor.bottom_right()):
             boss_room.set_cord(globals.FLOOR_WIDTH - 1, 0)
+
+    def _check_if_not_contains_room_and_has_no_neighbours(self, point: Tuple[int, int]) -> bool:
+        floor = self._floor
+        return not floor.contains_room((point[0], point[1])) and floor.has_no_neighbours(point[0], point[1])
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
