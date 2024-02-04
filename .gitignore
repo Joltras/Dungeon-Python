@@ -1,2 +1,4 @@
-./.idea
+.idea
 /generation
+__pycache__/
+.python-version
