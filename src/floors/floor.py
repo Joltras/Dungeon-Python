@@ -29,6 +29,18 @@ class Floor:
         self._height: int = height
         self._room_id: int = 0
 
+    def top_left(self) -> Tuple[int, int]:
+        return 0, 0
+
+    def top_right(self) -> Tuple[int, int]:
+        return self._width - 1, 0
+
+    def bottom_left(self) -> Tuple[int, int]:
+        return 0, self._height - 1
+
+    def bottom_right(self) -> Tuple[int, int]:
+        return self._width - 1, self._height - 1
+
     def to_json(self, indent: int):
         """
         Creates a json string for the current room object.
