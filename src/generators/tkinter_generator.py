@@ -1,4 +1,5 @@
 import os
+import secrets
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog, messagebox
@@ -32,6 +33,10 @@ class TkinterGenerator(Generator):
         self._path = tk.StringVar()
         self._path.set(self._output_file_path)
         self._name = tk.StringVar()
+        self._seed_var = tk.StringVar()
+        self._seed_var.set(self._seed)
+        self._next_seed = tk.StringVar()
+        self._next_seed.set(secrets.token_hex(16))
         self._name.set(self._output_file_name)
         self._menu_bar = tk.Menu(self._tk)
         self._current_theme = "light"
@@ -78,7 +83,8 @@ class TkinterGenerator(Generator):
         Creates a new TkinterFloor and appends it to the floor queue.
         """
         self._floors.append(TkinterFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, canvas=self._canvas,
-                                         name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX))
+                                         name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX,
+                                         seed=self._next_seed.get()))
         self._current_floor_index = len(self._floors) - 1
         self._floor = self._floors[self._current_floor_index]
         self._name.set(self._floors[self._current_floor_index].name)
@@ -90,9 +96,10 @@ class TkinterGenerator(Generator):
         if self._current_floor_index > 0:
             self._floor.stop_drawing()
             self._current_floor_index -= 1
-            self._floors[self._current_floor_index].draw(tk)
+            self._floors[self._current_floor_index].draw()
             self._floor = self._floors[self._current_floor_index]
             self._name.set(self._floors[self._current_floor_index].name)
+            self._seed_var.set(self._floor.seed)
 
     def _increase_floor(self) -> None:
         """
@@ -103,15 +110,18 @@ class TkinterGenerator(Generator):
             self._floor.stop_drawing()
             self._current_floor_index += 1
             current_floor = self._floors[self._current_floor_index]
-            current_floor.draw(tk)
+            current_floor.draw()
             self._floor = current_floor
             self._name.set(current_floor.name)
+            self._seed_var.set(self._floor.seed)
 
     def _generate_and_draw_floor(self) -> None:
         """
         Cals the generate method and the draw method of the floor.
         """
-        self.generate()
+        self.generate(self._next_seed.get())
+        self._seed_var.set(self._next_seed.get())
+        self._next_seed.set(secrets.token_hex(16))
         # self._floors[self._current_floor].draw(tk)
         self._floors[self._current_floor_index].draw_thread(tk)
         self._floor = self._floors[self._current_floor_index]
@@ -133,7 +143,8 @@ class TkinterGenerator(Generator):
                                                       self._output_file_name)
                 self._floors.append(self._floor)
                 self._current_floor_index = len(self._floors) - 1
-                self._floors[self._current_floor_index].draw(tk)
+                self._floors[self._current_floor_index].draw()
+                self._seed_var.set(self._floor.seed)
 
     def save(self, path: str = "") -> str:
         """
@@ -180,7 +191,7 @@ class TkinterGenerator(Generator):
         self._tk.geometry(utils.window_size)
         self._tk.resizable(False, False)
         self.generate()
-        self._floors[self._current_floor_index].draw(tk)
+        self._floors[self._current_floor_index].draw()
         self._canvas.pack(anchor=tk.NW, expand=True)
         self.add_information_frame()
         self.add_buttons()
@@ -200,6 +211,10 @@ class TkinterGenerator(Generator):
         path_text.pack(side=tk.LEFT, padx=(25, 0))
         path_label = ttk.Label(information_frame, textvariable=self._path)
         path_label.pack(side=tk.LEFT)
+        seed_text = ttk.Label(information_frame, text="Seed: ")
+        seed_text.pack(side=tk.LEFT, padx=(25, 0))
+        seed_label = ttk.Label(information_frame, textvariable=self._seed_var)
+        seed_label.pack(side=tk.LEFT)
 
     def add_buttons(self) -> None:
         # Create button frame
@@ -217,6 +232,12 @@ class TkinterGenerator(Generator):
         button_next.pack(side=tk.LEFT, padx=10)
         # Right arrow to increase
         self._tk.bind("<Right>", lambda event: self._increase_floor())
+        # Next seed entry
+        next_seed_label = ttk.Label(button_frame, text="Next seed: ")
+        next_seed_label.pack(side=tk.LEFT, padx=10)
+        next_seed_entry = ttk.Entry(button_frame, textvariable=self._next_seed)
+        next_seed_entry.bind("<Return>", lambda event: self._seed_var.set(self._next_seed.get()))
+        next_seed_entry.pack(side=tk.LEFT, padx=10)
 
     def create_menu_bar(self) -> None:
         # Create a menu bar
