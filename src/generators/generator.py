@@ -53,7 +53,7 @@ class Generator:
         """
         Creates a new floor.
         """
-        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH)
+        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, self._seed)
 
     def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
         """
