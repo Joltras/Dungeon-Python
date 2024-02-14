@@ -69,10 +69,13 @@ class Generator:
             return True
         return False
 
-    def generate(self) -> None:
+    def generate(self, new_seed=None) -> None:
         """
         Generates the rooms for the floor.
         """
+        if new_seed is not None:
+            random.seed(new_seed)
+            self._seed = new_seed
         self._create_floor()
         floor = self._floor
         number_of_rooms = utils.calculate_room_amount(self._stage_id)
