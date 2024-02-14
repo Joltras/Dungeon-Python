@@ -17,7 +17,7 @@ class Floor:
     A floor manges the creation of rooms and contains them.
     """
 
-    def __init__(self, height: int, width: int):
+    def __init__(self, height: int, width: int, seed: str):
         """
         Creates a new floor with the given width and height.
         @param height: height for the floor
@@ -28,6 +28,7 @@ class Floor:
         self._width: int = width
         self._height: int = height
         self._room_id: int = 0
+        self.seed: str = seed
 
     def top_left(self) -> Tuple[int, int]:
         return 0, 0
@@ -49,7 +50,9 @@ class Floor:
         indent_s: str = globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = "{\n" + indent_s + '"_rooms"' + ": ["
+        json_string = ("{\n"
+        + f'{indent_s}"_seed": "{self.seed}",\n'
+                       + indent_s + '"_rooms"' + ": [")
         if len(self._rooms) == 0:
             json_string += "]"
         else:
@@ -66,7 +69,7 @@ class Floor:
     @classmethod
     def from_json(cls, json_string: str):
         json_dict = json.loads(json_string)
-        floor = Floor(json_dict["_height"], json_dict["_width"])
+        floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_seed"])
         rooms = json_dict["_floor"]["_rooms"]
         for room in rooms:
             floor._rooms.append(Room.from_dict(room))

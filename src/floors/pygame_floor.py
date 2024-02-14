@@ -12,13 +12,13 @@ class PygameFloor(Floor):
     A pygame version of the floor.
     """
 
-    def __init__(self, height: int, width: int):
+    def __init__(self, height: int, width: int, seed: str):
         """
         Creates a new floor width the given width and height.
         @param height: height of the floor
         @param width: width of the floor
         """
-        super().__init__(height, width)
+        super().__init__(height, width, seed)
         self._rect = pygame.Rect(globals.x_offset, globals.y_offset, width * globals.ROOM_WIDTH, height * globals.ROOM_HEIGHT)
 
     def draw(self, screen: pygame.Surface) -> None:

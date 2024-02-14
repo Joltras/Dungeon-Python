@@ -10,13 +10,13 @@ from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
 
 
 class TkinterFloor(Floor):
-    def __init__(self, height: int, width: int, canvas, name: str):
+    def __init__(self, height: int, width: int, canvas, name: str, seed: str):
         """
         Creates a new floor width the given width and height.
         @param height: height of the floor
         @param width: width of the floor
         """
-        super().__init__(height, width)
+        super().__init__(height, width, seed)
         self._canvas = canvas
         self._first_draw = True
         self.name = name
