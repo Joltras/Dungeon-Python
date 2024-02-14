@@ -38,6 +38,7 @@ class TkinterFloor(Floor):
         Creates a new TkinterFloor from a floor.
         @param canvas: Canvas to draw on
         @param floor: floor to copy
+        @param name: name of the floor
         @return: new TkinterFloor
         """
         tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name)
