@@ -46,7 +46,7 @@ class TkinterFloor(Floor):
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
 
-    def draw(self, root) -> None:
+    def draw(self) -> None:
         """
         """
         self.stop_drawing()
@@ -55,17 +55,16 @@ class TkinterFloor(Floor):
             room.draw(self._canvas)
 
     def draw_thread(self, root) -> None:
-        thread = threading.Thread(target=self.draw_step_by_step, args=(root,))
+        thread = threading.Thread(target=self.draw_step_by_step)
         thread.start()
         print(thread.ident)
 
     def stop_drawing(self) -> None:
         self._is_drawing = False
 
-    def draw_step_by_step(self, root) -> None:
+    def draw_step_by_step(self) -> None:
         """
         Draws the floor step by step.
-        @param root: root of the tkinter window
         """
         self._canvas.delete("all")
         sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id())
