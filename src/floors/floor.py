@@ -72,7 +72,6 @@ class Floor:
             floor._rooms.append(Room.from_dict(room))
         return floor
 
-
     def add_to_floor_grid(self, x: int, y: int) -> None:
         """
         Adds a room to the floor grid at the given location.
