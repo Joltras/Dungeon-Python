@@ -41,7 +41,7 @@ class TkinterFloor(Floor):
         @param name: name of the floor
         @return: new TkinterFloor
         """
-        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name)
+        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name, floor.seed)
         for room in floor._rooms:
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
