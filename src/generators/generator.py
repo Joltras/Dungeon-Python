@@ -30,7 +30,8 @@ class Generator:
         self._seed = seed
         self._output_file_name = output_file_name
         self._output_file_path = output_file_path
-        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
+        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT, seed)
+        random.seed(seed)
 
     def to_json(self, indent: int) -> str:
         """
