@@ -41,7 +41,6 @@ class Generator:
         indent_s = globals.BASE_INDENT * indent
 
         j = "{\n" + \
-            indent_s + '"_seed": "' + self._seed + '",\n' + \
             indent_s + '"_width": ' + str(globals.FLOOR_WIDTH) + ',\n' + \
             indent_s + '"_height": ' + str(globals.FLOOR_HEIGHT) + ',\n' + \
             indent_s + '"_floor": ' + self._floor.to_json(indent + 1) + ",\n" + \
