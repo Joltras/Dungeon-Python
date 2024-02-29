@@ -5,9 +5,17 @@ from globals import RoomType, Color, Direction
 
 
 class GlobalsTest(unittest.TestCase):
-
     def test_directions(self):
-        expected = [(0, -1), (1, 0), (0, 1), (-1, 0), (1, -1), (-1, -1), (1, 1), (-1, 1)]
+        expected = [
+            (0, -1),
+            (1, 0),
+            (0, 1),
+            (-1, 0),
+            (1, -1),
+            (-1, -1),
+            (1, 1),
+            (-1, 1),
+        ]
         self.assertEqual(expected, Direction.list())
 
     def test_up(self):
@@ -43,7 +51,9 @@ class GlobalsTest(unittest.TestCase):
         self.assertEqual(expected, RoomType.list())
 
     def test_special_rooms(self):
-        self.assertEqual((RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), globals.SPECIAL_ROOMS)
+        self.assertEqual(
+            (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), globals.SPECIAL_ROOMS
+        )
 
     def test_door_color(self):
         self.assertEqual(Color.BLACK, globals.DOOR_COLOR)
@@ -56,7 +66,7 @@ class GlobalsTest(unittest.TestCase):
             RoomType.SHOP_ROOM: Color.YELLOW,
             RoomType.START_ROOM: Color.ORANGE,
             RoomType.TELEPORT_ROOM: Color.GRAY,
-            RoomType.BOSS_ROOM: Color.RED
+            RoomType.BOSS_ROOM: Color.RED,
         }
         self.assertEqual(expected, globals.Room_Colors)
 
@@ -79,8 +89,11 @@ class GlobalsTest(unittest.TestCase):
         self.assertEqual(".json", globals.JSON_SUFFIX)
 
     def test_path(self):
-        self.assertEqual(os.path.realpath(os.path.dirname(__file__).replace("\\test", "")), globals.APPLICATION_PATH)
+        self.assertEqual(
+            os.path.realpath(os.path.dirname(__file__).replace("\\test", "")),
+            globals.APPLICATION_PATH,
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -3,7 +3,6 @@ from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 
 class Room:
-
     def __init__(self, x: int, y: int, room_id: int, type: RoomType):
         """
         Creates a new room with the given values.
@@ -39,22 +38,48 @@ class Room:
         @return: json string
         """
         indent_s: str = globals.BASE_INDENT * indent
-        json_string: str = str(globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
+        json_string: str = (
+            str(globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
+        )
         i = 0
         while i < len(self._doors):
             json_string += indent_s + globals.BASE_INDENT + str(self._doors[i].value)
             if i != len(self._doors) - 1:
                 json_string += ",\n"
             i += 1
-        json_string += "\n" + indent_s + "],\n" + indent_s + '"_id": ' + str(
-            self._id) + ",\n" + indent_s + '"_type": ' + \
-            str(self._type.value) + ",\n" + indent_s + '"_x": ' + str(self._x) + ",\n" + indent_s + \
-            '"_y": ' + str(self._y) + "\n" + str(globals.BASE_INDENT * (indent - 1)) + "}"
+        json_string += (
+            "\n"
+            + indent_s
+            + "],\n"
+            + indent_s
+            + '"_id": '
+            + str(self._id)
+            + ",\n"
+            + indent_s
+            + '"_type": '
+            + str(self._type.value)
+            + ",\n"
+            + indent_s
+            + '"_x": '
+            + str(self._x)
+            + ",\n"
+            + indent_s
+            + '"_y": '
+            + str(self._y)
+            + "\n"
+            + str(globals.BASE_INDENT * (indent - 1))
+            + "}"
+        )
         return json_string
 
     @classmethod
     def from_dict(cls, json_dict: dict):
-        room = Room(json_dict["_x"], json_dict["_y"], json_dict["_id"], RoomType(json_dict["_type"]))
+        room = Room(
+            json_dict["_x"],
+            json_dict["_y"],
+            json_dict["_id"],
+            RoomType(json_dict["_type"]),
+        )
         for door in json_dict["_doors"]:
             room._doors.append(DoorFace(door))
         return room
@@ -114,7 +139,11 @@ class Room:
         if type(other) is not Room:
             return False
         other_room: Room = other
-        return self._x == other_room._x and self._y == other_room._y and self._type == other_room._type
+        return (
+            self._x == other_room._x
+            and self._y == other_room._y
+            and self._type == other_room._type
+        )
 
     def __str__(self) -> str:
         """

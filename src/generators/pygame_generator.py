@@ -11,7 +11,9 @@ class PygameGenerator(Generator):
     Pygame version of the generator.
     """
 
-    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
+    def __init__(
+        self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
+    ):
         """
         Creates a new generator.
         @param seed: seed for the random generator
@@ -21,7 +23,9 @@ class PygameGenerator(Generator):
 
         """
         super().__init__(seed, output_file_name, output_file_path, stage_id)
-        self.screen = pygame.display.set_mode((globals.window_width, globals.window_height))
+        self.screen = pygame.display.set_mode(
+            (globals.window_width, globals.window_height)
+        )
         self.clock = pygame.time.Clock()
         self._floors = deque()
         self._current_floor = -1

@@ -3,7 +3,6 @@ from rooms.teleport_room import TeleportRoom
 
 
 class TeleportRoomTest(unittest.TestCase):
-
     def setUp(self) -> None:
         self._t_room = TeleportRoom(1, 2, 3, 4)
 
@@ -11,5 +10,5 @@ class TeleportRoomTest(unittest.TestCase):
         self.assertEqual(4, self._t_room.get_connected_room_id())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

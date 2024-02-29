@@ -28,7 +28,9 @@ class TkinterFloor(Floor):
         self._room_id += 1
 
     def add_teleport_room(self, room: Room) -> None:
-        t_room = TkinterTeleportRoom(x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id())
+        t_room = TkinterTeleportRoom(
+            x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id()
+        )
         self._rooms.append(t_room)
         self._room_id += 1
 
@@ -41,14 +43,15 @@ class TkinterFloor(Floor):
         @param name: name of the floor
         @return: new TkinterFloor
         """
-        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name, floor.seed)
+        tkinter_floor = TkinterFloor(
+            floor._height, floor._width, canvas, name, floor.seed
+        )
         for room in floor._rooms:
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
 
     def draw(self) -> None:
-        """
-        """
+        """ """
         self.stop_drawing()
         self._canvas.delete("all")
         for room in self._rooms:

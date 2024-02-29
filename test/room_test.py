@@ -5,13 +5,11 @@ from rooms.room import Room
 
 
 class RoomTest(unittest.TestCase):
-
     def setUp(self) -> None:
         self._room = Room(10, 20, 1, RoomType.NORMAL_ROOM)
 
     def test_to_json(self):
-        expected = \
-            """  {
+        expected = """  {
     "_doors": [
 
     ],
@@ -23,8 +21,7 @@ class RoomTest(unittest.TestCase):
         self.assertEqual(expected, self._room.to_json(2))
 
     def test_to_json_with_doors(self):
-        expected = \
-            """  {
+        expected = """  {
     "_doors": [
       0,
       1
@@ -71,8 +68,8 @@ class RoomTest(unittest.TestCase):
 
     def test_get_cord_with_exception(self):
         with self.assertRaises(ValueError, msg="20 is not a valid index"):
-            result = self._room[20]
+            var = self._room[20]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

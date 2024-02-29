@@ -8,7 +8,7 @@ from globals import RoomType, Direction, DoorFace
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
 
-T = TypeVar('T', bound=Room)
+T = TypeVar("T", bound=Room)
 
 
 class Floor:
@@ -50,9 +50,13 @@ class Floor:
         indent_s: str = globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = ("{\n"
-        + f'{indent_s}"_seed": "{self.seed}",\n'
-                       + indent_s + '"_rooms"' + ": [")
+        json_string = (
+            "{\n"
+            + f'{indent_s}"_seed": "{self.seed}",\n'
+            + indent_s
+            + '"_rooms"'
+            + ": ["
+        )
         if len(self._rooms) == 0:
             json_string += "]"
         else:
@@ -94,7 +98,9 @@ class Floor:
         self._rooms.append(Room(x=x, y=y, type=type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: Room, direction: Direction, room_type: RoomType) -> None:
+    def add_room_next_to(
+        self, room: Room, direction: Direction, room_type: RoomType
+    ) -> None:
         """
         Creates and adds a room next to a given room.
         @param room: room where the new room is placed next to
@@ -124,7 +130,9 @@ class Floor:
         The new teleport room is placed at the position from the given room.
         @param room: Room which is connected to the teleport room.
         """
-        t_room = TeleportRoom(x=room[0], y=room[1], room_id=self._room_id, connected_room_id=room.get_id())
+        t_room = TeleportRoom(
+            x=room[0], y=room[1], room_id=self._room_id, connected_room_id=room.get_id()
+        )
         self._rooms.append(t_room)
         self._room_id += 1
 

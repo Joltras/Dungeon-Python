@@ -19,7 +19,12 @@ class PygameFloor(Floor):
         @param width: width of the floor
         """
         super().__init__(height, width, seed)
-        self._rect = pygame.Rect(globals.x_offset, globals.y_offset, width * globals.ROOM_WIDTH, height * globals.ROOM_HEIGHT)
+        self._rect = pygame.Rect(
+            globals.x_offset,
+            globals.y_offset,
+            width * globals.ROOM_WIDTH,
+            height * globals.ROOM_HEIGHT,
+        )
 
     def draw(self, screen: pygame.Surface) -> None:
         """
@@ -49,14 +54,8 @@ class PygameFloor(Floor):
         New teleport room is placed at the location from the given room.
         @param room: Room which is connected to the teleport room.
         """
-        t_room = PygameTeleportRoom(x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id())
+        t_room = PygameTeleportRoom(
+            x=room[0], y=room[1], room_id=self._room_id, teleport_room_id=room.get_id()
+        )
         self._rooms.append(t_room)
         self._room_id += 1
-
-
-
-
-
-
-
-

@@ -22,7 +22,9 @@ async def generate_with_id(floor_id: int) -> FileResponse:
     @param floor_id id for the floor
     @return: Floor in json file
     """
-    generator = Generator(seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=floor_id)
+    generator = Generator(
+        seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=floor_id
+    )
     generator.generate()
     path = generator.save()
     return FileResponse(path=path, filename=_file_name)
@@ -48,7 +50,9 @@ async def generate() -> FileResponse:
     This endpoint generates a floor with the id zero and returns it as a json file.
     @return: Floor as json file
     """
-    generator = Generator(seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=0)
+    generator = Generator(
+        seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=0
+    )
     generator.generate()
     path = generator.save()
     return FileResponse(path=path, filename=_file_name)

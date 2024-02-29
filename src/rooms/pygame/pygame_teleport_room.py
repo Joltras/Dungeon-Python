@@ -5,10 +5,15 @@ from rooms.teleport_room import TeleportRoom
 
 
 class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):
-
-    def __init__(self, x: int, y: int, room_id: int, teleport_room_id: int,
-                 width=globals.ROOM_WIDTH,
-                 height=globals.ROOM_HEIGHT):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        room_id: int,
+        teleport_room_id: int,
+        width=globals.ROOM_WIDTH,
+        height=globals.ROOM_HEIGHT,
+    ):
         """
         Creates a new pygame teleport room with the given values
         @param x: x coordinate of the room

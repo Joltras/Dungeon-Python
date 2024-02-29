@@ -4,7 +4,6 @@ from generators.pygame_generator import PygameGenerator
 
 
 class PygameGeneratorTest(unittest.TestCase):
-
     def setUp(self) -> None:
         self._generator = PygameGenerator("", "test.json", "", 0)
 
@@ -12,5 +11,5 @@ class PygameGeneratorTest(unittest.TestCase):
         self.assertEqual(deque(), self._generator.get_floors())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

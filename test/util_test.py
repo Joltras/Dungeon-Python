@@ -4,7 +4,6 @@ import utils
 
 
 class UtilsTest(unittest.TestCase):
-
     def test_calculate_room_amount(self):
         rooms = utils.calculate_room_amount(2)
         self.assertTrue(0 < rooms <= globals.MAX_ROOMS)
@@ -13,5 +12,5 @@ class UtilsTest(unittest.TestCase):
         utils.place_room()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

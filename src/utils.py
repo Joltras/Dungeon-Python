@@ -11,7 +11,10 @@ def calculate_room_amount(stage_id: int):
     Calculates the room amount.
     :return: room amount
     """
-    return min(globals.MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(stage_id * 10) / 3.0))
+    return min(
+        globals.MAX_ROOMS,
+        int(random.randint(0, 1) + 5 + math.floor(stage_id * 10) / 3.0),
+    )
 
 
 def place_room() -> bool:
@@ -26,7 +29,9 @@ def rgb2hex(r, g, b):
     return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
-def add_direction_to_coordinates(direction: Direction, coordinates: Tuple[int, int]) -> Tuple[int, int]:
+def add_direction_to_coordinates(
+    direction: Direction, coordinates: Tuple[int, int]
+) -> Tuple[int, int]:
     """
     Calculates the room according to the given room and direction
     @param direction: direction for the room to calculate
@@ -52,8 +57,8 @@ def add_direction_to_coordinates(direction: Direction, coordinates: Tuple[int, i
 
 
 json_file_options: dict = {
-    'defaultextension': globals.JSON_SUFFIX,
-    'filetypes': [('Json', globals.JSON_SUFFIX)],
+    "defaultextension": globals.JSON_SUFFIX,
+    "filetypes": [("Json", globals.JSON_SUFFIX)],
 }
 
 open_file_text: str = "Open File"
@@ -64,4 +69,6 @@ window_size: str = "1200x550"
 
 
 def calculate_distance(cord1, cord2) -> int:
-    return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (cord1[1] - cord2[1])
+    return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (
+        cord1[1] - cord2[1]
+    )

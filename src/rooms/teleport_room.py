@@ -3,7 +3,6 @@ from rooms.room import Room
 
 
 class TeleportRoom(Room):
-
     def __init__(self, x: int, y: int, room_id: int, connected_room_id: int):
         """
         Creates a new teleport room with the given values.

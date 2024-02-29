@@ -8,5 +8,5 @@ class GeneratorTest(unittest.TestCase):
         self._generator = Generator("1", "test", False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

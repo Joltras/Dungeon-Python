@@ -7,7 +7,6 @@ from pygame import Rect
 
 
 class PygameRoomTest(unittest.TestCase):
-
     def setUp(self) -> None:
         self._room1 = PygameNormalRoom(1, 2, 3, RoomType.NORMAL_ROOM)
         self._room2 = PygameNormalRoom(4, 5, 6, RoomType.SHOP_ROOM, 25, 36)
@@ -25,8 +24,12 @@ class PygameRoomTest(unittest.TestCase):
         self.assertEqual(25, self._room2.get_width())
 
     def test_get_rect(self):
-        expected = Rect(1 * globals.ROOM_WIDTH + globals.x_offset, 2 * globals.ROOM_HEIGHT + globals.y_offset,
-                        globals.ROOM_WIDTH, globals.ROOM_HEIGHT)
+        expected = Rect(
+            1 * globals.ROOM_WIDTH + globals.x_offset,
+            2 * globals.ROOM_HEIGHT + globals.y_offset,
+            globals.ROOM_WIDTH,
+            globals.ROOM_HEIGHT,
+        )
         self.assertEqual(expected, self._room1.get_rect())
 
     def test_get_rect2(self):
@@ -35,8 +38,12 @@ class PygameRoomTest(unittest.TestCase):
 
     def test_set_coordinates1(self):
         self._room1.set_cord(6, 7)
-        expected = Rect(6 * globals.ROOM_WIDTH + globals.x_offset, 7 * globals.ROOM_HEIGHT + globals.y_offset,
-                        globals.ROOM_WIDTH, globals.ROOM_HEIGHT)
+        expected = Rect(
+            6 * globals.ROOM_WIDTH + globals.x_offset,
+            7 * globals.ROOM_HEIGHT + globals.y_offset,
+            globals.ROOM_WIDTH,
+            globals.ROOM_HEIGHT,
+        )
         self.assertEqual(expected, self._room1.get_rect())
 
     def test_set_coordinates2(self):
@@ -45,5 +52,5 @@ class PygameRoomTest(unittest.TestCase):
         self.assertEqual(expected, self._room2.get_rect())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

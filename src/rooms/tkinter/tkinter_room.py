@@ -6,8 +6,15 @@ import utils
 
 
 class TkinterRoom(Room):
-    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType, width=globals.ROOM_WIDTH,
-                 height=globals.ROOM_HEIGHT, ):
+    def __init__(
+        self,
+        x: int,
+        y: int,
+        room_id: int,
+        room_type: RoomType,
+        width=globals.ROOM_WIDTH,
+        height=globals.ROOM_HEIGHT,
+    ):
         super().__init__(x, y, room_id, room_type)
         self._width = width
         self._height = height
