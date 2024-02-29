@@ -9,6 +9,7 @@ from generators.generator import Generator
 app = FastAPI()
 _file_name = globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX
 
+
 @app.get("/")
 async def root():
     return {"message": "Test"}
@@ -22,6 +23,20 @@ async def generate_with_id(floor_id: int) -> FileResponse:
     @return: Floor in json file
     """
     generator = Generator(seed=secrets.token_hex(16), output_file_name=_file_name, stage_id=floor_id)
+    generator.generate()
+    path = generator.save()
+    return FileResponse(path=path, filename=_file_name)
+
+
+@app.get("/gen/{floor_id}/{seed}")
+async def generate_with_id_and_seed(floor_id: int, seed: str) -> FileResponse:
+    """
+    This endpoint generates a floor with the given id and seed and returns it in a FileResponse as a json file.
+    @param floor_id: id for the floor
+    @param seed: seed for the floor
+    @return: Floor in json file
+    """
+    generator = Generator(seed=seed, output_file_name=_file_name, stage_id=floor_id)
     generator.generate()
     path = generator.save()
     return FileResponse(path=path, filename=_file_name)
