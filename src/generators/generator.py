@@ -19,7 +19,7 @@ class Generator:
     They generate a Floor object that contains all rooms.
     """
 
-    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
+    def __init__(self, seed: str, output_file_name: str, output_file_path: str = '', stage_id: int = 2):
         """
         Creates a new generator with the given arguments.
         @param seed: seed for generating the floor
