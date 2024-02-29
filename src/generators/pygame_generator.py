@@ -24,7 +24,7 @@ class PygameGenerator(Generator):
         """
         super().__init__(seed, output_file_name, output_file_path, stage_id)
         self.screen = pygame.display.set_mode(
-            (globals.window_width, globals.window_height)
+            (globals.WINDOW_WIDTH, globals.WINDOW_HEIGHT)
         )
         self.clock = pygame.time.Clock()
         self._floors = deque()

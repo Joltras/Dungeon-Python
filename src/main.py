@@ -1,3 +1,8 @@
+"""
+Main file for the dungeon generator.
+Parses the command line arguments and calls the generator.
+"""
+
 import os.path
 import secrets
 import sys
@@ -17,6 +22,13 @@ Options:
 
 
 def main(seed: str, output: str, ui: bool, floor_id):
+    """
+    Main function for the dungeon generator.
+    @param seed: Seed for the random number generator.
+    @param output: Output file name.
+    @param ui: Enable the UI.
+    @param floor_id: Id for the floor.
+    """
     output_folder = os.path.join(globals.APPLICATION_PATH, "generation")
     output = os.path.join(output_folder, output)
 
@@ -39,7 +51,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
 if __name__ == "__main__":
     _seed: str = ""
     _output: str = "floor"
-    show_ui: bool = True
+    show_ui: bool = False
     _floor_id: int = 2
     i: int = 1
     while i < len(sys.argv):
@@ -51,7 +63,7 @@ if __name__ == "__main__":
             show_ui = True
         elif sys.argv[i] == "-h" or sys.argv[i] == "--help":
             print(HELP_MESSAGE)
-            exit(0)
+            sys.exit(0)
         elif sys.argv[i] == "-o" or sys.argv[i] == "--output":
             if i + 1 < len(sys.argv):
                 _output = sys.argv[i + 1]
@@ -63,13 +75,13 @@ if __name__ == "__main__":
                     i += 1
                     if _floor_id < 0:
                         print("The floor id must be greater than 0!")
-                        exit(-1)
+                        sys.exit(-1)
                 except ValueError:
                     print(sys.argv[i + 1] + " is not a valid number!")
-                    exit(-1)
+                    sys.exit(-1)
         else:
             print(sys.argv[i] + " is not a valid argument!")
-            exit(-1)
+            sys.exit(-1)
         i += 1
 
     if _seed == "":

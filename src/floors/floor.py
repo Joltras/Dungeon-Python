@@ -31,15 +31,27 @@ class Floor:
         self.seed: str = seed
 
     def top_left(self) -> Tuple[int, int]:
+        """
+        Returns the top left corner of the floor.
+        """
         return 0, 0
 
     def top_right(self) -> Tuple[int, int]:
+        """
+        Returns the top right corner of the floor.
+        """
         return self._width - 1, 0
 
     def bottom_left(self) -> Tuple[int, int]:
+        """
+        Returns the bottom left corner of the floor.
+        """
         return 0, self._height - 1
 
     def bottom_right(self) -> Tuple[int, int]:
+        """
+        Returns the bottom right corner of the floor.
+        """
         return self._width - 1, self._height - 1
 
     def to_json(self, indent: int):
@@ -72,6 +84,9 @@ class Floor:
 
     @classmethod
     def from_json(cls, json_string: str):
+        """
+        Creates a floor object from a json string.
+        """
         json_dict = json.loads(json_string)
         floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_seed"])
         rooms = json_dict["_floor"]["_rooms"]

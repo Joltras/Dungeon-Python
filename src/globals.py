@@ -1,14 +1,26 @@
+"""
+This file contains all the global constants used in the project.
+"""
 import os
 from enum import Enum
 
 
 class Direction(Enum):
+    """
+    Enum for the directions.
+    """
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the directions.
+        """
         return list(map(lambda c: c.value, cls))
 
     @classmethod
     def main_directions(cls):
+        """
+        Returns a list of all the main directions.
+        """
         return cls.UP, cls.DOWN, cls.LEFT, cls.RIGHT
 
     UP = (0, -1)
@@ -22,8 +34,14 @@ class Direction(Enum):
 
 
 class DoorFace(Enum):
+    """
+    Enum for the door faces.
+    """
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the door faces.
+        """
         return list(map(lambda c: c.value, cls))
 
     TOP = 0
@@ -33,8 +51,14 @@ class DoorFace(Enum):
 
 
 class RoomType(Enum):
+    """
+    Enum for the room types.
+    """
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the room types.
+        """
         return list(map(lambda c: c.value, cls))
 
     NORMAL_ROOM = 0
@@ -47,6 +71,9 @@ class RoomType(Enum):
 
 
 class Color(Enum):
+    """
+    Enum for the colors.
+    """
     ORANGE = (255, 140, 0)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
@@ -59,7 +86,9 @@ class Color(Enum):
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
 
-
+"""
+Global constants for the project.
+"""
 DOOR_COLOR = Color.BLACK
 
 # Room constants
@@ -95,7 +124,7 @@ y_offset = 0
 
 # Window
 window_multiplier: float = 2
-window_height = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
-window_width = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
+WINDOW_HEIGHT = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
+WINDOW_WIDTH = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
 
 LINE_THICKNESS = 5
