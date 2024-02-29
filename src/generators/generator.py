@@ -19,7 +19,7 @@ class Generator:
     They generate a Floor object that contains all rooms.
     """
 
-    def __init__(self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2):
+    def __init__(self, seed: str, output_file_name: str, output_file_path: str = '', stage_id: int = 2):
         """
         Creates a new generator with the given arguments.
         @param seed: seed for generating the floor
@@ -30,7 +30,8 @@ class Generator:
         self._seed = seed
         self._output_file_name = output_file_name
         self._output_file_path = output_file_path
-        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT)
+        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT, seed)
+        random.seed(seed)
 
     def to_json(self, indent: int) -> str:
         """
@@ -40,7 +41,6 @@ class Generator:
         indent_s = globals.BASE_INDENT * indent
 
         j = "{\n" + \
-            indent_s + '"_seed": "' + self._seed + '",\n' + \
             indent_s + '"_width": ' + str(globals.FLOOR_WIDTH) + ',\n' + \
             indent_s + '"_height": ' + str(globals.FLOOR_HEIGHT) + ',\n' + \
             indent_s + '"_floor": ' + self._floor.to_json(indent + 1) + ",\n" + \
@@ -52,7 +52,7 @@ class Generator:
         """
         Creates a new floor.
         """
-        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH)
+        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, self._seed)
 
     def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
         """
@@ -68,10 +68,13 @@ class Generator:
             return True
         return False
 
-    def generate(self) -> None:
+    def generate(self, new_seed=None) -> None:
         """
         Generates the rooms for the floor.
         """
+        if new_seed is not None:
+            random.seed(new_seed)
+            self._seed = new_seed
         self._create_floor()
         floor = self._floor
         number_of_rooms = utils.calculate_room_amount(self._stage_id)

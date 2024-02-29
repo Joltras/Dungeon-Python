@@ -10,13 +10,13 @@ from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
 
 
 class TkinterFloor(Floor):
-    def __init__(self, height: int, width: int, canvas, name: str):
+    def __init__(self, height: int, width: int, canvas, name: str, seed: str):
         """
         Creates a new floor width the given width and height.
         @param height: height of the floor
         @param width: width of the floor
         """
-        super().__init__(height, width)
+        super().__init__(height, width, seed)
         self._canvas = canvas
         self._first_draw = True
         self.name = name
@@ -38,14 +38,15 @@ class TkinterFloor(Floor):
         Creates a new TkinterFloor from a floor.
         @param canvas: Canvas to draw on
         @param floor: floor to copy
+        @param name: name of the floor
         @return: new TkinterFloor
         """
-        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name)
+        tkinter_floor = TkinterFloor(floor._height, floor._width, canvas, name, floor.seed)
         for room in floor._rooms:
             tkinter_floor._rooms.append(TkinterRoom.from_room(room))
         return tkinter_floor
 
-    def draw(self, root) -> None:
+    def draw(self) -> None:
         """
         """
         self.stop_drawing()
@@ -54,17 +55,16 @@ class TkinterFloor(Floor):
             room.draw(self._canvas)
 
     def draw_thread(self, root) -> None:
-        thread = threading.Thread(target=self.draw_step_by_step, args=(root,))
+        thread = threading.Thread(target=self.draw_step_by_step)
         thread.start()
         print(thread.ident)
 
     def stop_drawing(self) -> None:
         self._is_drawing = False
 
-    def draw_step_by_step(self, root) -> None:
+    def draw_step_by_step(self) -> None:
         """
         Draws the floor step by step.
-        @param root: root of the tkinter window
         """
         self._canvas.delete("all")
         sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id())
