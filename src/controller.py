@@ -1,3 +1,6 @@
+"""
+This module contains the FastAPI application and the endpoints for the floor generation.
+"""
 import secrets
 
 from fastapi import FastAPI
@@ -12,6 +15,7 @@ _file_name = globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX
 
 @app.get("/")
 async def root():
+    """This endpoint returns a test message."""
     return {"message": "Test"}
 
 

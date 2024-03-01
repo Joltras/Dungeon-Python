@@ -1,9 +1,16 @@
+"""
+This file contains the floor class.
+A floor is a collection of rooms.
+The floor manages the creation of rooms and contains them.
+It also provides methods to save and load the floor as a json file
+and contains the seed it was created with.
+"""
 import json
 from typing import List, Tuple, TypeVar
 
 import numpy as np
 
-import globals
+import globals as my_globals
 from globals import RoomType, Direction, DoorFace
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
@@ -59,7 +66,7 @@ class Floor:
         Creates a json string for the current room object.
         @return: json string
         """
-        indent_s: str = globals.BASE_INDENT * indent
+        indent_s: str = my_globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
         json_string = (

@@ -1,3 +1,5 @@
+"""Unit tests for the Floor class."""
+
 import unittest
 
 from floors.floor import Floor
