@@ -9,8 +9,8 @@ from rooms.room import Room
 
 class FloorTest(unittest.TestCase):
     def setUp(self) -> None:
-        self._floor = Floor(20, 30)
-        self._floor_with_rooms = Floor(30, 30)
+        self._floor = Floor(20, 30, '1')
+        self._floor_with_rooms = Floor(30, 30, '2')
         self._floor_with_rooms.add_room(2, 2)
         self._floor_with_rooms.add_room(1, 2)
         self._floor_with_rooms.add_room(3, 2)
