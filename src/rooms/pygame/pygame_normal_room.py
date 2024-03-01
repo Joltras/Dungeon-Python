@@ -1,3 +1,6 @@
+"""
+Pygame version of normal room.
+"""
 import pygame
 import globals
 from globals import DoorFace, RoomType

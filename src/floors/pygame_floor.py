@@ -1,3 +1,8 @@
+"""
+Pygame version of the floor.
+This version is used to draw the floor and the rooms on the screen.
+"""
+
 import pygame
 import globals
 from globals import Color, RoomType

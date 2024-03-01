@@ -1,3 +1,6 @@
+"""
+This file contains the test cases for the generator class.
+"""
 import unittest
 
 from generators.generator import Generator

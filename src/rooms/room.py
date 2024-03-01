@@ -1,3 +1,9 @@
+"""
+This file contains the Room class.
+The Room class is used to represent a room in the floor.
+A room has a type, coordinates and doors.
+"""
+
 import globals
 from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 

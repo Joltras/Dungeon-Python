@@ -1,3 +1,9 @@
+"""
+This module contains the Generator class.
+A generator generates a floor with the given seed and saves it as a json file.
+The generation is inspired by the floor generation of the game "The Binding of Isaac".
+"""
+
 import os
 import random
 from collections import deque

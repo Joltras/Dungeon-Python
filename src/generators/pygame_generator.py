@@ -1,3 +1,8 @@
+"""
+Pygame version of the generator.
+This version is used to generate a floor and draw it on the screen.
+"""
+
 import globals
 import secrets
 from globals import Color
