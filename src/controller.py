@@ -23,7 +23,8 @@ async def root():
 @app.get(_GENERATE + "/{floor_id}")
 async def generate_with_id(floor_id: int) -> FileResponse:
     """
-    This endpoint generates a floor with the given id and returns it in a FileResponse as a json file.
+    This endpoint generates a floor with the given id
+    and returns it in a FileResponse as a json file.
     @param floor_id id for the floor
     @return: Floor in json file
     """
@@ -38,7 +39,8 @@ async def generate_with_id(floor_id: int) -> FileResponse:
 @app.get(_GENERATE + "/{floor_id}/{seed}")
 async def generate_with_id_and_seed(floor_id: int, seed: str) -> FileResponse:
     """
-    This endpoint generates a floor with the given id and seed and returns it in a FileResponse as a json file.
+    This endpoint generates a floor with the given id
+    and seed and returns it in a FileResponse as a json file.
     @param floor_id: id for the floor
     @param seed: seed for the floor
     @return: Floor in json file
