@@ -74,7 +74,8 @@ class Generator:
 
     def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
         """
-        Checks if a room can be added at the new position and if possible adds it to the queue and floor grid.
+        Checks if a room can be added at the new position
+        and if possible adds it to the queue and floor grid.
         @param new_room_tuple: position for the new room
         @param room_tuple_queue: queue for the rooms
         @return: True if the position was added to the queue otherwise False
@@ -304,7 +305,7 @@ class Generator:
             n = self._output_file_name + time + globals.JSON_SUFFIX
             output = os.path.join(self._output_file_path, n)
 
-        f = open(output, "w")
+        f = open(output, "w", encoding="utf-8")
         f.write(self.to_json(1))
         f.close()
         return output
