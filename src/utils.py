@@ -5,7 +5,7 @@ import random
 import math
 from typing import Tuple
 
-import globals
+import globals as my_globals
 from globals import Direction
 
 
@@ -15,7 +15,7 @@ def calculate_room_amount(stage_id: int):
     :return: room amount
     """
     return min(
-        globals.MAX_ROOMS,
+        my_globals.MAX_ROOMS,
         int(random.randint(0, 1) + 5 + math.floor(stage_id * 10) / 3.0),
     )
 
@@ -65,8 +65,8 @@ def add_direction_to_coordinates(
 
 
 json_file_options: dict = {
-    "defaultextension": globals.JSON_SUFFIX,
-    "filetypes": [("Json", globals.JSON_SUFFIX)],
+    "defaultextension": my_globals.JSON_SUFFIX,
+    "filetypes": [("Json", my_globals.JSON_SUFFIX)],
 }
 
 open_file_text: str = "Open File"

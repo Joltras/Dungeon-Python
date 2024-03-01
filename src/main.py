@@ -7,7 +7,7 @@ import os.path
 import secrets
 import sys
 
-import globals
+import globals as my_globals
 from generators.generator import Generator
 from generators.tkinter_generator import TkinterGenerator
 
@@ -29,7 +29,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
     @param ui: Enable the UI.
     @param floor_id: Id for the floor.
     """
-    output_folder = os.path.join(globals.APPLICATION_PATH, "generation")
+    output_folder = os.path.join(my_globals.APPLICATION_PATH, "generation")
     output = os.path.join(output_folder, output)
 
     if not os.path.exists(output_folder):
@@ -38,7 +38,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
 
     if ui:
         generator = TkinterGenerator(
-            seed, globals.DEFAULT_FLOOR_NAME, output_folder, floor_id
+            seed, my_globals.DEFAULT_FLOOR_NAME, output_folder, floor_id
         )
         generator.run()
     else:
@@ -51,7 +51,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
 if __name__ == "__main__":
     _seed: str = ""
     _output: str = "floor"
-    show_ui: bool = False
+    _show_ui: bool = False
     _floor_id: int = 2
     i: int = 1
     while i < len(sys.argv):
@@ -60,7 +60,7 @@ if __name__ == "__main__":
                 _seed = sys.argv[i + 1]
                 i += 1
         elif sys.argv[i] == "-u" or sys.argv[i] == "--ui":
-            show_ui = True
+            _show_ui = True
         elif sys.argv[i] == "-h" or sys.argv[i] == "--help":
             print(HELP_MESSAGE)
             sys.exit(0)
@@ -87,4 +87,4 @@ if __name__ == "__main__":
     if _seed == "":
         _seed = secrets.token_hex(16)
 
-    main(_seed, _output, show_ui, _floor_id)
+    main(_seed, _output, _show_ui, _floor_id)
