@@ -1,4 +1,5 @@
 import globals
+import secrets
 from globals import Color
 from floors.pygame_floor import PygameFloor
 import pygame
@@ -41,7 +42,7 @@ class PygameGenerator(Generator):
         """
         Creates a new pygame floor.
         """
-        self._floors.append(PygameFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH))
+        self._floors.append(PygameFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, secrets.token_hex(16)))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
 
