@@ -5,7 +5,7 @@ Module for the TkinterFloor class.
 import threading
 import time
 
-import globals
+import globals as my_globals
 from floors.floor import Floor
 from rooms.room import Room
 
@@ -30,7 +30,7 @@ class TkinterFloor(Floor):
         self.name = name
         self._is_drawing = False
 
-    def add_room(self, x: int, y: int, room_type=globals.RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, room_type=my_globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
         self._rooms.append(TkinterRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
@@ -86,7 +86,7 @@ class TkinterFloor(Floor):
         Draws the floor step by step.
         """
         self._canvas.delete("all")
-        sorted_rooms = sorted(self._rooms, key=lambda room: room.get_id())
+        sorted_rooms = sorted(self._rooms, key=lambda r: r.get_id())
         self._is_drawing = True
         for room in sorted_rooms:
             if not self._is_drawing:
