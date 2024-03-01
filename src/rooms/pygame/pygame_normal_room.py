@@ -2,7 +2,7 @@
 Pygame version of normal room.
 """
 import pygame
-import globals
+import globals as my_globals
 from globals import DoorFace, RoomType
 from rooms.room import Room
 
@@ -18,8 +18,8 @@ class PygameNormalRoom(Room):
         y: int,
         room_id: int,
         room_type: RoomType,
-        width=globals.ROOM_WIDTH,
-        height=globals.ROOM_HEIGHT,
+        width=my_globals.ROOM_WIDTH,
+        height=my_globals.ROOM_HEIGHT,
     ):
         """
         Creates a new room with the given arguments.
@@ -34,8 +34,8 @@ class PygameNormalRoom(Room):
         self._height = height
         self._width = width
         self._rect = pygame.Rect(
-            self._x * width + globals.X_OFFSET,
-            self._y * height + globals.Y_OFFSET,
+            self._x * width + my_globals.X_OFFSET,
+            self._y * height + my_globals.Y_OFFSET,
             width,
             height,
         )
@@ -45,7 +45,7 @@ class PygameNormalRoom(Room):
         Draws the room on the screen.
         @param screen: screen to draw on
         """
-        color = globals.Room_Colors[self._type]
+        color = my_globals.Room_Colors[self._type]
         pygame.draw.rect(screen, color.value, self._rect)
 
     def draw_doors(self, screen: pygame.Surface) -> None:
@@ -53,51 +53,51 @@ class PygameNormalRoom(Room):
         Draws all the doors of the room on the given screen.
         @param screen: screen to draw on
         """
-        door_color = globals.DOOR_COLOR
+        door_color = my_globals.DOOR_COLOR
         for door in self._doors:
             if door == DoorFace.WEST:
                 pygame.draw.line(
                     screen,
                     door_color.value,
-                    (self._rect.left, self._rect.top + globals.ROOM_HEIGHT / 4),
-                    (self._rect.left, self._rect.top + globals.ROOM_HEIGHT / 4 * 3),
-                    globals.LINE_THICKNESS,
+                    (self._rect.left, self._rect.top + my_globals.ROOM_HEIGHT / 4),
+                    (self._rect.left, self._rect.top + my_globals.ROOM_HEIGHT / 4 * 3),
+                    my_globals.LINE_THICKNESS,
                 )
             elif door == DoorFace.EAST:
                 pygame.draw.line(
                     screen,
                     door_color.value,
                     (
-                        self._rect.left + globals.ROOM_WIDTH,
-                        self._rect.top + globals.ROOM_HEIGHT / 4,
+                        self._rect.left + my_globals.ROOM_WIDTH,
+                        self._rect.top + my_globals.ROOM_HEIGHT / 4,
                     ),
                     (
-                        self._rect.left + globals.ROOM_WIDTH,
-                        self._rect.top + globals.ROOM_HEIGHT / 4 * 3,
+                        self._rect.left + my_globals.ROOM_WIDTH,
+                        self._rect.top + my_globals.ROOM_HEIGHT / 4 * 3,
                     ),
-                    globals.LINE_THICKNESS,
+                    my_globals.LINE_THICKNESS,
                 )
             elif door == DoorFace.TOP:
                 pygame.draw.line(
                     screen,
                     door_color.value,
-                    (self._rect.left + globals.ROOM_WIDTH / 4, self._rect.top),
-                    (self._rect.left + globals.ROOM_WIDTH / 4 * 3, self._rect.top),
-                    globals.LINE_THICKNESS,
+                    (self._rect.left + my_globals.ROOM_WIDTH / 4, self._rect.top),
+                    (self._rect.left + my_globals.ROOM_WIDTH / 4 * 3, self._rect.top),
+                    my_globals.LINE_THICKNESS,
                 )
             elif door == DoorFace.BOTTOM:
                 pygame.draw.line(
                     screen,
                     door_color.value,
                     (
-                        self._rect.left + globals.ROOM_WIDTH / 4,
-                        self._rect.top + globals.ROOM_HEIGHT,
+                        self._rect.left + my_globals.ROOM_WIDTH / 4,
+                        self._rect.top + my_globals.ROOM_HEIGHT,
                     ),
                     (
-                        self._rect.left + globals.ROOM_WIDTH / 4 * 3,
-                        self._rect.top + globals.ROOM_HEIGHT,
+                        self._rect.left + my_globals.ROOM_WIDTH / 4 * 3,
+                        self._rect.top + my_globals.ROOM_HEIGHT,
                     ),
-                    globals.LINE_THICKNESS,
+                    my_globals.LINE_THICKNESS,
                 )
 
     def get_rect(self) -> pygame.Rect:
@@ -129,8 +129,8 @@ class PygameNormalRoom(Room):
         """
         super().set_cord(x, y)
         self._rect = pygame.Rect(
-            self._x * self._width + globals.X_OFFSET,
-            self._y * self._height + globals.Y_OFFSET,
+            self._x * self._width + my_globals.X_OFFSET,
+            self._y * self._height + my_globals.Y_OFFSET,
             self._width,
             self._height,
         )
