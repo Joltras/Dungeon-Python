@@ -12,7 +12,7 @@ from typing import List, TypeVar, Tuple
 
 import utils
 from globals import RoomType, Direction
-import globals
+import globals as my_globals
 from floors.floor import Floor
 from rooms.room import Room
 
@@ -42,7 +42,7 @@ class Generator:
         self._seed = seed
         self._output_file_name = output_file_name
         self._output_file_path = output_file_path
-        self._floor: T = Floor(globals.FLOOR_WIDTH, globals.FLOOR_HEIGHT, seed)
+        self._floor: T = Floor(my_globals.FLOOR_WIDTH, my_globals.FLOOR_HEIGHT, seed)
         random.seed(seed)
 
     def to_json(self, indent: int) -> str:
@@ -50,17 +50,17 @@ class Generator:
         Creates a string representation of the generator object.
         @return: json string of the generator
         """
-        indent_s = globals.BASE_INDENT * indent
+        indent_s = my_globals.BASE_INDENT * indent
 
         j = (
             "{\n"
             + indent_s
             + '"_width": '
-            + str(globals.FLOOR_WIDTH)
+            + str(my_globals.FLOOR_WIDTH)
             + ",\n"
             + indent_s
             + '"_height": '
-            + str(globals.FLOOR_HEIGHT)
+            + str(my_globals.FLOOR_HEIGHT)
             + ",\n"
             + indent_s
             + '"_floor": '
@@ -76,7 +76,7 @@ class Generator:
         """
         Creates a new floor.
         """
-        self._floor = Floor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, self._seed)
+        self._floor = Floor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, self._seed)
 
     def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
         """
@@ -269,17 +269,17 @@ class Generator:
             boss_room.set_cord(0, 0)
 
         elif self._check_if_not_contains_room_and_has_no_neighbours(floor.top_right()):
-            boss_room.set_cord(0, globals.FLOOR_HEIGHT - 1)
+            boss_room.set_cord(0, my_globals.FLOOR_HEIGHT - 1)
 
         elif self._check_if_not_contains_room_and_has_no_neighbours(
             floor.bottom_left()
         ):
-            boss_room.set_cord(globals.FLOOR_WIDTH - 1, globals.FLOOR_HEIGHT - 1)
+            boss_room.set_cord(my_globals.FLOOR_WIDTH - 1, my_globals.FLOOR_HEIGHT - 1)
 
         elif self._check_if_not_contains_room_and_has_no_neighbours(
             floor.bottom_right()
         ):
-            boss_room.set_cord(globals.FLOOR_WIDTH - 1, 0)
+            boss_room.set_cord(my_globals.FLOOR_WIDTH - 1, 0)
 
     def _check_if_not_contains_room_and_has_no_neighbours(
         self, point: Tuple[int, int]
@@ -296,8 +296,8 @@ class Generator:
         """
         floor = self._floor
         i = 0
-        while i < len(globals.SPECIAL_ROOMS) and i < len(dead_ends):
-            floor.get_rooms()[dead_ends[i]].set_type(globals.SPECIAL_ROOMS[i])
+        while i < len(my_globals.SPECIAL_ROOMS) and i < len(dead_ends):
+            floor.get_rooms()[dead_ends[i]].set_type(my_globals.SPECIAL_ROOMS[i])
             i += 1
 
     def save(self, path: str = "") -> str:
@@ -308,7 +308,7 @@ class Generator:
             output = path
         else:
             time = str(datetime.now().microsecond)
-            n = self._output_file_name + time + globals.JSON_SUFFIX
+            n = self._output_file_name + time + my_globals.JSON_SUFFIX
             output = os.path.join(self._output_file_path, n)
 
         f = open(output, "w", encoding="utf-8")

@@ -6,11 +6,11 @@ import secrets
 from fastapi import FastAPI
 from starlette.responses import FileResponse
 
-import globals
+import globals as my_globals
 from generators.generator import Generator
 
 app = FastAPI()
-_file_name = globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX
+_file_name = my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX
 
 
 @app.get("/")
