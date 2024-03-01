@@ -1,3 +1,7 @@
+"""
+Module for the TkinterFloor class.
+"""
+
 import threading
 import time
 
@@ -10,6 +14,10 @@ from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
 
 
 class TkinterFloor(Floor):
+    """
+    A tkinter version of the floor.
+    This version is used to draw the floor and the rooms on a canvas.
+    """
     def __init__(self, height: int, width: int, canvas, name: str, seed: str):
         """
         Creates a new floor width the given width and height.
@@ -51,18 +59,26 @@ class TkinterFloor(Floor):
         return tkinter_floor
 
     def draw(self) -> None:
-        """ """
+        """
+        Draws the floor with all the rooms on the canvas.
+        """
         self.stop_drawing()
         self._canvas.delete("all")
         for room in self._rooms:
             room.draw(self._canvas)
 
     def draw_thread(self, root) -> None:
+        """
+        Starts a new thread to draw the floor step by step.
+        """
         thread = threading.Thread(target=self.draw_step_by_step)
         thread.start()
         print(thread.ident)
 
     def stop_drawing(self) -> None:
+        """
+        Stops the drawing of the floor.
+        """
         self._is_drawing = False
 
     def draw_step_by_step(self) -> None:

@@ -17,7 +17,7 @@ class PygameNormalRoom(Room):
         x: int,
         y: int,
         room_id: int,
-        type: RoomType,
+        room_type: RoomType,
         width=globals.ROOM_WIDTH,
         height=globals.ROOM_HEIGHT,
     ):
@@ -26,11 +26,11 @@ class PygameNormalRoom(Room):
         @param x: x coordinate of the room
         @param y: y coordinate of the room
         @param room_id: id of the room
-        @param type: type of room
+        @param room_type: type of room
         @param width: room width
         @param height: room height
         """
-        super().__init__(x, y, room_id, type)
+        super().__init__(x, y, room_id, room_type)
         self._height = height
         self._width = width
         self._rect = pygame.Rect(

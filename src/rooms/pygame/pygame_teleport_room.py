@@ -1,18 +1,25 @@
-import globals
+"""
+Pygame teleport room class
+"""
+
+import globals as my_globals
 from globals import RoomType
 from rooms.pygame.pygame_normal_room import PygameNormalRoom
 from rooms.teleport_room import TeleportRoom
 
 
 class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):
+    """
+    Pygame version of the teleport room.
+    """
     def __init__(
         self,
         x: int,
         y: int,
         room_id: int,
         teleport_room_id: int,
-        width=globals.ROOM_WIDTH,
-        height=globals.ROOM_HEIGHT,
+        width=my_globals.ROOM_WIDTH,
+        height=my_globals.ROOM_HEIGHT,
     ):
         """
         Creates a new pygame teleport room with the given values

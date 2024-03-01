@@ -4,23 +4,27 @@ The Room class is used to represent a room in the floor.
 A room has a type, coordinates and doors.
 """
 
-import globals
+import globals as my_globals
 from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 
 class Room:
-    def __init__(self, x: int, y: int, room_id: int, type: RoomType):
+    """
+    A room in the floor.
+    A is represented by its coordinates, type and doors.
+    """
+    def __init__(self, x: int, y: int, room_id: int, room_type: RoomType):
         """
         Creates a new room with the given values.
         @param x: x coordinate of the room
         @param y: y coordinate of the room
         @param room_id: id of the room
-        @param type: type of the room
+        @param room_type: type of the room
         """
         self._x: int = x
         self._y: int = y
         self._id: int = room_id
-        self._type = type
+        self._type = room_type
         self._doors = []
 
     def __getitem__(self, index: int) -> int:
@@ -43,13 +47,13 @@ class Room:
         @param indent: Amount of indentation the json representation should have
         @return: json string
         """
-        indent_s: str = globals.BASE_INDENT * indent
+        indent_s: str = my_globals.BASE_INDENT * indent
         json_string: str = (
-            str(globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
+            str(my_globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
         )
         i = 0
         while i < len(self._doors):
-            json_string += indent_s + globals.BASE_INDENT + str(self._doors[i].value)
+            json_string += indent_s + my_globals.BASE_INDENT + str(self._doors[i].value)
             if i != len(self._doors) - 1:
                 json_string += ",\n"
             i += 1
@@ -73,13 +77,16 @@ class Room:
             + '"_y": '
             + str(self._y)
             + "\n"
-            + str(globals.BASE_INDENT * (indent - 1))
+            + str(my_globals.BASE_INDENT * (indent - 1))
             + "}"
         )
         return json_string
 
     @classmethod
     def from_dict(cls, json_dict: dict):
+        """
+        Creates a room object from a dictionary.
+        """
         room = Room(
             json_dict["_x"],
             json_dict["_y"],
@@ -142,7 +149,7 @@ class Room:
         @param other: Other object to compare
         @return: True if other is a room and they are equal otherwise false.
         """
-        if type(other) is not Room:
+        if isinstance(other, Room) is False:
             return False
         other_room: Room = other
         return (

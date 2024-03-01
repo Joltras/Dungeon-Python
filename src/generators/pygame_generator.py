@@ -2,9 +2,8 @@
 Pygame version of the generator.
 This version is used to generate a floor and draw it on the screen.
 """
-
-import globals
 import secrets
+import globals as my_globals
 from globals import Color
 from floors.pygame_floor import PygameFloor
 import pygame
@@ -30,7 +29,7 @@ class PygameGenerator(Generator):
         """
         super().__init__(seed, output_file_name, output_file_path, stage_id)
         self.screen = pygame.display.set_mode(
-            (globals.WINDOW_WIDTH, globals.WINDOW_HEIGHT)
+            (my_globals.WINDOW_WIDTH, my_globals.WINDOW_HEIGHT)
         )
         self.clock = pygame.time.Clock()
         self._floors = deque()
@@ -47,7 +46,7 @@ class PygameGenerator(Generator):
         """
         Creates a new pygame floor.
         """
-        self._floors.append(PygameFloor(globals.FLOOR_HEIGHT, globals.FLOOR_WIDTH, secrets.token_hex(16)))
+        self._floors.append(PygameFloor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, secrets.token_hex(16)))
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
 

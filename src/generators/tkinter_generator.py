@@ -1,10 +1,14 @@
+"""
+Module for the TkinterGenerator class.
+"""
+
 import os
 import secrets
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog, messagebox
 from collections import deque
-import globals
+import globals as my_globals
 import utils
 from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
@@ -12,6 +16,9 @@ from generators.generator import Generator
 
 
 class TkinterGenerator(Generator):
+    """
+    Tkinter version of the generator.
+    """
     def __init__(
         self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
     ):
@@ -27,11 +34,11 @@ class TkinterGenerator(Generator):
         self._floors = deque()
         self._current_floor_index = -1
         self._tk = tk.Tk()
-        color = globals.Color.LIGHT_GRAY.value
+        color = my_globals.Color.LIGHT_GRAY.value
         hex_color = utils.rgb2hex(color[0], color[1], color[2])
         self._canvas = tk.Canvas(
-            height=globals.FLOOR_HEIGHT * globals.ROOM_HEIGHT,
-            width=globals.ROOM_WIDTH * globals.ROOM_WIDTH,
+            height=my_globals.FLOOR_HEIGHT * my_globals.ROOM_HEIGHT,
+            width=my_globals.ROOM_WIDTH * my_globals.ROOM_WIDTH,
             background=hex_color,
         )
         self._path = tk.StringVar()
@@ -90,10 +97,10 @@ class TkinterGenerator(Generator):
         """
         self._floors.append(
             TkinterFloor(
-                globals.FLOOR_HEIGHT,
-                globals.FLOOR_WIDTH,
+                my_globals.FLOOR_HEIGHT,
+                my_globals.FLOOR_WIDTH,
                 canvas=self._canvas,
-                name=globals.DEFAULT_FLOOR_NAME + globals.JSON_SUFFIX,
+                name=my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX,
                 seed=self._next_seed.get(),
             )
         )
@@ -215,6 +222,9 @@ class TkinterGenerator(Generator):
         self._tk.mainloop()
 
     def add_information_frame(self) -> None:
+        """
+        Adds a frame to the application which shows information about the current floor.
+        """
         information_frame = ttk.Frame()
         # Create information frame
         information_frame.pack(pady=(0, 10))
@@ -232,6 +242,9 @@ class TkinterGenerator(Generator):
         seed_label.pack(side=tk.LEFT)
 
     def add_buttons(self) -> None:
+        """
+        Adds buttons to the application.
+        """
         # Create button frame
         button_frame = ttk.Frame(self._tk)
         button_frame.pack(pady=(0, 10))
@@ -259,6 +272,9 @@ class TkinterGenerator(Generator):
         next_seed_entry.pack(side=tk.LEFT, padx=10)
 
     def create_menu_bar(self) -> None:
+        """
+        Creates a menu bar for the application.
+        """
         # Create a menu bar
         menu_bar = tk.Menu(self._tk)
         self._tk.config(menu=menu_bar)
@@ -267,7 +283,7 @@ class TkinterGenerator(Generator):
             label="Save",
             command=lambda: self.save(
                 os.path.join(self._output_file_path, self._output_file_name)
-                + globals.JSON_SUFFIX
+                + my_globals.JSON_SUFFIX
             ),
             accelerator="Ctrl+s",
         )

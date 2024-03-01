@@ -50,7 +50,7 @@ class PygameFloor(Floor):
         @param room_type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
-        self._rooms.append(PygameNormalRoom(x=x, y=y, type=room_type, room_id=self._room_id))
+        self._rooms.append(PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
     def add_teleport_room(self, room: Room) -> None:

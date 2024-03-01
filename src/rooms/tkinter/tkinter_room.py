@@ -1,3 +1,7 @@
+"""
+Module for TkinterRoom class.
+"""
+
 from globals import RoomType
 import globals
 from rooms.room import Room
@@ -6,6 +10,10 @@ import utils
 
 
 class TkinterRoom(Room):
+    """
+    Tkinter version of room.
+    A room that can be drawn on a tkinter canvas.
+    """
     def __init__(
         self,
         x: int,
@@ -15,11 +23,17 @@ class TkinterRoom(Room):
         width=globals.ROOM_WIDTH,
         height=globals.ROOM_HEIGHT,
     ):
+        """
+        Creates a new room with the given values.
+        """
         super().__init__(x, y, room_id, room_type)
         self._width = width
         self._height = height
 
     def draw(self, canvas: tk.Canvas):
+        """
+        Draws the room on the given canvas.
+        """
         x0 = self._x * globals.ROOM_WIDTH
         y0 = self._y * globals.ROOM_HEIGHT
         x1 = x0 + self._width
@@ -30,4 +44,7 @@ class TkinterRoom(Room):
 
     @classmethod
     def from_room(cls, room: Room):
+        """
+        Creates a new TkinterRoom from a room.
+        """
         return TkinterRoom(room._x, room._y, room._id, room._type)

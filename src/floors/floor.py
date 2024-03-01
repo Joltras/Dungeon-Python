@@ -117,7 +117,7 @@ class Floor:
         @param type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
-        self._rooms.append(Room(x=x, y=y, type=type, room_id=self._room_id))
+        self._rooms.append(Room(x=x, y=y, room_type=type, room_id=self._room_id))
         self._room_id += 1
 
     def add_room_next_to(
