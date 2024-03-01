@@ -31,8 +31,8 @@ class PygameNormalRoom(Room):
         self._height = height
         self._width = width
         self._rect = pygame.Rect(
-            self._x * width + globals.x_offset,
-            self._y * height + globals.y_offset,
+            self._x * width + globals.X_OFFSET,
+            self._y * height + globals.Y_OFFSET,
             width,
             height,
         )
@@ -126,8 +126,8 @@ class PygameNormalRoom(Room):
         """
         super().set_cord(x, y)
         self._rect = pygame.Rect(
-            self._x * self._width + globals.x_offset,
-            self._y * self._height + globals.y_offset,
+            self._x * self._width + globals.X_OFFSET,
+            self._y * self._height + globals.Y_OFFSET,
             self._width,
             self._height,
         )

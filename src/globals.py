@@ -9,6 +9,7 @@ class Direction(Enum):
     """
     Enum for the directions.
     """
+
     @classmethod
     def list(cls):
         """
@@ -37,6 +38,7 @@ class DoorFace(Enum):
     """
     Enum for the door faces.
     """
+
     @classmethod
     def list(cls):
         """
@@ -54,6 +56,7 @@ class RoomType(Enum):
     """
     Enum for the room types.
     """
+
     @classmethod
     def list(cls):
         """
@@ -86,9 +89,6 @@ class Color(Enum):
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
 
-"""
-Global constants for the project.
-"""
 DOOR_COLOR = Color.BLACK
 
 # Room constants
@@ -119,12 +119,12 @@ FLOOR_WIDTH: int = 9
 FLOOR_HEIGHT: int = 8
 MAX_ROOMS: int = 15
 # Distance between start and boss room
-x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
-y_offset = 0
+X_OFFSET = (FLOOR_WIDTH * ROOM_WIDTH) / 2
+Y_OFFSET = 0
 
 # Window
-window_multiplier: float = 2
-WINDOW_HEIGHT = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
-WINDOW_WIDTH = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
+WINDOW_MULTIPLIER: float = 2
+WINDOW_HEIGHT = FLOOR_HEIGHT * ROOM_HEIGHT * WINDOW_MULTIPLIER
+WINDOW_WIDTH = FLOOR_WIDTH * ROOM_WIDTH * WINDOW_MULTIPLIER
 
 LINE_THICKNESS = 5

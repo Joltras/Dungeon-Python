@@ -20,8 +20,8 @@ class PygameFloor(Floor):
         """
         super().__init__(height, width, seed)
         self._rect = pygame.Rect(
-            globals.x_offset,
-            globals.y_offset,
+            globals.X_OFFSET,
+            globals.Y_OFFSET,
             width * globals.ROOM_WIDTH,
             height * globals.ROOM_HEIGHT,
         )
