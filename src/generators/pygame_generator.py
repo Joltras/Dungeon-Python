@@ -3,12 +3,12 @@ Pygame version of the generator.
 This version is used to generate a floor and draw it on the screen.
 """
 import secrets
+import pygame
+from collections import deque
 import globals as my_globals
 from globals import Color
 from floors.pygame_floor import PygameFloor
-import pygame
 from generators.generator import Generator
-from collections import deque
 
 
 class PygameGenerator(Generator):
@@ -46,7 +46,13 @@ class PygameGenerator(Generator):
         """
         Creates a new pygame floor.
         """
-        self._floors.append(PygameFloor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, secrets.token_hex(16)))
+        self._floors.append(
+            PygameFloor(
+                my_globals.FLOOR_HEIGHT,
+                my_globals.FLOOR_WIDTH,
+                secrets.token_hex(16)
+            )
+        )
         self._current_floor = len(self._floors) - 1
         self._floor = self._floors[self._current_floor]
 
