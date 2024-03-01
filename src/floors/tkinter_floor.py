@@ -30,9 +30,9 @@ class TkinterFloor(Floor):
         self.name = name
         self._is_drawing = False
 
-    def add_room(self, x: int, y: int, type=globals.RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, room_type=globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
-        self._rooms.append(TkinterRoom(x=x, y=y, room_type=type, room_id=self._room_id))
+        self._rooms.append(TkinterRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
     def add_teleport_room(self, room: Room) -> None:
