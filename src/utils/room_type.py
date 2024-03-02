@@ -20,3 +20,4 @@ class RoomType(Enum):
     START_ROOM = 4
     TELEPORT_ROOM = 5
     BOSS_ROOM = 6
+    SECRET_ROOM = 7
