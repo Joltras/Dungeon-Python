@@ -1,14 +1,27 @@
+"""
+This file contains all the global constants used in the project.
+"""
 import os
 from enum import Enum
 
 
 class Direction(Enum):
+    """
+    Enum for the directions.
+    """
+
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the directions.
+        """
         return list(map(lambda c: c.value, cls))
 
     @classmethod
     def main_directions(cls):
+        """
+        Returns a list of all the main directions.
+        """
         return cls.UP, cls.DOWN, cls.LEFT, cls.RIGHT
 
     UP = (0, -1)
@@ -22,8 +35,15 @@ class Direction(Enum):
 
 
 class DoorFace(Enum):
+    """
+    Enum for the door faces.
+    """
+
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the door faces.
+        """
         return list(map(lambda c: c.value, cls))
 
     TOP = 0
@@ -33,8 +53,15 @@ class DoorFace(Enum):
 
 
 class RoomType(Enum):
+    """
+    Enum for the room types.
+    """
+
     @classmethod
     def list(cls):
+        """
+        Returns a list of all the room types.
+        """
         return list(map(lambda c: c.value, cls))
 
     NORMAL_ROOM = 0
@@ -47,6 +74,9 @@ class RoomType(Enum):
 
 
 class Color(Enum):
+    """
+    Enum for the colors.
+    """
     ORANGE = (255, 140, 0)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
@@ -58,7 +88,6 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
-
 
 DOOR_COLOR = Color.BLACK
 
@@ -73,7 +102,7 @@ Room_Colors = {
     RoomType.SHOP_ROOM: Color.YELLOW,
     RoomType.START_ROOM: Color.ORANGE,
     RoomType.TELEPORT_ROOM: Color.GRAY,
-    RoomType.BOSS_ROOM: Color.RED
+    RoomType.BOSS_ROOM: Color.RED,
 }
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 
@@ -90,12 +119,12 @@ FLOOR_WIDTH: int = 9
 FLOOR_HEIGHT: int = 8
 MAX_ROOMS: int = 15
 # Distance between start and boss room
-x_offset = (FLOOR_WIDTH * ROOM_WIDTH) / 2
-y_offset = 0
+X_OFFSET = (FLOOR_WIDTH * ROOM_WIDTH) / 2
+Y_OFFSET = 0
 
 # Window
-window_multiplier: float = 2
-window_height = FLOOR_HEIGHT * ROOM_HEIGHT * window_multiplier
-window_width = FLOOR_WIDTH * ROOM_WIDTH * window_multiplier
+WINDOW_MULTIPLIER: float = 2
+WINDOW_HEIGHT = FLOOR_HEIGHT * ROOM_HEIGHT * WINDOW_MULTIPLIER
+WINDOW_WIDTH = FLOOR_WIDTH * ROOM_WIDTH * WINDOW_MULTIPLIER
 
 LINE_THICKNESS = 5

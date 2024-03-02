@@ -1,14 +1,21 @@
+"""
+This file contains the floor class.
+A floor is a collection of rooms.
+The floor manages the creation of rooms and contains them.
+It also provides methods to save and load the floor as a json file
+and contains the seed it was created with.
+"""
 import json
 from typing import List, Tuple, TypeVar
 
 import numpy as np
 
-import globals
+import globals as my_globals
 from globals import RoomType, Direction, DoorFace
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
 
-T = TypeVar('T', bound=Room)
+T = TypeVar("T", bound=Room)
 
 
 class Floor:
@@ -31,15 +38,27 @@ class Floor:
         self.seed: str = seed
 
     def top_left(self) -> Tuple[int, int]:
+        """
+        Returns the top left corner of the floor.
+        """
         return 0, 0
 
     def top_right(self) -> Tuple[int, int]:
+        """
+        Returns the top right corner of the floor.
+        """
         return self._width - 1, 0
 
     def bottom_left(self) -> Tuple[int, int]:
+        """
+        Returns the bottom left corner of the floor.
+        """
         return 0, self._height - 1
 
     def bottom_right(self) -> Tuple[int, int]:
+        """
+        Returns the bottom right corner of the floor.
+        """
         return self._width - 1, self._height - 1
 
     def to_json(self, indent: int):
@@ -47,12 +66,16 @@ class Floor:
         Creates a json string for the current room object.
         @return: json string
         """
-        indent_s: str = globals.BASE_INDENT * indent
+        indent_s: str = my_globals.BASE_INDENT * indent
         current_index: int = 0
         max_index: int = len(self._rooms)
-        json_string = ("{\n"
-        + f'{indent_s}"_seed": "{self.seed}",\n'
-                       + indent_s + '"_rooms"' + ": [")
+        json_string = (
+            "{\n"
+            + f'{indent_s}"_seed": "{self.seed}",\n'
+            + indent_s
+            + '"_rooms"'
+            + ": ["
+        )
         if len(self._rooms) == 0:
             json_string += "]"
         else:
@@ -68,6 +91,9 @@ class Floor:
 
     @classmethod
     def from_json(cls, json_string: str):
+        """
+        Creates a floor object from a json string.
+        """
         json_dict = json.loads(json_string)
         floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_seed"])
         rooms = json_dict["_floor"]["_rooms"]
@@ -83,18 +109,20 @@ class Floor:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, type: RoomType = RoomType.NORMAL_ROOM) -> None:
+    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM) -> None:
         """
         Creates and adds a room to the floor.
         @param x: x coordinate of the room
         @param y: y coordinate of the room
-        @param type: type of the room (default = normal room)
+        @param room_type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
-        self._rooms.append(Room(x=x, y=y, type=type, room_id=self._room_id))
+        self._rooms.append(Room(x=x, y=y, room_type=room_type, room_id=self._room_id))
         self._room_id += 1
 
-    def add_room_next_to(self, room: Room, direction: Direction, room_type: RoomType) -> None:
+    def add_room_next_to(
+        self, room: Room, direction: Direction, room_type: RoomType
+    ) -> None:
         """
         Creates and adds a room next to a given room.
         @param room: room where the new room is placed next to
@@ -124,7 +152,9 @@ class Floor:
         The new teleport room is placed at the position from the given room.
         @param room: Room which is connected to the teleport room.
         """
-        t_room = TeleportRoom(x=room[0], y=room[1], room_id=self._room_id, connected_room_id=room.get_id())
+        t_room = TeleportRoom(
+            x=room[0], y=room[1], room_id=self._room_id, connected_room_id=room.get_id()
+        )
         self._rooms.append(t_room)
         self._room_id += 1
 

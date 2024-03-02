@@ -1,8 +1,11 @@
+"""
+This module contains utility functions for the floor generator.
+"""
 import random
 import math
 from typing import Tuple
 
-import globals
+import globals as my_globals
 from globals import Direction
 
 
@@ -11,7 +14,10 @@ def calculate_room_amount(stage_id: int):
     Calculates the room amount.
     :return: room amount
     """
-    return min(globals.MAX_ROOMS, int(random.randint(0, 1) + 5 + math.floor(stage_id * 10) / 3.0))
+    return min(
+        my_globals.MAX_ROOMS,
+        int(random.randint(0, 1) + 5 + math.floor(stage_id * 10) / 3.0),
+    )
 
 
 def place_room() -> bool:
@@ -23,37 +29,44 @@ def place_room() -> bool:
 
 
 def rgb2hex(r, g, b):
-    return "#{:02x}{:02x}{:02x}".format(r, g, b)
+    """
+    Converts rgb to hex.
+    """
+    return f'#{r:02x}{g:02x}{b:02x}'
 
 
-def add_direction_to_coordinates(direction: Direction, coordinates: Tuple[int, int]) -> Tuple[int, int]:
+def add_direction_to_coordinates(
+        direction: Direction, coordinates: Tuple[int, int]
+) -> Tuple[int, int]:
     """
     Calculates the room according to the given room and direction
     @param direction: direction for the room to calculate
     @param coordinates: start point for the calculation
     @return: calculated point
     """
+    result = None
     if direction is Direction.UP:
-        return coordinates[0], coordinates[1] - 1
+        result = coordinates[0], coordinates[1] - 1
     if direction is Direction.DOWN:
-        return coordinates[0], coordinates[1] + 1
+        result = coordinates[0], coordinates[1] + 1
     if direction is Direction.LEFT:
-        return coordinates[0] - 1, coordinates[1]
+        result = coordinates[0] - 1, coordinates[1]
     if direction is Direction.RIGHT:
-        return coordinates[0] + 1, coordinates[1]
+        result = coordinates[0] + 1, coordinates[1]
     if direction is Direction.UP_LEFT:
-        return coordinates[0] - 1, coordinates[1] - 1
+        result = coordinates[0] - 1, coordinates[1] - 1
     if direction is Direction.UP_RIGHT:
-        return coordinates[0] + 1, coordinates[1] - 1
+        result = coordinates[0] + 1, coordinates[1] - 1
     if direction is Direction.DOWN_LEFT:
-        return coordinates[0] - 1, coordinates[1] + 1
+        result = coordinates[0] - 1, coordinates[1] + 1
     if direction is Direction.DOWN_RIGHT:
-        return coordinates[0] + 1, coordinates[1] + 1
+        result = coordinates[0] + 1, coordinates[1] + 1
+    return result
 
 
 json_file_options: dict = {
-    'defaultextension': globals.JSON_SUFFIX,
-    'filetypes': [('Json', globals.JSON_SUFFIX)],
+    "defaultextension": my_globals.JSON_SUFFIX,
+    "filetypes": [("Json", my_globals.JSON_SUFFIX)],
 }
 
 open_file_text: str = "Open File"
@@ -64,4 +77,9 @@ window_size: str = "1200x550"
 
 
 def calculate_distance(cord1, cord2) -> int:
-    return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (cord1[1] - cord2[1])
+    """
+    Calculates the distance between two points.
+    """
+    return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (
+            cord1[1] - cord2[1]
+    )

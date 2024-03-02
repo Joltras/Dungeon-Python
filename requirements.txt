@@ -2,3 +2,7 @@ pygame~=2.5.2
 numpy~=1.26.2
 fastapi~=0.110.0
 starlette~=0.36.3
+black
+pylint
+flake8
+mypy
