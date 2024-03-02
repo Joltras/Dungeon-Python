@@ -142,7 +142,7 @@ class TkinterGenerator(Generator):
         self._seed_var.set(self._next_seed.get())
         self._next_seed.set(secrets.token_hex(16))
         # self._floors[self._current_floor].draw(tk)
-        self._floors[self._current_floor_index].draw_thread(tk)
+        self._floors[self._current_floor_index].draw_thread()
         self._floor = self._floors[self._current_floor_index]
 
     def open(self) -> None:

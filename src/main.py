@@ -42,7 +42,7 @@ def main(seed: str, output: str, ui: bool, floor_id):
         )
         generator.run()
     else:
-        generator = Generator(seed, output, floor_id)
+        generator = Generator(seed=seed, output_file_name=output, stage_id=floor_id)
         generator.generate()
         generator.save()
         print("Floor saved to " + output)
