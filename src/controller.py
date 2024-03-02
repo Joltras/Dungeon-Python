@@ -6,7 +6,7 @@ import secrets
 from fastapi import FastAPI
 from starlette.responses import FileResponse
 
-import globals as my_globals
+from utils import globals as my_globals
 from generators.generator import Generator
 
 app = FastAPI()

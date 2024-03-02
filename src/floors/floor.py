@@ -10,8 +10,8 @@ from typing import List, Tuple, TypeVar
 
 import numpy as np
 
-import globals as my_globals
-from globals import RoomType, Direction, DoorFace
+from utils import globals as my_globals
+from utils.globals import RoomType, Direction, DoorFace
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
 

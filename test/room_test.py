@@ -1,6 +1,6 @@
 import unittest
 
-from globals import RoomType, DoorFace
+from utils.globals import RoomType, DoorFace
 from rooms.room import Room
 
 

@@ -2,8 +2,8 @@
 Module for the TkinterTeleportRoom class.
 """
 
-from globals import RoomType
-import globals as my_globals
+from utils.globals import RoomType
+from utils import globals as my_globals
 from rooms.teleport_room import TeleportRoom
 from rooms.tkinter.tkinter_room import TkinterRoom
 

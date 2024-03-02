@@ -8,8 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog, messagebox
 from collections import deque
-import globals as my_globals
-import utils
+from utils import utils, globals as my_globals
 from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator

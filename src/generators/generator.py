@@ -10,9 +10,8 @@ from collections import deque
 from datetime import datetime
 from typing import List, TypeVar, Tuple
 
-import utils
-from globals import RoomType, Direction
-import globals as my_globals
+from utils import utils, globals as my_globals
+from utils.globals import RoomType, Direction
 from floors.floor import Floor
 from rooms.room import Room
 

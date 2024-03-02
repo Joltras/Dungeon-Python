@@ -5,7 +5,7 @@ Module for the TkinterFloor class.
 import threading
 import time
 
-import globals as my_globals
+from utils import globals as my_globals
 from floors.floor import Floor
 from rooms.room import Room
 

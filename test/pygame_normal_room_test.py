@@ -1,8 +1,8 @@
 import unittest
 
-import globals
+from utils import globals
 from rooms.pygame.pygame_normal_room import PygameNormalRoom
-from globals import RoomType
+from utils.globals import RoomType
 from pygame import Rect
 
 

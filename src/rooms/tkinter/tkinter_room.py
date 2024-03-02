@@ -2,10 +2,9 @@
 Module for TkinterRoom class.
 """
 import tkinter as tk
-from globals import RoomType
-import globals as my_globals
+from utils.globals import RoomType
 from rooms.room import Room
-import utils
+from utils import utils, globals as my_globals
 
 
 class TkinterRoom(Room):

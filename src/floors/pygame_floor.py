@@ -4,8 +4,8 @@ This version is used to draw the floor and the rooms on the screen.
 """
 
 import pygame
-import globals as my_globals
-from globals import Color, RoomType
+from utils import globals as my_globals
+from utils.globals import Color, RoomType
 from floors.floor import Floor
 from rooms.pygame.pygame_normal_room import PygameNormalRoom
 from rooms.pygame.pygame_teleport_room import PygameTeleportRoom
