@@ -67,7 +67,7 @@ class TkinterFloor(Floor):
         for room in self._rooms:
             room.draw(self._canvas)
 
-    def draw_thread(self, root) -> None:
+    def draw_thread(self) -> None:
         """
         Starts a new thread to draw the floor step by step.
         """
