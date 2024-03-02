@@ -146,6 +146,10 @@ class TkinterGenerator(Generator):
         self._floor = self._floors[self._current_floor_index]
 
     def open(self) -> None:
+        """
+        Shows a dialog for opening a file.
+        Stores the path and the name of the file.
+        """
         options = utils.json_file_options.copy()
         options["initialdir"] = self._output_file_path
         options["title"] = "Open File"
