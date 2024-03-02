@@ -3,6 +3,7 @@ This file contains all the global constants used in the project.
 """
 import os
 from enum import Enum
+from utils.room_type import RoomType
 
 
 class DoorFace(Enum):
@@ -21,27 +22,6 @@ class DoorFace(Enum):
     EAST = 1
     BOTTOM = 2
     WEST = 3
-
-
-class RoomType(Enum):
-    """
-    Enum for the room types.
-    """
-
-    @classmethod
-    def list(cls):
-        """
-        Returns a list of all the room types.
-        """
-        return list(map(lambda c: c.value, cls))
-
-    NORMAL_ROOM = 0
-    DEAD_END = 1
-    ITEM_ROOM = 2
-    SHOP_ROOM = 3
-    START_ROOM = 4
-    TELEPORT_ROOM = 5
-    BOSS_ROOM = 6
 
 
 class Color(Enum):
@@ -82,7 +62,7 @@ SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 # Json
 BASE_INDENT = "  "
 JSON_SUFFIX = ".json"
-APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
+APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", "").replace("\\utils", ""))
 DEFAULT_FLOOR_NAME = "floor"
 DEFAULT_FLOOR_DIRECTORY = "generation"
 

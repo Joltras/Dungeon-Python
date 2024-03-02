@@ -5,7 +5,7 @@ import random
 import math
 from typing import Tuple
 
-import globals as my_globals
+import utils.globals as my_globals
 from utils.direction import Direction
 
 

@@ -11,7 +11,8 @@ from typing import List, Tuple, TypeVar
 import numpy as np
 
 from utils import globals as my_globals
-from utils.globals import RoomType, DoorFace
+from utils.globals import DoorFace
+from utils.room_type import RoomType
 from utils.direction import Direction
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
