@@ -10,8 +10,9 @@ from collections import deque
 from datetime import datetime
 from typing import List, TypeVar, Tuple
 
-from utils import utils, globals as my_globals
-from utils.globals import RoomType, Direction
+from utils import util_functions, globals as my_globals
+from utils.globals import RoomType
+from utils.direction import Direction
 from floors.floor import Floor
 from rooms.room import Room
 
@@ -91,7 +92,7 @@ class Generator:
             and (
                 self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1
             )
-            and utils.place_room()
+            and util_functions.place_room()
         ):
             room_tuple_queue.append(new_room_tuple)
             self._floor.add_to_floor_grid(new_room_tuple[0], new_room_tuple[1])
@@ -107,7 +108,7 @@ class Generator:
             self._seed = new_seed
         self._create_floor()
         floor = self._floor
-        number_of_rooms = utils.calculate_room_amount(self._stage_id)
+        number_of_rooms = util_functions.calculate_room_amount(self._stage_id)
 
         # Add start room
         start_room: tuple = (random.randint(0, 8), random.randint(0, 7))
@@ -119,7 +120,7 @@ class Generator:
         while number_of_current_rooms < number_of_rooms and len(room_tuple_queue) > 0:
             room_tuple = room_tuple_queue.pop()
             for direction in Direction.main_directions():
-                new_room_tuple = utils.add_direction_to_coordinates(
+                new_room_tuple = util_functions.add_direction_to_coordinates(
                     direction, room_tuple
                 )
                 if self._add_new_room(new_room_tuple, room_tuple_queue):
@@ -189,7 +190,7 @@ class Generator:
         max_distance_index = 0
         for index in dead_end_indices:
             dead_end = floor.get_rooms()[index]
-            current_distance = utils.calculate_distance(start_room, dead_end)
+            current_distance = util_functions.calculate_distance(start_room, dead_end)
             if max_distance < current_distance:
                 max_distance = current_distance
                 max_distance_index = index
@@ -200,7 +201,7 @@ class Generator:
         boss_room_x = boss_room[0]
         boss_room_y = boss_room[1]
         for direction in Direction.main_directions():
-            new_boss_tuple = utils.add_direction_to_coordinates(
+            new_boss_tuple = util_functions.add_direction_to_coordinates(
                 direction, (boss_room_x, boss_room_y)
             )
             if (
@@ -244,7 +245,7 @@ class Generator:
             (Direction.LEFT, Direction.DOWN, Direction.DOWN_LEFT),
         ]
         for direction in directions:
-            corner = utils.add_direction_to_coordinates(
+            corner = util_functions.add_direction_to_coordinates(
                 direction[2], (boss_room[0], boss_room[1])
             )
             if (

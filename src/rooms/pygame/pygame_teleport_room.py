@@ -12,6 +12,7 @@ class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):
     """
     Pygame version of the teleport room.
     """
+
     def __init__(
         self,
         x: int,

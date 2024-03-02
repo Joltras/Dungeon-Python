@@ -12,6 +12,7 @@ class TeleportRoom(Room):
     A player can teleport from this room to the connected room.
     The room is represented by its coordinates, type and connected room id.
     """
+
     def __init__(self, x: int, y: int, room_id: int, connected_room_id: int):
         """
         Creates a new teleport room with the given values.

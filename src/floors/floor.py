@@ -11,7 +11,8 @@ from typing import List, Tuple, TypeVar
 import numpy as np
 
 from utils import globals as my_globals
-from utils.globals import RoomType, Direction, DoorFace
+from utils.globals import RoomType, DoorFace
+from utils.direction import Direction
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
 
@@ -109,7 +110,9 @@ class Floor:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM) -> None:
+    def add_room(
+        self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM
+    ) -> None:
         """
         Creates and adds a room to the floor.
         @param x: x coordinate of the room

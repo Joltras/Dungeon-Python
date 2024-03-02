@@ -14,6 +14,7 @@ _FILE_NAME = my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX
 _ROOT = "/"
 _GENERATE = "/gen"
 
+
 @app.get(_ROOT)
 async def root():
     """This endpoint returns a test message."""

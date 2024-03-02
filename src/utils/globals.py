@@ -5,35 +5,6 @@ import os
 from enum import Enum
 
 
-class Direction(Enum):
-    """
-    Enum for the directions.
-    """
-
-    @classmethod
-    def list(cls):
-        """
-        Returns a list of all the directions.
-        """
-        return list(map(lambda c: c.value, cls))
-
-    @classmethod
-    def main_directions(cls):
-        """
-        Returns a list of all the main directions.
-        """
-        return cls.UP, cls.DOWN, cls.LEFT, cls.RIGHT
-
-    UP = (0, -1)
-    RIGHT = (1, 0)
-    DOWN = (0, 1)
-    LEFT = (-1, 0)
-    UP_RIGHT = (1, -1)
-    UP_LEFT = (-1, -1)
-    DOWN_RIGHT = (1, 1)
-    DOWN_LEFT = (-1, 1)
-
-
 class DoorFace(Enum):
     """
     Enum for the door faces.
@@ -77,6 +48,7 @@ class Color(Enum):
     """
     Enum for the colors.
     """
+
     ORANGE = (255, 140, 0)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
@@ -88,6 +60,7 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
+
 
 DOOR_COLOR = Color.BLACK
 

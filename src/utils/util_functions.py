@@ -6,7 +6,7 @@ import math
 from typing import Tuple
 
 import globals as my_globals
-from globals import Direction
+from utils.direction import Direction
 
 
 def calculate_room_amount(stage_id: int):
@@ -32,11 +32,11 @@ def rgb2hex(r, g, b):
     """
     Converts rgb to hex.
     """
-    return f'#{r:02x}{g:02x}{b:02x}'
+    return f"#{r:02x}{g:02x}{b:02x}"
 
 
 def add_direction_to_coordinates(
-        direction: Direction, coordinates: Tuple[int, int]
+    direction: Direction, coordinates: Tuple[int, int]
 ) -> Tuple[int, int]:
     """
     Calculates the room according to the given room and direction
@@ -81,5 +81,5 @@ def calculate_distance(cord1, cord2) -> int:
     Calculates the distance between two points.
     """
     return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (
-            cord1[1] - cord2[1]
+        cord1[1] - cord2[1]
     )

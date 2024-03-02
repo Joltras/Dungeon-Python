@@ -12,6 +12,7 @@ class TkinterTeleportRoom(TkinterRoom, TeleportRoom):
     """
     Tkinter version of teleport room.
     """
+
     def __init__(
         self,
         x: int,
