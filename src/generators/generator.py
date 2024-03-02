@@ -26,11 +26,11 @@ class Generator:
     """
 
     def __init__(
-        self,
-        seed: str,
-        output_file_name: str,
-        output_file_path: str = "",
-        stage_id: int = 2,
+            self,
+            seed: str,
+            output_file_name: str,
+            output_file_path: str = "",
+            stage_id: int = 2,
     ):
         """
         Creates a new generator with the given arguments.
@@ -53,22 +53,22 @@ class Generator:
         indent_s = my_globals.BASE_INDENT * indent
 
         j = (
-            "{\n"
-            + indent_s
-            + '"_width": '
-            + str(my_globals.FLOOR_WIDTH)
-            + ",\n"
-            + indent_s
-            + '"_height": '
-            + str(my_globals.FLOOR_HEIGHT)
-            + ",\n"
-            + indent_s
-            + '"_floor": '
-            + self._floor.to_json(indent + 1)
-            + ",\n"
-            + indent_s
-            + '"_generated_by": "python"'
-            + "\n}"
+                "{\n"
+                + indent_s
+                + '"_width": '
+                + str(my_globals.FLOOR_WIDTH)
+                + ",\n"
+                + indent_s
+                + '"_height": '
+                + str(my_globals.FLOOR_HEIGHT)
+                + ",\n"
+                + indent_s
+                + '"_floor": '
+                + self._floor.to_json(indent + 1)
+                + ",\n"
+                + indent_s
+                + '"_generated_by": "python"'
+                + "\n}"
         )
         return j
 
@@ -87,12 +87,12 @@ class Generator:
         @return: True if the position was added to the queue otherwise False
         """
         if (
-            self._floor.is_within_border(new_room_tuple)
-            and (not self._floor.contains_room(new_room_tuple))
-            and (
+                self._floor.is_within_border(new_room_tuple)
+                and (not self._floor.contains_room(new_room_tuple))
+                and (
                 self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1
-            )
-            and util_functions.place_room()
+        )
+                and util_functions.place_room()
         ):
             room_tuple_queue.append(new_room_tuple)
             self._floor.add_to_floor_grid(new_room_tuple[0], new_room_tuple[1])
@@ -143,6 +143,7 @@ class Generator:
         dead_ends = self.mark_dead_ends()
         self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
+        self.place_secret_room()
         floor.add_doors_to_rooms()
 
     def mark_dead_ends(self) -> list:
@@ -155,8 +156,8 @@ class Generator:
         for i in range(len(floor.get_rooms())):
             room = floor.get_rooms()[i]
             if (
-                floor.is_dead_end(room[0], room[1])
-                and room.get_type() == RoomType.NORMAL_ROOM
+                    floor.is_dead_end(room[0], room[1])
+                    and room.get_type() == RoomType.NORMAL_ROOM
             ):
                 room.set_type(RoomType.DEAD_END)
                 dead_end_indices += (i,)
@@ -205,9 +206,9 @@ class Generator:
                 direction, (boss_room_x, boss_room_y)
             )
             if (
-                self._floor.is_within_border(new_boss_tuple)
-                and floor.count_neighbours(new_boss_tuple[0], new_boss_tuple[1]) == 1
-                and not self._floor.contains_room(new_boss_tuple)
+                    self._floor.is_within_border(new_boss_tuple)
+                    and floor.count_neighbours(new_boss_tuple[0], new_boss_tuple[1]) == 1
+                    and not self._floor.contains_room(new_boss_tuple)
             ):
                 possible_locations.append(direction)
 
@@ -221,9 +222,9 @@ class Generator:
             boss_room_placed = self._place_big_boss_room(possible_locations, boss_room)
 
         if (
-            not boss_room_placed
-            and len(possible_locations) >= 1
-            and random.randint(0, 10) < 5
+                not boss_room_placed
+                and len(possible_locations) >= 1
+                and random.randint(0, 10) < 5
         ):
             # Create a 1 * 2 boss-room
             floor.add_room_next_to(boss_room, possible_locations[0], RoomType.BOSS_ROOM)
@@ -249,9 +250,9 @@ class Generator:
                 direction[2], (boss_room[0], boss_room[1])
             )
             if (
-                direction[0] in possible_locations
-                and direction[1] in possible_locations
-                and self._floor.has_no_neighbours(corner[0], corner[1])
+                    direction[0] in possible_locations
+                    and direction[1] in possible_locations
+                    and self._floor.has_no_neighbours(corner[0], corner[1])
             ):
                 self._add_rooms_next_to_room(boss_room, direction)
                 return True
@@ -272,17 +273,17 @@ class Generator:
             boss_room.set_cord(0, my_globals.FLOOR_HEIGHT - 1)
 
         elif self._check_if_not_contains_room_and_has_no_neighbours(
-            floor.bottom_left()
+                floor.bottom_left()
         ):
             boss_room.set_cord(my_globals.FLOOR_WIDTH - 1, my_globals.FLOOR_HEIGHT - 1)
 
         elif self._check_if_not_contains_room_and_has_no_neighbours(
-            floor.bottom_right()
+                floor.bottom_right()
         ):
             boss_room.set_cord(my_globals.FLOOR_WIDTH - 1, 0)
 
     def _check_if_not_contains_room_and_has_no_neighbours(
-        self, point: Tuple[int, int]
+            self, point: Tuple[int, int]
     ) -> bool:
         floor = self._floor
         return not floor.contains_room(
@@ -299,6 +300,32 @@ class Generator:
         while i < len(my_globals.SPECIAL_ROOMS) and i < len(dead_ends):
             floor.get_rooms()[dead_ends[i]].set_type(my_globals.SPECIAL_ROOMS[i])
             i += 1
+
+    def place_secret_room(self) -> None:
+        """
+        Places a secret room on the floor.
+        """
+        floor = self._floor
+        secret_room_placed = False
+        neighbour_rooms = 3
+
+        index = 0
+        while index < len(floor.get_rooms()) and not secret_room_placed:
+            room = floor.get_rooms()[index]
+            # Check all neighbours of the room
+            for direction in Direction.main_directions():
+                neighbour = util_functions.add_direction_to_coordinates(
+                    direction, (room[0], room[1])
+                )
+                if not floor.is_within_border(neighbour) or floor.contains_room(neighbour):
+                    continue
+                current_neighbour = floor.count_neighbours(neighbour[0], neighbour[1])
+                if current_neighbour >= neighbour_rooms:
+                    floor.add_room(neighbour[0], neighbour[1], RoomType.SECRET_ROOM)
+                    secret_room_placed = True
+                break
+            index += 1
+            neighbour_rooms -= 1
 
     def save(self, path: str = "") -> str:
         """
