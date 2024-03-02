@@ -159,7 +159,8 @@ class TkinterGenerator(Generator):
             self._output_file_name = os.path.basename(path)
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
-            with open(path, "r") as file:
+            encoding = "utf-8"
+            with open(path, "r", encoding= encoding) as file:
                 json_string = file.read()
                 self._floor.stop_drawing()
                 self._floor = TkinterFloor.from_floor(

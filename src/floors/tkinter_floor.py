@@ -52,10 +52,10 @@ class TkinterFloor(Floor):
         @return: new TkinterFloor
         """
         tkinter_floor = TkinterFloor(
-            floor._height, floor._width, canvas, name, floor.seed
+            floor._height, floor._width, canvas, name, floor.seed # pylint: disable=protected-access
         )
-        for room in floor._rooms:
-            tkinter_floor._rooms.append(TkinterRoom.from_room(room))
+        for room in floor._rooms: # pylint: disable=protected-access
+            tkinter_floor._rooms.append(TkinterRoom.from_room(room)) # pylint: disable=protected-access
         return tkinter_floor
 
     def draw(self) -> None:

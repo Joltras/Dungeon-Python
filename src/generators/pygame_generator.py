@@ -64,12 +64,12 @@ class PygameGenerator(Generator):
         self.generate()
         while active:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT: # pylint: disable=no-member
                     active = False
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN: # pylint: disable=no-member
                     self._key_down(event)
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN: # pylint: disable=no-member
                     self.generate()
             self.screen.fill(Color.WHITE.value)
             self._floors[self._current_floor].draw(self.screen)
@@ -81,9 +81,9 @@ class PygameGenerator(Generator):
         Checks which key was pressed and reacts to it.
         @param event:
         """
-        if event.key == pygame.K_s:
+        if event.key == pygame.K_s: # pylint: disable=no-member
             self.save()
-        if event.key == pygame.K_LEFT and self._current_floor > 0:
+        if event.key == pygame.K_LEFT and self._current_floor > 0: # pylint: disable=no-member
             self._current_floor -= 1
-        if event.key == pygame.K_RIGHT and self._current_floor < len(self._floors) - 1:
+        if event.key == pygame.K_RIGHT and self._current_floor < len(self._floors) - 1: # pylint: disable=no-member
             self._current_floor += 1
