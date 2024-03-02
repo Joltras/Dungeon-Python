@@ -56,13 +56,16 @@ Room_Colors = {
     RoomType.START_ROOM: Color.ORANGE,
     RoomType.TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED,
+    RoomType.SECRET_ROOM: Color.GRAY,
 }
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 
 # Json
 BASE_INDENT = "  "
 JSON_SUFFIX = ".json"
-APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", "").replace("\\utils", ""))
+APPLICATION_PATH = os.path.realpath(
+    os.path.dirname(__file__).replace("\\src", "").replace("\\utils", "")
+)
 DEFAULT_FLOOR_NAME = "floor"
 DEFAULT_FLOOR_DIRECTORY = "generation"
 
