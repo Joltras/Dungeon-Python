@@ -3,8 +3,8 @@ Pygame version of the generator.
 This version is used to generate a floor and draw it on the screen.
 """
 import secrets
-import pygame
 from collections import deque
+import pygame
 import globals as my_globals
 from globals import Color
 from floors.pygame_floor import PygameFloor
