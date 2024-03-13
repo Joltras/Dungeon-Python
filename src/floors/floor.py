@@ -10,6 +10,7 @@ from typing import List, Tuple, TypeVar
 
 import numpy as np
 
+import utils.util_functions
 from utils import globals as my_globals
 from utils.globals import DoorFace
 from utils.room_type import RoomType
@@ -243,3 +244,26 @@ class Floor:
         @return: True if the coordinates are within the floor otherwise False
         """
         return 0 <= coordinates[0] < self._width and 0 <= coordinates[1] < self._height
+
+    def _get_room(self, coordinates: Tuple[int, int]) -> Room:
+        """
+        Returns the room at the given coordinates.
+        @param coordinates: coordinates of the room
+        @return: room
+        """
+        for room in self._rooms:
+            if room[0] == coordinates[0] and room[1] == coordinates[1]:
+                return room
+
+    def has_boos_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
+        """
+        Checks if the given coordinates have a boss room as neighbour.
+        @param coordinates: coordinates to check
+        @return: True if the coordinates have a boss room as neighbour otherwise False
+        """
+        for direction in Direction.main_directions():
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
+            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+                room = self._get_room(new_coordinates)
+                if room.get_type() == RoomType.BOSS_ROOM:
+                    return True
