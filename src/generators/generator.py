@@ -89,9 +89,7 @@ class Generator:
         if (
                 self._floor.is_within_border(new_room_tuple)
                 and (not self._floor.contains_room(new_room_tuple))
-                and (
-                self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1
-        )
+                and (self._floor.count_neighbours(new_room_tuple[0], new_room_tuple[1]) <= 1)
                 and util_functions.place_room()
         ):
             room_tuple_queue.append(new_room_tuple)
