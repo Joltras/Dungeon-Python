@@ -320,7 +320,7 @@ class Generator:
                 if not floor.is_within_border(neighbour) or floor.contains_room(neighbour):
                     continue
                 current_neighbour = floor.count_neighbours(neighbour[0], neighbour[1])
-                if current_neighbour >= neighbour_rooms:
+                if current_neighbour >= neighbour_rooms and not floor.has_boos_room_as_neighbour(neighbour):
                     floor.add_room(neighbour[0], neighbour[1], RoomType.SECRET_ROOM)
                     secret_room_placed = True
                 break
