@@ -56,7 +56,7 @@ Room_Colors = {
     RoomType.START_ROOM: Color.ORANGE,
     RoomType.TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED,
-    RoomType.SECRET_ROOM: Color.GRAY,
+    RoomType.SECRET_ROOM: Color.LIGHT_GRAY,
 }
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 
