@@ -267,3 +267,24 @@ class Floor:
                 room = self._get_room(new_coordinates)
                 if room.get_type() == RoomType.BOSS_ROOM:
                     return True
+
+    def has_special_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
+        """
+        Checks if the given coordinates have a special room as neighbour.
+        Special rooms are rooms that have a special function.
+        Special rooms are:
+        - Item room
+        - Shop room
+        - Boss room
+        - Secret room
+        @param coordinates: coordinates to check
+        @return: True if the coordinates have a special room as neighbour otherwise False
+        """
+        for direction in Direction.main_directions():
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
+            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+                room = self._get_room(new_coordinates)
+                print("room.get_type()", room.get_type())
+                if room.get_type().is_special():
+                    print("found special room")
+                    return True
