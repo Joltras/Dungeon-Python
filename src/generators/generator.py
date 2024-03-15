@@ -306,23 +306,22 @@ class Generator:
         floor = self._floor
         secret_room_placed = False
         neighbour_rooms = 3
-
-        index = 0
-        while index < len(floor.get_rooms()) and not secret_room_placed:
-            room = floor.get_rooms()[index]
-            # Check all neighbours of the room
-            for direction in Direction.main_directions():
-                neighbour = util_functions.add_direction_to_coordinates(
-                    direction, (room[0], room[1])
-                )
-                if not floor.is_within_border(neighbour) or floor.contains_room(neighbour):
-                    continue
-                current_neighbour = floor.count_neighbours(neighbour[0], neighbour[1])
-                if current_neighbour >= neighbour_rooms and not floor.has_boos_room_as_neighbour(neighbour):
-                    floor.add_room(neighbour[0], neighbour[1], RoomType.SECRET_ROOM)
-                    secret_room_placed = True
-                break
-            index += 1
+        while not secret_room_placed:
+            for room in reversed(floor.get_rooms()):
+                # Check all neighbours of the room
+                for direction in Direction.main_directions():
+                    neighbour = util_functions.add_direction_to_coordinates(
+                        direction, (room[0], room[1])
+                    )
+                    if not floor.is_within_border(neighbour) or floor.contains_room(neighbour):
+                        continue
+                    current_neighbour = floor.count_neighbours(neighbour[0], neighbour[1])
+                    if current_neighbour >= neighbour_rooms and not floor.has_boos_room_as_neighbour(neighbour):
+                        floor.add_room(neighbour[0], neighbour[1], RoomType.SECRET_ROOM)
+                        secret_room_placed = True
+                        break
+                if secret_room_placed:
+                    break
             neighbour_rooms -= 1
 
     def save(self, path: str = "") -> str:
