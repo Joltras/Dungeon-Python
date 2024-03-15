@@ -82,7 +82,6 @@ class TkinterFloor(Floor):
         """
         thread = threading.Thread(target=self.draw_step_by_step)
         thread.start()
-        print(thread.ident)
 
     def stop_drawing(self) -> None:
         """
