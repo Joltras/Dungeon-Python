@@ -10,11 +10,11 @@ from collections import deque
 from datetime import datetime
 from typing import List, TypeVar, Tuple
 
-from utils import util_functions, globals as my_globals
-from utils.globals import RoomType
-from utils.direction import Direction
 from floors.floor import Floor
 from rooms.room import Room
+from utils import util_functions, globals as my_globals
+from utils.direction import Direction
+from utils.globals import RoomType
 
 T = TypeVar("T", bound=Floor)
 
@@ -142,6 +142,7 @@ class Generator:
         self.add_boss_room(dead_ends, start_room)
         self.add_special_rooms(dead_ends)
         self.place_secret_room()
+        self.place_super_secret_room()
         floor.add_doors_to_rooms()
 
     def mark_dead_ends(self) -> list:
@@ -299,6 +300,33 @@ class Generator:
             floor.get_rooms()[dead_ends[i]].set_type(my_globals.SPECIAL_ROOMS[i])
             i += 1
 
+    def place_super_secret_room(self) -> None:
+        """
+        Places a super secret room on the flor.
+        The super secret room should be as close as possible to the boss room
+        but should not be adjacent to the boss room.
+        There should only have one adjacent room.
+        """
+        floor = self._floor
+        distance_to_boss = 25
+        candidate = None
+        boss_room = floor.get_boss_room()
+        for room in floor.get_rooms():
+            for direction in Direction.main_directions():
+                neighbour = util_functions.add_direction_to_coordinates(
+                    direction, (room[0], room[1])
+                )
+                if (floor.is_within_border(neighbour) and not floor.contains_room(neighbour)
+                        and not floor.has_boos_room_as_neighbour(neighbour) and floor.count_neighbours(neighbour[0],
+                                                                                                       neighbour[
+                                                                                                           1]) == 1):
+                    distance = util_functions.calculate_distance(boss_room, neighbour)
+                    if distance < distance_to_boss:
+                        distance_to_boss = distance
+                        candidate = neighbour
+        if candidate is not None:
+            floor.add_room(candidate[0], candidate[1], RoomType.SECRET_ROOM)
+
     def place_secret_room(self) -> None:
         """
         Places a secret room on the floor.
@@ -315,6 +343,12 @@ class Generator:
             neighbour_rooms -= 1
 
     def _check_directions_for_secret_room(self, room: Room, neighbour_rooms: int) -> bool:
+        """
+        Checks if a secret room can be placed next to a given room.
+        @param room: room to check
+        @param neighbour_rooms: number of minimum neighbours
+        @return: True if a secret room was placed otherwise False
+        """
         floor = self._floor
         for direction in Direction.main_directions():
             neighbour = util_functions.add_direction_to_coordinates(
