@@ -253,7 +253,6 @@ class TkinterGenerator(Generator):
         seed_label = ttk.Label(information_frame, textvariable=self._seed_var)
         seed_label.pack(side=tk.LEFT)
 
-
     def add_buttons(self) -> None:
         """
         Adds buttons to the application.
