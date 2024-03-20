@@ -5,7 +5,7 @@ Module for the TkinterFloor class.
 import threading
 import time
 
-import globals as my_globals
+from utils import globals as my_globals
 from floors.floor import Floor
 from rooms.room import Room
 
@@ -18,6 +18,7 @@ class TkinterFloor(Floor):
     A tkinter version of the floor.
     This version is used to draw the floor and the rooms on a canvas.
     """
+
     def __init__(self, height: int, width: int, canvas, name: str, seed: str):
         """
         Creates a new floor width the given width and height.
@@ -32,7 +33,9 @@ class TkinterFloor(Floor):
 
     def add_room(self, x: int, y: int, room_type=my_globals.RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
-        self._rooms.append(TkinterRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(
+            TkinterRoom(x=x, y=y, room_type=room_type, room_id=self._room_id)
+        )
         self._room_id += 1
 
     def add_teleport_room(self, room: Room) -> None:
@@ -52,10 +55,16 @@ class TkinterFloor(Floor):
         @return: new TkinterFloor
         """
         tkinter_floor = TkinterFloor(
-            floor._height, floor._width, canvas, name, floor.seed # pylint: disable=protected-access
+            floor._height,
+            floor._width,
+            canvas,
+            name,
+            floor.seed,  # pylint: disable=protected-access
         )
-        for room in floor._rooms: # pylint: disable=protected-access
-            tkinter_floor._rooms.append(TkinterRoom.from_room(room)) # pylint: disable=protected-access
+        for room in floor._rooms:  # pylint: disable=protected-access
+            tkinter_floor._rooms.append(
+                TkinterRoom.from_room(room)
+            )  # pylint: disable=protected-access
         return tkinter_floor
 
     def draw(self) -> None:
@@ -73,7 +82,6 @@ class TkinterFloor(Floor):
         """
         thread = threading.Thread(target=self.draw_step_by_step)
         thread.start()
-        print(thread.ident)
 
     def stop_drawing(self) -> None:
         """

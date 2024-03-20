@@ -1,6 +1,5 @@
 import unittest
-import globals
-import utils
+from utils import utils, globals
 
 
 class UtilsTest(unittest.TestCase):

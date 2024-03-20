@@ -10,8 +10,11 @@ from typing import List, Tuple, TypeVar
 
 import numpy as np
 
-import globals as my_globals
-from globals import RoomType, Direction, DoorFace
+import utils.util_functions
+from utils import globals as my_globals
+from utils.globals import DoorFace
+from utils.room_type import RoomType
+from utils.direction import Direction
 from rooms.room import Room
 from rooms.teleport_room import TeleportRoom
 
@@ -70,11 +73,11 @@ class Floor:
         current_index: int = 0
         max_index: int = len(self._rooms)
         json_string = (
-            "{\n"
-            + f'{indent_s}"_seed": "{self.seed}",\n'
-            + indent_s
-            + '"_rooms"'
-            + ": ["
+                "{\n"
+                + f'{indent_s}"_seed": "{self.seed}",\n'
+                + indent_s
+                + '"_rooms"'
+                + ": ["
         )
         if len(self._rooms) == 0:
             json_string += "]"
@@ -109,7 +112,9 @@ class Floor:
         """
         self._floor_grid[y][x] = 1
 
-    def add_room(self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM) -> None:
+    def add_room(
+            self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM
+    ) -> None:
         """
         Creates and adds a room to the floor.
         @param x: x coordinate of the room
@@ -121,7 +126,7 @@ class Floor:
         self._room_id += 1
 
     def add_room_next_to(
-        self, room: Room, direction: Direction, room_type: RoomType
+            self, room: Room, direction: Direction, room_type: RoomType
     ) -> None:
         """
         Creates and adds a room next to a given room.
@@ -239,3 +244,54 @@ class Floor:
         @return: True if the coordinates are within the floor otherwise False
         """
         return 0 <= coordinates[0] < self._width and 0 <= coordinates[1] < self._height
+
+    def _get_room(self, coordinates: Tuple[int, int]) -> Room:
+        """
+        Returns the room at the given coordinates.
+        @param coordinates: coordinates of the room
+        @return: room
+        """
+        for room in self._rooms:
+            if room[0] == coordinates[0] and room[1] == coordinates[1]:
+                return room
+
+    def has_boos_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
+        """
+        Checks if the given coordinates have a boss room as neighbour.
+        @param coordinates: coordinates to check
+        @return: True if the coordinates have a boss room as neighbour otherwise False
+        """
+        for direction in Direction.main_directions():
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
+            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+                room = self._get_room(new_coordinates)
+                if room.get_type() == RoomType.BOSS_ROOM:
+                    return True
+
+    def has_special_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
+        """
+        Checks if the given coordinates have a special room as neighbour.
+        Special rooms are rooms that have a special function.
+        Special rooms are:
+        - Item room
+        - Shop room
+        - Boss room
+        - Secret room
+        @param coordinates: coordinates to check
+        @return: True if the coordinates have a special room as neighbour otherwise False
+        """
+        for direction in Direction.main_directions():
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
+            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+                room = self._get_room(new_coordinates)
+                if room.get_type().is_special():
+                    return True
+
+    def get_boss_room(self) -> Room:
+        """
+        Returns the boss room of the floor.
+        @return: boss room
+        """
+        for room in self._rooms:
+            if room.get_type() == RoomType.BOSS_ROOM:
+                return room

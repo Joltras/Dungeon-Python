@@ -4,8 +4,8 @@ This version is used to draw the floor and the rooms on the screen.
 """
 
 import pygame
-import globals as my_globals
-from globals import Color, RoomType
+from utils import globals as my_globals
+from utils.globals import Color, RoomType
 from floors.floor import Floor
 from rooms.pygame.pygame_normal_room import PygameNormalRoom
 from rooms.pygame.pygame_teleport_room import PygameTeleportRoom
@@ -50,7 +50,9 @@ class PygameFloor(Floor):
         @param room_type: type of the room (default = normal room)
         """
         self.add_to_floor_grid(x, y)
-        self._rooms.append(PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id))
+        self._rooms.append(
+            PygameNormalRoom(x=x, y=y, room_type=room_type, room_id=self._room_id)
+        )
         self._room_id += 1
 
     def add_teleport_room(self, room: Room) -> None:

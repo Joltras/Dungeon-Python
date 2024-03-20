@@ -2,10 +2,9 @@
 Module for TkinterRoom class.
 """
 import tkinter as tk
-from globals import RoomType
-import globals as my_globals
+from utils.globals import RoomType
 from rooms.room import Room
-import utils
+from utils import util_functions, globals as my_globals
 
 
 class TkinterRoom(Room):
@@ -13,6 +12,7 @@ class TkinterRoom(Room):
     Tkinter version of room.
     A room that can be drawn on a tkinter canvas.
     """
+
     def __init__(
         self,
         x: int,
@@ -38,7 +38,7 @@ class TkinterRoom(Room):
         x1 = x0 + self._width
         y1 = y0 + self._height
         color = my_globals.Room_Colors[self._type].value
-        hex_color = utils.rgb2hex(color[0], color[1], color[2])
+        hex_color = util_functions.rgb2hex(color[0], color[1], color[2])
         canvas.create_rectangle((x0, y0), (x1, y1), fill=hex_color)
 
     @classmethod
@@ -46,4 +46,6 @@ class TkinterRoom(Room):
         """
         Creates a new TkinterRoom from a room.
         """
-        return TkinterRoom(room._x, room._y, room._id, room._type) # pylint: disable=protected-access
+        return TkinterRoom(
+            room._x, room._y, room._id, room._type
+        )  # pylint: disable=protected-access

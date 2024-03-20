@@ -1,7 +1,7 @@
 import os
 import unittest
-import globals
-from globals import RoomType, Color, Direction
+from utils import globals
+from utils.globals import RoomType, Color, Direction
 
 
 class GlobalsTest(unittest.TestCase):

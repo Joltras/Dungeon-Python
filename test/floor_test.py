@@ -3,7 +3,7 @@
 import unittest
 
 from floors.floor import Floor
-from globals import RoomType, DoorFace
+from utils.globals import RoomType, DoorFace
 from rooms.room import Room
 
 

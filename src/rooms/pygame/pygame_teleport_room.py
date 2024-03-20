@@ -2,8 +2,8 @@
 Pygame teleport room class
 """
 
-import globals as my_globals
-from globals import RoomType
+from utils import globals as my_globals
+from utils.globals import RoomType
 from rooms.pygame.pygame_normal_room import PygameNormalRoom
 from rooms.teleport_room import TeleportRoom
 
@@ -12,6 +12,7 @@ class PygameTeleportRoom(PygameNormalRoom, TeleportRoom):
     """
     Pygame version of the teleport room.
     """
+
     def __init__(
         self,
         x: int,

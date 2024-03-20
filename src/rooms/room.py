@@ -4,8 +4,8 @@ The Room class is used to represent a room in the floor.
 A room has a type, coordinates and doors.
 """
 
-import globals as my_globals
-from globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
+from utils import globals as my_globals
+from utils.globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
 
 
 class Room:
@@ -13,6 +13,7 @@ class Room:
     A room in the floor.
     A is represented by its coordinates, type and doors.
     """
+
     def __init__(self, x: int, y: int, room_id: int, room_type: RoomType):
         """
         Creates a new room with the given values.
@@ -49,7 +50,10 @@ class Room:
         """
         indent_s: str = my_globals.BASE_INDENT * indent
         json_string: str = (
-            str(my_globals.BASE_INDENT * (indent - 1)) + "{\n" + indent_s + '"_doors": [\n'
+            str(my_globals.BASE_INDENT * (indent - 1))
+            + "{\n"
+            + indent_s
+            + '"_doors": [\n'
         )
         i = 0
         while i < len(self._doors):

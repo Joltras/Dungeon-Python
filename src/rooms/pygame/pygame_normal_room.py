@@ -2,8 +2,8 @@
 Pygame version of normal room.
 """
 import pygame
-import globals as my_globals
-from globals import DoorFace, RoomType
+from utils import globals as my_globals
+from utils.globals import DoorFace, RoomType
 from rooms.room import Room
 
 

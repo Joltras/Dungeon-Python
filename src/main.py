@@ -7,7 +7,7 @@ import os.path
 import secrets
 import sys
 
-import globals as my_globals
+from utils import globals as my_globals
 from generators.generator import Generator
 from generators.tkinter_generator import TkinterGenerator
 

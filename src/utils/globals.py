@@ -3,35 +3,7 @@ This file contains all the global constants used in the project.
 """
 import os
 from enum import Enum
-
-
-class Direction(Enum):
-    """
-    Enum for the directions.
-    """
-
-    @classmethod
-    def list(cls):
-        """
-        Returns a list of all the directions.
-        """
-        return list(map(lambda c: c.value, cls))
-
-    @classmethod
-    def main_directions(cls):
-        """
-        Returns a list of all the main directions.
-        """
-        return cls.UP, cls.DOWN, cls.LEFT, cls.RIGHT
-
-    UP = (0, -1)
-    RIGHT = (1, 0)
-    DOWN = (0, 1)
-    LEFT = (-1, 0)
-    UP_RIGHT = (1, -1)
-    UP_LEFT = (-1, -1)
-    DOWN_RIGHT = (1, 1)
-    DOWN_LEFT = (-1, 1)
+from utils.room_type import RoomType
 
 
 class DoorFace(Enum):
@@ -52,31 +24,11 @@ class DoorFace(Enum):
     WEST = 3
 
 
-class RoomType(Enum):
-    """
-    Enum for the room types.
-    """
-
-    @classmethod
-    def list(cls):
-        """
-        Returns a list of all the room types.
-        """
-        return list(map(lambda c: c.value, cls))
-
-    NORMAL_ROOM = 0
-    DEAD_END = 1
-    ITEM_ROOM = 2
-    SHOP_ROOM = 3
-    START_ROOM = 4
-    TELEPORT_ROOM = 5
-    BOSS_ROOM = 6
-
-
 class Color(Enum):
     """
     Enum for the colors.
     """
+
     ORANGE = (255, 140, 0)
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
@@ -88,6 +40,7 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
+
 
 DOOR_COLOR = Color.BLACK
 
@@ -103,13 +56,16 @@ Room_Colors = {
     RoomType.START_ROOM: Color.ORANGE,
     RoomType.TELEPORT_ROOM: Color.GRAY,
     RoomType.BOSS_ROOM: Color.RED,
+    RoomType.SECRET_ROOM: Color.LIGHT_GRAY,
 }
 SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 
 # Json
 BASE_INDENT = "  "
 JSON_SUFFIX = ".json"
-APPLICATION_PATH = os.path.realpath(os.path.dirname(__file__).replace("\\src", ""))
+APPLICATION_PATH = os.path.realpath(
+    os.path.dirname(__file__).replace("\\src", "").replace("\\utils", "")
+)
 DEFAULT_FLOOR_NAME = "floor"
 DEFAULT_FLOOR_DIRECTORY = "generation"
 

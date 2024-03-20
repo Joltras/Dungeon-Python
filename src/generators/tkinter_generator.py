@@ -8,8 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog, messagebox
 from collections import deque
-import globals as my_globals
-import utils
+from utils import util_functions, globals as my_globals
 from floors.floor import Floor
 from floors.tkinter_floor import TkinterFloor
 from generators.generator import Generator
@@ -19,6 +18,7 @@ class TkinterGenerator(Generator):
     """
     Tkinter version of the generator.
     """
+
     def __init__(
         self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
     ):
@@ -35,7 +35,7 @@ class TkinterGenerator(Generator):
         self._current_floor_index = -1
         self._tk = tk.Tk()
         color = my_globals.Color.LIGHT_GRAY.value
-        hex_color = utils.rgb2hex(color[0], color[1], color[2])
+        hex_color = util_functions.rgb2hex(color[0], color[1], color[2])
         self._canvas = tk.Canvas(
             height=my_globals.FLOOR_HEIGHT * my_globals.ROOM_HEIGHT,
             width=my_globals.ROOM_WIDTH * my_globals.ROOM_WIDTH,
@@ -150,7 +150,7 @@ class TkinterGenerator(Generator):
         Shows a dialog for opening a file.
         Stores the path and the name of the file.
         """
-        options = utils.json_file_options.copy()
+        options = util_functions.json_file_options.copy()
         options["initialdir"] = self._output_file_path
         options["title"] = "Open File"
         path = filedialog.askopenfilename(**options)
@@ -160,7 +160,7 @@ class TkinterGenerator(Generator):
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
             encoding = "utf-8"
-            with open(path, "r", encoding= encoding) as file:
+            with open(path, "r", encoding=encoding) as file:
                 json_string = file.read()
                 self._floor.stop_drawing()
                 self._floor = TkinterFloor.from_floor(
@@ -195,7 +195,7 @@ class TkinterGenerator(Generator):
                 messagebox.showinfo("Save", "File saved successfully!")
 
             return path
-        options = utils.json_file_options.copy()
+        options = util_functions.json_file_options.copy()
         options["initialdir"] = self._output_file_path
         options["initialfile"] = self._output_file_name
         options["title"] = "Save File"
@@ -206,7 +206,6 @@ class TkinterGenerator(Generator):
             self._name.set(self._output_file_name)
             self._path.set(self._output_file_path)
             self._floors[self._current_floor_index].name = self._name.get()
-        print(file_path)
 
         return super().save(file_path)
 
@@ -214,8 +213,8 @@ class TkinterGenerator(Generator):
         """
         Sets up the ui elements and starts the main loop of the application.
         """
-        self._tk.title(utils.window_title)
-        self._tk.geometry(utils.window_size)
+        self._tk.title(util_functions.window_title)
+        self._tk.geometry(util_functions.window_size)
         self._tk.resizable(False, False)
         self.generate()
         self._floors[self._current_floor_index].draw()
