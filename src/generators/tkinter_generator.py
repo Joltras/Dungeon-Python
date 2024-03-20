@@ -20,7 +20,7 @@ class TkinterGenerator(Generator):
     """
 
     def __init__(
-        self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
+            self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
     ):
         """
         Creates a new generator.
@@ -52,6 +52,7 @@ class TkinterGenerator(Generator):
         self._menu_bar = tk.Menu(self._tk)
         self._current_theme = "light"
         self.apply_theme()
+        self._tk.protocol('WM_DELETE_WINDOW', self.quit)
 
     def apply_theme(self) -> None:
         """
@@ -183,7 +184,7 @@ class TkinterGenerator(Generator):
             if os.path.exists(path):
                 # Show dialog for overwriting the file
                 if messagebox.askyesno(
-                    "File already exists", "Do you want to overwrite the file?"
+                        "File already exists", "Do you want to overwrite the file?"
                 ):
                     save_file = True
             else:
@@ -225,6 +226,13 @@ class TkinterGenerator(Generator):
         self.apply_theme()
         self._tk.mainloop()
 
+    def quit(self) -> None:
+        """
+        Shows a dialog for quitting the application.
+        """
+        if messagebox.askyesno("Quit", "Do you really want to quit?"):
+            self._tk.quit()
+
     def add_information_frame(self) -> None:
         """
         Adds a frame to the application which shows information about the current floor.
@@ -244,6 +252,7 @@ class TkinterGenerator(Generator):
         seed_text.pack(side=tk.LEFT, padx=(25, 0))
         seed_label = ttk.Label(information_frame, textvariable=self._seed_var)
         seed_label.pack(side=tk.LEFT)
+
 
     def add_buttons(self) -> None:
         """
@@ -297,4 +306,4 @@ class TkinterGenerator(Generator):
         menu_bar.add_command(
             label="Switch Theme", command=self.switch_theme, accelerator="Ctrl+t"
         )
-        menu_bar.add_command(label="Exit", command=self._tk.quit, accelerator="Ctrl+q")
+        menu_bar.add_command(label="Exit", command=self.quit, accelerator="Ctrl+q")
