@@ -98,7 +98,7 @@ class Floor:
         Creates a floor object from a json string.
         """
         json_dict = json.loads(json_string)
-        floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_seed"])
+        floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_floor"]["_seed"])
         rooms = json_dict["_floor"]["_rooms"]
         for room in rooms:
             floor._rooms.append(Room.from_dict(room))
