@@ -1,7 +1,9 @@
 import os
 import unittest
-from utils import globals
-from utils.globals import RoomType, Color, Direction
+from utils import globals, room_type
+from utils.direction import Direction
+from utils.globals import Color
+from utils.room_type import RoomType
 
 
 class GlobalsTest(unittest.TestCase):
@@ -52,7 +54,7 @@ class GlobalsTest(unittest.TestCase):
 
     def test_special_rooms(self):
         self.assertEqual(
-            (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), globals.SPECIAL_ROOMS
+            (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM), room_type.SPECIAL_ROOMS
         )
 
     def test_door_color(self):

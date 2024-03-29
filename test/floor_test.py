@@ -3,8 +3,9 @@
 import unittest
 
 from floors.floor import Floor
-from utils.globals import RoomType, DoorFace
+from utils.globals import DoorFace
 from rooms.room import Room
+from utils.room_type import RoomType
 
 
 class FloorTest(unittest.TestCase):
