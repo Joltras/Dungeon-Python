@@ -5,7 +5,8 @@ A room has a type, coordinates and doors.
 """
 
 from utils import globals as my_globals
-from utils.globals import RoomType, DoorFace, MAX_DOOR_AMOUNT
+from utils.globals import DoorFace, MAX_DOOR_AMOUNT
+from utils.room_type import RoomType
 
 
 class Room:
