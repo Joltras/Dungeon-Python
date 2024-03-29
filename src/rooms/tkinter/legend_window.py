@@ -1,5 +1,5 @@
 """
-This module contains the LegendWindow class which is used to display the legend of room types in the GUI.
+This module contains the function to display the legend on the canvas.
 """
 
 import tkinter as tk
