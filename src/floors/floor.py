@@ -6,7 +6,7 @@ It also provides methods to save and load the floor as a json file
 and contains the seed it was created with.
 """
 import json
-from typing import List, Tuple, TypeVar
+from typing import List, Tuple, TypeVar, Optional
 
 import numpy as np
 
@@ -245,7 +245,7 @@ class Floor:
         """
         return 0 <= coordinates[0] < self._width and 0 <= coordinates[1] < self._height
 
-    def _get_room(self, coordinates: Tuple[int, int]) -> Room:
+    def _get_room(self, coordinates: Tuple[int, int]) -> Optional[Room]:
         """
         Returns the room at the given coordinates.
         @param coordinates: coordinates of the room
@@ -254,6 +254,7 @@ class Floor:
         for room in self._rooms:
             if room[0] == coordinates[0] and room[1] == coordinates[1]:
                 return room
+        return None
 
     def has_boos_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
         """
@@ -267,6 +268,7 @@ class Floor:
                 room = self._get_room(new_coordinates)
                 if room.get_type() == RoomType.BOSS_ROOM:
                     return True
+        return False
 
     def has_special_room_as_neighbour(self, coordinates: Tuple[int, int]) -> bool:
         """
@@ -286,8 +288,9 @@ class Floor:
                 room = self._get_room(new_coordinates)
                 if room.get_type().is_special():
                     return True
+        return False
 
-    def get_boss_room(self) -> Room:
+    def get_boss_room(self) -> Optional[Room]:
         """
         Returns the boss room of the floor.
         @return: boss room
@@ -295,3 +298,4 @@ class Floor:
         for room in self._rooms:
             if room.get_type() == RoomType.BOSS_ROOM:
                 return room
+        return None
