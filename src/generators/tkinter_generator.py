@@ -13,6 +13,7 @@ from floors.tkinter_floor import TkinterFloor
 from generators.floor_manager import FloorManager
 from generators.generator import Generator
 from generators.theme_handler import ThemeHandler
+from rooms.tkinter import legend_window
 from utils import util_functions, globals as my_globals
 
 
@@ -242,4 +243,5 @@ class TkinterGenerator(Generator):
         menu_bar.add_command(
             label="Switch Theme", command=self._theme_handler.switch_theme, accelerator="Ctrl+t"
         )
+        menu_bar.add_command(label="Legend", command=legend_window.display_legend, accelerator="F1")
         menu_bar.add_command(label="Exit", command=self.quit, accelerator="Ctrl+q")
