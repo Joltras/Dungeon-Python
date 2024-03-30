@@ -317,9 +317,8 @@ class Generator:
                     direction, (room[0], room[1])
                 )
                 if (floor.is_within_border(neighbour) and not floor.contains_room(neighbour)
-                        and not floor.has_boos_room_as_neighbour(neighbour) and floor.count_neighbours(neighbour[0],
-                                                                                                       neighbour[
-                                                                                                           1]) == 1):
+                        and not floor.has_boos_room_as_neighbour(neighbour)
+                        and floor.count_neighbours(neighbour[0],neighbour[1]) == 1):
                     distance = util_functions.calculate_distance(boss_room, neighbour)
                     if distance < distance_to_boss:
                         distance_to_boss = distance
