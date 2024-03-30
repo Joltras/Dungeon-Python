@@ -55,7 +55,7 @@ class RoomType(Enum):
         Returns the color of the room type.
         @return: color of the room type
         """
-        return Room_Colors[self]
+        return room_colors[self]
 
     NORMAL_ROOM = 0
     DEAD_END = 1
@@ -67,7 +67,7 @@ class RoomType(Enum):
     SECRET_ROOM = 7
 
 
-Room_Colors = {
+room_colors = {
     RoomType.NORMAL_ROOM: Color.LIGHT_GRAY,
     RoomType.DEAD_END: Color.LIGHT_GRAY,
     RoomType.ITEM_ROOM: Color.GREEN,
@@ -78,7 +78,7 @@ Room_Colors = {
     RoomType.SECRET_ROOM: Color.BLUE,
 }
 
-Room_Names = {
+room_names = {
     RoomType.NORMAL_ROOM: "Normal Room",
     RoomType.DEAD_END: "Dead End",
     RoomType.ITEM_ROOM: "Item Room",
