@@ -1,3 +1,7 @@
+"""
+This file contains the RoomType enum.
+"""
+
 from enum import Enum
 from typing import List
 

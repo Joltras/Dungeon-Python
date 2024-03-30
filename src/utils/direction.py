@@ -1,3 +1,7 @@
+"""
+This module contains the direction enum.
+"""
+
 from enum import Enum
 
 
