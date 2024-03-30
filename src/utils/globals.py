@@ -3,7 +3,6 @@ This file contains all the global constants used in the project.
 """
 import os
 from enum import Enum
-from utils.room_type import RoomType
 
 
 class DoorFace(Enum):
@@ -40,6 +39,7 @@ class Color(Enum):
     DARK_GRAY = (100, 100, 100)
     YELLOW = (250, 250, 55)
     VIOLET = (148, 0, 211)
+    BLUE = (0, 0, 255)
 
 
 DOOR_COLOR = Color.BLACK
@@ -48,17 +48,6 @@ DOOR_COLOR = Color.BLACK
 MAX_DOOR_AMOUNT: int = 4
 ROOM_WIDTH: int = 120
 ROOM_HEIGHT: int = 60
-Room_Colors = {
-    RoomType.NORMAL_ROOM: Color.VIOLET,
-    RoomType.DEAD_END: Color.VIOLET,
-    RoomType.ITEM_ROOM: Color.GREEN,
-    RoomType.SHOP_ROOM: Color.YELLOW,
-    RoomType.START_ROOM: Color.ORANGE,
-    RoomType.TELEPORT_ROOM: Color.GRAY,
-    RoomType.BOSS_ROOM: Color.RED,
-    RoomType.SECRET_ROOM: Color.LIGHT_GRAY,
-}
-SPECIAL_ROOMS = (RoomType.ITEM_ROOM, RoomType.SHOP_ROOM)
 
 # Json
 BASE_INDENT = "  "

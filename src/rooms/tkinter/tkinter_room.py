@@ -2,9 +2,9 @@
 Module for TkinterRoom class.
 """
 import tkinter as tk
-from utils.globals import RoomType
 from rooms.room import Room
-from utils import util_functions, globals as my_globals
+from utils import util_functions, globals as my_globals, room_type
+from utils.room_type import RoomType
 
 
 class TkinterRoom(Room):
@@ -37,7 +37,7 @@ class TkinterRoom(Room):
         y0 = self._y * my_globals.ROOM_HEIGHT
         x1 = x0 + self._width
         y1 = y0 + self._height
-        color = my_globals.Room_Colors[self._type].value
+        color = room_type.room_colors[self._type].value
         hex_color = util_functions.rgb2hex(color[0], color[1], color[2])
         canvas.create_rectangle((x0, y0), (x1, y1), fill=hex_color)
 

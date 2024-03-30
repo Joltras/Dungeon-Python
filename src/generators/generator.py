@@ -12,9 +12,9 @@ from typing import List, TypeVar, Tuple
 
 from floors.floor import Floor
 from rooms.room import Room
-from utils import util_functions, globals as my_globals
+from utils import util_functions, globals as my_globals, room_type
 from utils.direction import Direction
-from utils.globals import RoomType
+from utils.room_type import RoomType
 
 T = TypeVar("T", bound=Floor)
 
@@ -296,8 +296,8 @@ class Generator:
         """
         floor = self._floor
         i = 0
-        while i < len(my_globals.SPECIAL_ROOMS) and i < len(dead_ends):
-            floor.get_rooms()[dead_ends[i]].set_type(my_globals.SPECIAL_ROOMS[i])
+        while i < len(room_type.SPECIAL_ROOMS) and i < len(dead_ends):
+            floor.get_rooms()[dead_ends[i]].set_type(room_type.SPECIAL_ROOMS[i])
             i += 1
 
     def place_super_secret_room(self) -> None:
@@ -317,9 +317,8 @@ class Generator:
                     direction, (room[0], room[1])
                 )
                 if (floor.is_within_border(neighbour) and not floor.contains_room(neighbour)
-                        and not floor.has_boos_room_as_neighbour(neighbour) and floor.count_neighbours(neighbour[0],
-                                                                                                       neighbour[
-                                                                                                           1]) == 1):
+                        and not floor.has_boos_room_as_neighbour(neighbour)
+                        and floor.count_neighbours(neighbour[0],neighbour[1]) == 1):
                     distance = util_functions.calculate_distance(boss_room, neighbour)
                     if distance < distance_to_boss:
                         distance_to_boss = distance

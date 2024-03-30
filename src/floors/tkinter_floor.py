@@ -5,12 +5,12 @@ Module for the TkinterFloor class.
 import threading
 import time
 
-from utils import globals as my_globals
 from floors.floor import Floor
 from rooms.room import Room
 
 from rooms.tkinter.tkinter_room import TkinterRoom
 from rooms.tkinter.tkinter_teleport_room import TkinterTeleportRoom
+from utils.room_type import RoomType
 
 
 class TkinterFloor(Floor):
@@ -31,7 +31,7 @@ class TkinterFloor(Floor):
         self.name = name
         self._is_drawing = False
 
-    def add_room(self, x: int, y: int, room_type=my_globals.RoomType.NORMAL_ROOM):
+    def add_room(self, x: int, y: int, room_type=RoomType.NORMAL_ROOM):
         self.add_to_floor_grid(x, y)
         self._rooms.append(
             TkinterRoom(x=x, y=y, room_type=room_type, room_id=self._room_id)
