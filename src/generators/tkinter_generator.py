@@ -53,6 +53,8 @@ class TkinterGenerator(Generator):
         """
         Creates a new TkinterFloor and appends it to the floor queue.
         """
+        self._floor = TkinterFloor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, self._canvas,
+                                   my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX, self._seed)
         self._floor_manager.add_new_floor(self._floor, self._canvas)
         self._floor = self._floor_manager.get_current_floor()
 

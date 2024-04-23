@@ -45,6 +45,7 @@ class FloorManager:
         self.current_floor_index = len(self._floors) - 1
         current = self._floors[self.current_floor_index]
         self.current_floor_name.set(current.name)
+        self.current_floor_seed_var.set(current.seed)
 
     def add_floor(self, floor: TkinterFloor) -> None:
         """
