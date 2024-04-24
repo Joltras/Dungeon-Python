@@ -228,14 +228,13 @@ class Floor:
         """
         return self.count_neighbours(x, y) == 1
 
-    def has_no_neighbours(self, x: int, y: int) -> bool:
+    def has_no_neighbours(self, coordinates: Tuple[int, int]) -> bool:
         """
         Checks if they are zero neighbours at the given location.
-        @param x: x pos
-        @param y: y pos
+        @param coordinates: coordinates to check
         @return: True if the location has zero neighbours otherwise False
         """
-        return self.count_neighbours(x, y) == 0
+        return self.count_neighbours(coordinates[0], coordinates[1]) == 0
 
     def is_within_border(self, coordinates: Tuple[int, int]) -> bool:
         """
