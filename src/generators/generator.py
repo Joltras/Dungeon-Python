@@ -78,7 +78,7 @@ class Generator:
         """
         self._floor = Floor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, self._seed)
 
-    def _add_new_room(self, new_room_tuple, room_tuple_queue: deque) -> bool:
+    def _add_new_room(self, new_room_tuple: Tuple[int, int], room_tuple_queue: deque) -> bool:
         """
         Checks if a room can be added at the new position
         and if possible adds it to the queue and floor grid.
@@ -93,7 +93,7 @@ class Generator:
                 and util_functions.place_room()
         ):
             room_tuple_queue.append(new_room_tuple)
-            self._floor.add_to_floor_grid(new_room_tuple[0], new_room_tuple[1])
+            self._floor.add_to_floor_grid(*new_room_tuple)
             return True
         return False
 
@@ -251,7 +251,7 @@ class Generator:
             if (
                     direction[0] in possible_locations
                     and direction[1] in possible_locations
-                    and self._floor.has_no_neighbours(corner[0], corner[1])
+                    and self._floor.has_no_neighbours(corner)
             ):
                 self._add_rooms_next_to_room(boss_room, direction)
                 return True
@@ -287,7 +287,7 @@ class Generator:
         floor = self._floor
         return not floor.contains_room(
             (point[0], point[1])
-        ) and floor.has_no_neighbours(point[0], point[1])
+        ) and floor.has_no_neighbours(point)
 
     def add_special_rooms(self, dead_ends: list) -> None:
         """
