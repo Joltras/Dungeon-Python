@@ -21,9 +21,10 @@ def display_legend():
     room_type: RoomType
     for room_type in RoomType.get_all():
         color: my_globals.Color = room_colors[room_type]
-        legend_canvas.create_rectangle(10, y_offset, 30, y_offset + 20, fill=util_functions.rgb2hex(*color.value))
-        legend_canvas.create_text(40, y_offset + 10, anchor=tk.W, text=room_names[room_type])
+        legend_canvas.create_rectangle(
+            10, y_offset, 30, y_offset + 20, fill=util_functions.rgb2hex(*color.value)
+        )
+        legend_canvas.create_text(
+            40, y_offset + 10, anchor=tk.W, text=room_names[room_type]
+        )
         y_offset += 30
-
-
-

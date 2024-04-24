@@ -73,11 +73,11 @@ class Floor:
         current_index: int = 0
         max_index: int = len(self._rooms)
         json_string = (
-                "{\n"
-                + f'{indent_s}"_seed": "{self.seed}",\n'
-                + indent_s
-                + '"_rooms"'
-                + ": ["
+            "{\n"
+            + f'{indent_s}"_seed": "{self.seed}",\n'
+            + indent_s
+            + '"_rooms"'
+            + ": ["
         )
         if len(self._rooms) == 0:
             json_string += "]"
@@ -98,7 +98,9 @@ class Floor:
         Creates a floor object from a json string.
         """
         json_dict = json.loads(json_string)
-        floor = Floor(json_dict["_height"], json_dict["_width"], json_dict["_floor"]["_seed"])
+        floor = Floor(
+            json_dict["_height"], json_dict["_width"], json_dict["_floor"]["_seed"]
+        )
         rooms = json_dict["_floor"]["_rooms"]
         for room in rooms:
             floor._rooms.append(Room.from_dict(room))
@@ -113,7 +115,7 @@ class Floor:
         self._floor_grid[y][x] = 1
 
     def add_room(
-            self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM
+        self, x: int, y: int, room_type: RoomType = RoomType.NORMAL_ROOM
     ) -> None:
         """
         Creates and adds a room to the floor.
@@ -126,7 +128,7 @@ class Floor:
         self._room_id += 1
 
     def add_room_next_to(
-            self, room: Room, direction: Direction, room_type: RoomType
+        self, room: Room, direction: Direction, room_type: RoomType
     ) -> None:
         """
         Creates and adds a room next to a given room.
@@ -262,8 +264,12 @@ class Floor:
         @return: True if the coordinates have a boss room as neighbour otherwise False
         """
         for direction in Direction.main_directions():
-            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
-            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(
+                direction, coordinates
+            )
+            if self.is_within_border(new_coordinates) and self.contains_room(
+                new_coordinates
+            ):
                 room = self._get_room(new_coordinates)
                 if room.get_type() == RoomType.BOSS_ROOM:
                     return True
@@ -282,8 +288,12 @@ class Floor:
         @return: True if the coordinates have a special room as neighbour otherwise False
         """
         for direction in Direction.main_directions():
-            new_coordinates = utils.util_functions.add_direction_to_coordinates(direction, coordinates)
-            if self.is_within_border(new_coordinates) and self.contains_room(new_coordinates):
+            new_coordinates = utils.util_functions.add_direction_to_coordinates(
+                direction, coordinates
+            )
+            if self.is_within_border(new_coordinates) and self.contains_room(
+                new_coordinates
+            ):
                 room = self._get_room(new_coordinates)
                 if room.get_type().is_special():
                     return True

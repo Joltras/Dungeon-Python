@@ -14,6 +14,7 @@ class FloorManager:
     """
     Class to manage the floors of the tkinter generator.
     """
+
     def __init__(self, output_file_name: str) -> None:
         """
         Creates a new floor manager.

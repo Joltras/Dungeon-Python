@@ -23,7 +23,7 @@ class TkinterGenerator(Generator):
     """
 
     def __init__(
-            self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
+        self, seed: str, output_file_name: str, output_file_path: str, stage_id: int = 2
     ):
         """
         Creates a new generator.
@@ -47,14 +47,19 @@ class TkinterGenerator(Generator):
         self._menu_bar = tk.Menu(self._tk)
         self._theme_handler = ThemeHandler(self._tk, self._canvas)
         self._floor_manager = FloorManager(output_file_name)
-        self._tk.protocol('WM_DELETE_WINDOW', self.quit)
+        self._tk.protocol("WM_DELETE_WINDOW", self.quit)
 
     def _create_floor(self) -> None:
         """
         Creates a new TkinterFloor and appends it to the floor queue.
         """
-        self._floor = TkinterFloor(my_globals.FLOOR_HEIGHT, my_globals.FLOOR_WIDTH, self._canvas,
-                                   my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX, self._seed)
+        self._floor = TkinterFloor(
+            my_globals.FLOOR_HEIGHT,
+            my_globals.FLOOR_WIDTH,
+            self._canvas,
+            my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX,
+            self._seed,
+        )
         self._floor_manager.add_new_floor(self._floor, self._canvas)
         self._floor = self._floor_manager.get_current_floor()
 
@@ -107,7 +112,7 @@ class TkinterGenerator(Generator):
             if os.path.exists(path):
                 # Show dialog for overwriting the file
                 if messagebox.askyesno(
-                        "File already exists", "Do you want to overwrite the file?"
+                    "File already exists", "Do you want to overwrite the file?"
                 ):
                     save_file = True
             else:
@@ -164,8 +169,7 @@ class TkinterGenerator(Generator):
         name_text = ttk.Label(information_frame, text="Floor name: ")
         name_text.pack(side=tk.LEFT)
         name_label = ttk.Label(
-            information_frame,
-            textvariable=self._floor_manager.current_floor_name
+            information_frame, textvariable=self._floor_manager.current_floor_name
         )
         name_label.pack(side=tk.LEFT)
         path_text = ttk.Label(information_frame, text="Current path: ")
@@ -175,8 +179,7 @@ class TkinterGenerator(Generator):
         seed_text = ttk.Label(information_frame, text="Seed: ")
         seed_text.pack(side=tk.LEFT, padx=(25, 0))
         seed_label = ttk.Label(
-            information_frame,
-            textvariable=self._floor_manager.current_floor_seed_var
+            information_frame, textvariable=self._floor_manager.current_floor_seed_var
         )
         seed_label.pack(side=tk.LEFT)
 
@@ -218,7 +221,9 @@ class TkinterGenerator(Generator):
         # Next seed entry
         next_seed_label = ttk.Label(button_frame, text="Next seed: ")
         next_seed_label.pack(side=tk.LEFT, padx=10)
-        next_seed_entry = ttk.Entry(button_frame, textvariable=self._floor_manager.next_seed)
+        next_seed_entry = ttk.Entry(
+            button_frame, textvariable=self._floor_manager.next_seed
+        )
         next_seed_entry.bind(
             "<Return>", lambda event: self._floor_manager.set_next_seed()
         )
@@ -243,7 +248,11 @@ class TkinterGenerator(Generator):
             label="Save As", command=self.save, accelerator="Ctrl+Shift+s"
         )
         menu_bar.add_command(
-            label="Switch Theme", command=self._theme_handler.switch_theme, accelerator="Ctrl+t"
+            label="Switch Theme",
+            command=self._theme_handler.switch_theme,
+            accelerator="Ctrl+t",
         )
-        menu_bar.add_command(label="Legend", command=legend_window.display_legend, accelerator="F1")
+        menu_bar.add_command(
+            label="Legend", command=legend_window.display_legend, accelerator="F1"
+        )
         menu_bar.add_command(label="Exit", command=self.quit, accelerator="Ctrl+q")

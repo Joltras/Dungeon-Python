@@ -9,6 +9,7 @@ class ThemeHandler:
     """
     Class to handle the theme of the application.
     """
+
     def __init__(self, tk: Tk, canvas: Canvas) -> None:
         """
         Creates a new theme handler.
