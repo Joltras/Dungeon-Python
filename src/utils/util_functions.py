@@ -1,12 +1,39 @@
 """
 This module contains utility functions for the floor generator.
 """
+import os
 import random
 import math
 from typing import Tuple
 
 import utils.globals as my_globals
 from utils.direction import Direction
+from utils.room_type import RoomType
+from PIL import Image, ImageTk
+
+
+def get_picture_for_room_type(room_type: RoomType) -> ImageTk:
+    """
+    Gets the picture for the given room type.
+    @param room_type: room type to get the picture for
+    @return: picture for the given room type
+    """
+    # Get the directory of the current file
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Go up two levels to the project root directory
+    project_root = os.path.dirname(os.path.dirname(current_dir))
+    # Define the relative path to the image file
+    image_file = f"{room_type.name.lower()}.png"
+    # Join the project root directory with the relative path to get the absolute path
+    image_path = os.path.join(project_root, "resources", "room_icons", image_file)
+    try:
+        return ImageTk.PhotoImage(
+            Image.open(
+                image_path
+            ).resize((32, 32))
+        )
+    except FileNotFoundError:
+        return None
 
 
 def calculate_room_amount(stage_id: int):
@@ -36,7 +63,7 @@ def rgb2hex(r, g, b):
 
 
 def add_direction_to_coordinates(
-    direction: Direction, coordinates: Tuple[int, int]
+        direction: Direction, coordinates: Tuple[int, int]
 ) -> Tuple[int, int]:
     """
     Calculates the room according to the given room and direction
@@ -81,5 +108,5 @@ def calculate_distance(cord1, cord2) -> int:
     Calculates the distance between two points.
     """
     return (cord1[0] - cord2[0]) * (cord1[0] - cord2[0]) + (cord1[1] - cord2[1]) * (
-        cord1[1] - cord2[1]
+            cord1[1] - cord2[1]
     )
