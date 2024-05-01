@@ -28,6 +28,7 @@ class TkinterRoom(Room):
         super().__init__(x, y, room_id, room_type)
         self._width = width
         self._height = height
+        self._image = None
 
     def draw(self, canvas: tk.Canvas):
         """
@@ -40,6 +41,11 @@ class TkinterRoom(Room):
         color = room_type.room_colors[self._type].value
         hex_color = util_functions.rgb2hex(color[0], color[1], color[2])
         canvas.create_rectangle((x0, y0), (x1, y1), fill=hex_color)
+        center_x = x0 + self._width / 2
+        center_y = y0 + self._height / 2
+        self._image = util_functions.get_picture_for_room_type(self._type)
+        if self._image is not None:
+            canvas.create_image(center_x, center_y, image=self._image, anchor="center")
 
     @classmethod
     def from_room(cls, room: Room):
