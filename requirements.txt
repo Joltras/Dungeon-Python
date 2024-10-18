@@ -1,7 +1,7 @@
 numpy~=1.26.2
 fastapi~=0.110.0
 starlette~=0.40.0
-black
-pylint
-flake8
-mypy
+black~=22.12.0
+pylint~=3.10
+flake8~=7.0.0
+mypy~=1.8.0
