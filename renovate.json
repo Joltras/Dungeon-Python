@@ -1,6 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:base"
+  ],
+  "rebaseWhen": "conflicted",
+  "labels": [
+    "renovate"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "groupName": "patch",
+      "schedule": [
+        "after 10pm and before 6:00am every day"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "automerge": false,
+      "schedule": [
+        "before 6:00am every friday"
+      ]
+    }
   ]
 }
