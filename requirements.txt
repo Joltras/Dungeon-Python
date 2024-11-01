@@ -1,6 +1,6 @@
 numpy~=1.26.2
 fastapi~=0.110.0
-starlette~=0.40.0
+starlette~=0.41.2
 black~=24.10.0
 pylint~=3.3.1
 flake8~=7.1.1
