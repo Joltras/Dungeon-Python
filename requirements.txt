@@ -1,8 +1,8 @@
 numpy~=1.26.2
 fastapi~=0.110.0
-starlette~=0.36.3
-black
-pylint
-flake8
-mypy
+starlette~=0.41.2
+black~=24.10.0
+pylint~=3.3.1
+flake8~=7.1.1
+mypy~=1.8.0
 pillow
