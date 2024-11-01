@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links:
+  - name: General discussions
+    url: https://github.com/Joltras/Dungeon-Python/discussions
+    about: If you have any questions or problems, please use the discussions section
+    emoji: ❓
