@@ -1,4 +1,4 @@
-numpy~=1.26.2
+numpy~=2.2.3
 fastapi~=0.115.4
 starlette~=0.45.2
 black~=24.10.0
