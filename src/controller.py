@@ -5,11 +5,19 @@ import secrets
 
 from fastapi import FastAPI
 from starlette.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from utils import globals as my_globals
 from generators.generator import Generator
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 _FILE_NAME = my_globals.DEFAULT_FLOOR_NAME + my_globals.JSON_SUFFIX
 _ROOT = "/"
 _GENERATE = "/gen"
