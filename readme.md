@@ -6,7 +6,7 @@ which is described in this [article](https://www.boristhebrave.com/2020/09/12/du
 
 ## Usage
 The dungeon generator can be used with an ui or without.
-The ui is a simple pygame window which shows the generated dungeon.
+The ui is a simple tkinter window which shows the generated dungeon.
 It also can be used as a rest endpoint.
 
 ## Generated Dungeon
