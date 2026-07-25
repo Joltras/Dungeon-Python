@@ -9,15 +9,16 @@ from typing import Tuple
 import utils.globals as my_globals
 from utils.direction import Direction
 from utils.room_type import RoomType
-from PIL import Image, ImageTk
 
 
-def get_picture_for_room_type(room_type: RoomType) -> ImageTk:
+def get_picture_for_room_type(room_type: RoomType):
     """
     Gets the picture for the given room type.
     @param room_type: room type to get the picture for
     @return: picture for the given room type
     """
+    from PIL import Image, ImageTk
+
     # Get the directory of the current file
     current_dir = os.path.dirname(os.path.abspath(__file__))
     # Go up two levels to the project root directory
