@@ -1,4 +1,5 @@
 .idea
 /generation
+src/utils/generation/
 __pycache__/
 .python-version
