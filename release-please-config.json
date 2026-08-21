@@ -8,5 +8,6 @@
       "package-name": "Dungeon-Python",
       "changelog-path": "CHANGELOG.md"
     }
-  }
+  },
+  "bootstrap-sha": "25a7f938a37ed87eb0f16be68da9eb69dd12e291"
 }
