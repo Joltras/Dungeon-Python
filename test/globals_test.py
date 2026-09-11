@@ -92,10 +92,8 @@ class GlobalsTest(unittest.TestCase):
         self.assertEqual(".json", globals.JSON_SUFFIX)
 
     def test_path(self):
-        self.assertEqual(
-            os.path.realpath(os.path.dirname(__file__).replace("\\test", "")),
-            globals.APPLICATION_PATH,
-        )
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.assertEqual(project_root, globals.APPLICATION_PATH)
 
 
 if __name__ == "__main__":
