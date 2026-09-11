@@ -18,7 +18,7 @@ class FloorTest(unittest.TestCase):
         self._floor_with_rooms.add_room(5, 5)
 
     def test_to_json(self):
-        expected = '{\n  "_rooms": []\n}'
+        expected = '{\n  "_seed": "1",\n  "_rooms": []\n}'
         self.assertEqual(expected, self._floor.to_json(1))
 
     def test_contains_room(self):
