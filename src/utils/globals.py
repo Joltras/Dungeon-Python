@@ -52,9 +52,8 @@ ROOM_HEIGHT: int = 60
 # Json
 BASE_INDENT = "  "
 JSON_SUFFIX = ".json"
-APPLICATION_PATH = os.path.realpath(
-    os.path.dirname(__file__).replace("\\src", "").replace("\\utils", "")
-)
+_CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+APPLICATION_PATH = os.path.dirname(os.path.dirname(_CURRENT_DIR))
 DEFAULT_FLOOR_NAME = "floor"
 DEFAULT_FLOOR_DIRECTORY = "generation"
 
