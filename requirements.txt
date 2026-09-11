@@ -6,3 +6,4 @@ pylint~=4.0.2
 flake8~=7.3.0
 mypy~=2.3.0
 pillow~=12.3.0
+pytest~=9.1.1

@@ -49,7 +49,7 @@ class GlobalsTest(unittest.TestCase):
         self.assertEqual(expected, globals.DoorFace.list())
 
     def test_room_types(self):
-        expected = [0, 1, 2, 3, 4, 5, 6]
+        expected = [0, 1, 2, 3, 4, 5, 6, 7]
         self.assertEqual(expected, RoomType.list())
 
     def test_special_rooms(self):
@@ -62,15 +62,16 @@ class GlobalsTest(unittest.TestCase):
 
     def test_room_colors(self):
         expected = {
-            RoomType.NORMAL_ROOM: Color.VIOLET,
-            RoomType.DEAD_END: Color.VIOLET,
+            RoomType.NORMAL_ROOM: Color.LIGHT_GRAY,
+            RoomType.DEAD_END: Color.LIGHT_GRAY,
             RoomType.ITEM_ROOM: Color.GREEN,
             RoomType.SHOP_ROOM: Color.YELLOW,
             RoomType.START_ROOM: Color.ORANGE,
-            RoomType.TELEPORT_ROOM: Color.GRAY,
+            RoomType.TELEPORT_ROOM: Color.VIOLET,
             RoomType.BOSS_ROOM: Color.RED,
+            RoomType.SECRET_ROOM: Color.BLUE,
         }
-        self.assertEqual(expected, globals.Room_Colors)
+        self.assertEqual(expected, room_type.room_colors)
 
     def test_room_width(self):
         self.assertEqual(120, globals.ROOM_WIDTH)
